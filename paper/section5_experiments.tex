@@ -1,0 +1,289 @@
+% ══════════════════════════════════════════════════════════════
+%  FolT-MCMC Paper — Section 5: Experiments
+% ══════════════════════════════════════════════════════════════
+%  \input{section5_experiments}
+
+\section{Experiments}
+\label{sec:experiments}
+
+We evaluate FolT-MCMC on three synthetic target families designed to
+isolate the mechanisms predicted by the theory.  The first experiment
+is a diagnostic stress test showing that folding can be harmful when
+the fold boundary intersects high-density mass.  The second evaluates
+dimension scaling for a well-separated reflection-symmetric Gaussian
+mixture.  The third evaluates permutation folding for label-switching
+mixtures.  Across experiments, we report quantile-core oscillation
+certificates, certified lower bounds, NLL, acceptance, and ESS.
+All experiments use the same architecture and training protocol;
+the only variable across conditions is whether folding is applied.
+
+
+\subsection{Setup}
+\label{sec:exp_setup}
+
+\paragraph{Architecture.}
+Both the folded and unfolded flows are spectrally normalised
+RealNVP \citep{DinhSohlDickstein2017,Miyato2018} with
+$\tanh$~activations and scale clipping at $c = 0.7$, following
+the LCNF protocol \citep{LCNF}.  Layer count and hidden dimension
+scale with~$d$: $(L, h) = (8, 64)$ for $d \leq 4$;
+$(10, 128)$ for $d = 5$--$6$; $(12, 128)$ for $d = 8$--$12$;
+$(16, 256)$ for $d = 20$.  The folded and unfolded pipelines share
+identical architecture for each~$d$.
+
+\paragraph{Training.}
+Negative log-likelihood with annealed oscillation and gradient
+regularisation (FolT-OG-Anneal), as in CerT-MCMC \citep{CerTMCMC}.
+Training uses Adam with learning rate $10^{-3}$, batch size 512,
+and 2\,000 epochs for $d \leq 6$ (increasing to 3\,500 for
+$d \geq 8$).  Training samples are drawn from the exact sampler
+of each target (folded samples projected onto~$D$).
+
+\paragraph{Certification.}
+Quantile-core certificates at $\rho = 0.05$ (primary) and
+$\rho = 0.025$ (secondary), with $n = 20\,000$ independent
+certification samples and DKW-corrected confidence $\delta = 0.05$,
+following the CerT-MCMC v2 protocol.
+
+\paragraph{MCMC.}
+Independence Metropolis--Hastings with 4 chains of length 5\,000
+(burn-in 1\,000).  Effective sample size (ESS) estimated via
+batch means.
+
+\paragraph{Hardware and code.}
+NVIDIA RTX~4090 GPU; code at
+\url{https://github.com/junhu22/FolT-MCMC}.
+
+
+\subsection{Diagnostic: fold boundary location}
+\label{sec:exp_banana}
+
+\paragraph{Purpose.}
+To demonstrate that the fold boundary's position relative to
+the target's density mass is a critical design variable,
+and that folding can \emph{hurt} the full oscillation bound
+when the boundary passes through a high-density region.
+
+\paragraph{Target.}
+Asymmetric double banana in $d = 2$: a mixture of two
+banana-shaped modes with curvatures $a = 1.0$ and $b = 0.5$,
+related by reflection $\theta_1 \mapsto -\theta_1$.
+Because $a \neq b$, the target is not strictly
+$\mathbb{Z}_2$-invariant; this experiment intentionally
+stresses the method outside the exact group-invariant setting
+of Section~\ref{sec:framework}.
+The fold boundary $\{\theta_1 = 0\}$ passes through the
+high-density region near the origin where both modes overlap.
+
+\paragraph{Results.}
+Table~\ref{tab:banana} summarises the comparison.
+
+\begin{table}[t]
+\centering
+\caption{Banana diagnostic ($d = 2$, $s = 2$).
+  The fold boundary passes through a high-density region.}
+\label{tab:banana}
+\smallskip
+\begin{tabular}{lcc}
+\hline
+Metric & Unfolded & Folded \\
+\hline
+Full oscillation & $30.7$ & $58.4$ \\
+QC oscillation ($\rho = 0.05$) & $1.38$ & $1.10$ \\
+QC $\underline{\gamma}$ ($\rho = 0.05$) & $0.272$ & $0.320$ \\
+QC $\underline{\gamma}$ ($\rho = 0.025$) & $0.064$ & $0.135$ \\
+Final NLL & $4.34$ & $3.34$ \\
+ESS\,/\,sample & $0.048$ & $0.042$ \\
+Acceptance rate & $0.604$ & $0.594$ \\
+\hline
+\end{tabular}
+\end{table}
+
+The full oscillation \emph{increases} under folding ($58.4$ vs.\
+$30.7$), because the smooth flow cannot produce the hard truncation
+at $\theta_1 = 0$ where the target density is high, creating a
+boundary residual spike.  Nevertheless, the quantile-core
+certified lower bound still improves: QC~$\underline{\gamma}$ rises
+from $0.272$ to $0.320$ at $\rho = 0.05$ and from $0.064$ to $0.135$
+at $\rho = 0.025$, because the $\rho$-trimming excludes the boundary
+spike.  The NLL drops by $23\%$ ($4.34 \to 3.34$), confirming
+that the flow fits the single folded mode more easily.
+
+This experiment validates the design principle of
+Section~\ref{sec:when_folding_helps}: \emph{folding helps when the
+fold boundary lies in a low-density valley, not when it cuts through
+the target's mass}.  The subsequent experiments use targets
+satisfying this condition.
+
+
+\subsection{Dimension scaling: well-separated mixture}
+\label{sec:exp_dimension}
+
+\paragraph{Purpose.}
+To test whether the folded certificate is robust to increasing
+dimension, in contrast to the unfolded certificate.
+
+\paragraph{Target.}
+Symmetric two-component Gaussian mixture,
+$\pi = \tfrac{1}{2}\cN(\mu_1, I_d) + \tfrac{1}{2}\cN(\mu_2, I_d)$,
+with $\mu_1 = (3, 0, \ldots, 0)$, $\mu_2 = -\mu_1$
+(separation $\delta = 6$).
+Reflection fold with $G = \mathbb{Z}_2$, $s = 2$.
+Dimensions $d \in \{2, 5, 10, 20\}$.  The fold boundary
+$\{\theta_1 = 0\}$ sits in the inter-mode valley where the density
+relative to a single-component peak is
+$\exp(-9/2) \approx 0.011$.
+
+\paragraph{Results.}
+Table~\ref{tab:mixture_scaling} presents the key comparison.
+
+\begin{table}[t]
+\centering
+\caption{Dimension scaling for Gaussian mixture
+  ($s = 2$, $\rho = 0.05$).}
+\label{tab:mixture_scaling}
+\smallskip
+\begin{tabular}{rccccc}
+\hline
+$d$ & QC $\underline{\gamma}_U$ & QC $\underline{\gamma}_F$
+    & Ratio
+    & QC osc$_U$ & QC osc$_F$ \\
+\hline
+2  & $0.402$ & $0.936$ & $2.3\times$  & $1.38$ & $0.13$ \\
+5  & $0.094$ & $0.941$ & $10.0\times$ & $3.01$ & $0.12$ \\
+10 & $0.016$ & $0.922$ & $59.2\times$ & $4.85$ & $0.16$ \\
+20 & $0.016$ & $0.902$ & $57.0\times$ & $4.83$ & $0.20$ \\
+\hline
+\end{tabular}
+\end{table}
+
+% Figure 3: headline γ vs d
+% \begin{figure}[t]
+% \centering
+% \includegraphics[width=0.65\textwidth]{mixture_scaling_gamma_vs_dim.png}
+% \caption{Certified spectral-gap lower bound vs.\ dimension
+%   (Gaussian mixture, $s = 2$, $\rho = 0.05$).
+%   The folded certificate is empirically nearly dimension-free;
+%   the unfolded certificate collapses.}
+% \label{fig:headline}
+% \end{figure}
+
+The folded quantile-core certificate QC~$\underline{\gamma}_F$
+remains in $[0.90, 0.94]$ across $d = 2$ to $20$, while the
+unfolded certificate collapses from $0.40$ to $0.016$---a
+$59$-fold gap by $d = 10$.  The quantile-core oscillation bound
+tells the same story: folded QC oscillation stays below $0.20$ at
+all dimensions, while the unfolded QC oscillation grows from
+$1.38$ to $4.85$.
+
+At $d = 20$, the folded NLL of $28.48$ is within $0.1$ of the
+entropy of a $d$-dimensional standard Gaussian,
+$\tfrac{d}{2}\log(2\pi e) \approx 28.4$, indicating that the
+folded transport achieves a near-optimal fit.
+The unfolded flow, by contrast, must represent a bimodal target in
+$20$ dimensions using a coupling architecture that can only
+influence each coordinate conditionally---a task at which it
+demonstrably fails.
+
+
+\subsection{Label-switching scaling}
+\label{sec:exp_labelswitching}
+
+\paragraph{Purpose.}
+To verify that permutation folding gives the same strong
+improvement as reflection folding, and to disentangle the effects
+of mode count~$s$ and dimension~$d$ on the unfolded certificate.
+
+\paragraph{Target.}
+Label-switching Gaussian mixtures with $m$~components, each a
+block of $p$~parameters (representing, e.g., frequency and damping
+of a structural mode), total dimension $d = mp$.  Component centres
+are spaced by $3$ standard deviations along the sort coordinate.
+Permutation fold with $G = S_m$, $s = m!$.  Four configurations
+are tested (Table~\ref{tab:labelswitching}).
+
+\paragraph{Results.}
+
+\begin{table}[t]
+\centering
+\caption{Label-switching scaling (quantile-core, $\rho = 0.05$).}
+\label{tab:labelswitching}
+\smallskip
+\begin{tabular}{lccccccc}
+\hline
+Config & $d$ & $s$ & QC $\underline{\gamma}_U$ & QC $\underline{\gamma}_F$
+       & Ratio & QC osc$_U$ & QC osc$_F$ \\
+\hline
+$m{=}2,\,p{=}2$ & $4$  & $2$   & $0.366$ & $0.820$ & $2.2\times$   & $1.50$ & $0.37$ \\
+$m{=}3,\,p{=}2$ & $6$  & $6$   & $0.066$ & $0.685$ & $10.4\times$  & $3.38$ & $0.65$ \\
+$m{=}3,\,p{=}4$ & $12$ & $6$   & $0.036$ & $0.683$ & $19.1\times$  & $4.01$ & $0.66$ \\
+$m{=}4,\,p{=}2$ & $8$  & $24$  & $0.004$ & $0.624$ & $145\times$   & $6.14$ & $0.79$ \\
+\hline
+\end{tabular}
+\end{table}
+
+% Figure 5: γ vs s
+% \begin{figure}[t]
+% \centering
+% \includegraphics[width=0.65\textwidth]{labelswitching_gamma_vs_k.png}
+% \caption{Certified spectral-gap lower bound vs.\ symmetry group
+%   size~$s = |G|$.  The folded certificate degrades slowly;
+%   the unfolded certificate collapses superlinearly in~$s$.}
+% \label{fig:labelswitching}
+% \end{figure}
+
+The folded quantile-core certificate
+QC~$\underline{\gamma}_F$ stays in $[0.62, 0.82]$
+across all configurations, while the unfolded certificate collapses
+from $0.366$ to $0.004$ as the number of equivalent modes grows
+from $s = 2$ to $s = 24$.  The improvement ratio reaches
+$145\times$ at $m = 4$.
+
+\paragraph{Disentangling mode count from dimension.}
+Comparing $m = 3, p = 2$ ($d = 6$, $s = 6$,
+QC~$\underline{\gamma}_U = 0.066$) with $m = 3, p = 4$ ($d = 12$,
+$s = 6$, QC~$\underline{\gamma}_U = 0.036$): doubling the dimension
+at fixed~$s$ reduces QC~$\underline{\gamma}_U$ by a factor of
+${\approx}\,2$.  Comparing $m = 3, p = 2$ ($s = 6$) with
+$m = 4, p = 2$ ($s = 24$): increasing $s$ by $4\times$ at
+comparable~$d$ reduces QC~$\underline{\gamma}_U$ by a factor of
+${\approx}\,15$.  In this controlled comparison, the unfolded
+certificate appears more sensitive to the number of symmetric
+copies than to the ambient dimension---consistent with the
+theoretical prediction of
+Section~\ref{sec:when_folding_helps}.  The folded certificate
+varies much less across both changes
+(QC~$\underline{\gamma}_F \in [0.68, 0.68]$ for the two $s = 6$
+configurations despite $d$ doubling).
+
+\paragraph{Convergence at $m = 4$.}
+With $s = 24$ equivalent modes, the unfolded flow trains stably
+(no divergence or numerical issues) but fails representationally:
+NLL $= 15.0$, acceptance rate $= 0.41$, full-oscillation
+certificate $\gamma_{\mathrm{full}} \approx 5 \times 10^{-10}$
+(completely vacuous).  Scatter plots confirm that the unfolded
+proposal spreads mass across the $24$ symmetric chambers but yields
+a highly uneven density ratio, leading to low acceptance and a
+vacuous certificate.  The folded chain, by contrast, samples
+efficiently in the sorted chamber ($\mathrm{acceptance} = 0.90$,
+$\mathrm{ESS/sample} = 0.85$).
+
+
+% ──────────────────────────────────────────────────────────────
+% Section 5.5: Baseline comparison
+% [To be completed after Phase 5 experiment]
+% ──────────────────────────────────────────────────────────────
+
+% \subsection{Comparison with random permutation sampler}
+% \label{sec:exp_baseline}
+%
+% \paragraph{Purpose.}
+% To compare FolT-MCMC with the most widely used label-switching
+% mitigation: the random permutation sampler of
+% \citet{FruhwirthSchnatter2001}.
+%
+% \paragraph{Target.}
+% $m = 3$ Gaussian mixture ($d = 6$, $s = 6$).
+%
+% \paragraph{Results.}
+% [Table 5: ESS, mixing time, acceptance rate comparison]

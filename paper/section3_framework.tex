@@ -1,0 +1,320 @@
+% ══════════════════════════════════════════════════════════════
+%  FolT-MCMC Paper — Section 3: The FolT-MCMC Framework
+% ══════════════════════════════════════════════════════════════
+%  \input{section3_framework}
+
+\section{The FolT-MCMC framework}
+\label{sec:framework}
+
+Let $\pi$ be a target density on~$\R^d$ that is invariant under a
+finite group~$G$ acting on~$\R^d$: $\pi(g \cdot \theta) = \pi(\theta)$
+for every $g \in G$ and almost every~$\theta$.  Write $s = |G|$.
+Typical examples are label-switching symmetry in mixture models
+($G = S_m$, the symmetric group on $m$~components, $s = m!$) and
+reflection symmetry ($G = \mathbb{Z}_2$, $s = 2$).
+
+The central idea of FolT-MCMC is to \emph{eliminate} the symmetric
+multimodality of~$\pi$ before sampling, by passing to a quotient
+target on a fundamental domain, running transport-preconditioned
+independence Metropolis--Hastings there, and certifying the resulting
+chain with the LCNF oscillation framework.
+
+
+\subsection{Quotient target}
+\label{sec:quotient_target}
+
+A \emph{fundamental domain} for~$G$ is a measurable set
+$D \subset \R^d$ such that $\R^d = \bigcup_{g \in G} g \cdot D$
+with pairwise disjoint interiors and
+$\pi(g \cdot D \cap g' \cdot D) = 0$ for $g \neq g'$.
+
+\begin{definition}[Quotient target]\label{def:quotient_target}
+  The \emph{folded} or \emph{quotient target} on~$D$ is
+  \begin{equation}\label{eq:pi_F}
+    \pi_F(z) \;=\; s \cdot \pi(z), \qquad z \in D.
+  \end{equation}
+  The corresponding potential is
+  $U_F(z) = -\log\pi_F(z) = U(z) - \log s$.
+\end{definition}
+
+\noindent
+Normalisation is immediate: by the fundamental-domain decomposition,
+$\int_D \pi_F = s \int_D \pi = s \cdot (1/s) = 1$.
+The density $\pi_F$ retains one representative from each $G$-orbit
+of modes, so the symmetric multimodality induced by the group action
+is absent; non-symmetric multimodality, if present, may remain.
+
+The next result shows that folding preserves the highest posterior
+density (HPD) structure exactly.
+
+\begin{proposition}[HPD identity]\label{prop:hpd}
+  Let $u_\alpha$ be the $(1{-}\alpha)$-quantile of $U(\Theta)$ under
+  $\Theta \sim \pi$, defining the HPD set
+  $\cK_\alpha = \{\theta \in \R^d : U(\theta) \leq u_\alpha\}$.
+  Then:
+  \begin{enumerate}[nosep]
+    \item $u_\alpha^F = u_\alpha - \log s$;
+    \item $\cK_\alpha^F
+      := \{z \in D : U_F(z) \leq u_\alpha^F\}
+      = \cK_\alpha \cap D$ \;(a.e.).
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  For any Borel function $\varphi\colon \R \to \R$, the $G$-invariance
+  of~$\pi$ and the fundamental-domain decomposition give
+  \[
+    \int_{\R^d} \varphi(U(\theta))\,\pi(\theta)\,\mathrm{d}\theta
+    = \sum_{g \in G} \int_{gD} \varphi(U(\theta))\,\pi(\theta)\,\mathrm{d}\theta
+    = s \int_D \varphi(U(z))\,\pi(z)\,\mathrm{d}z
+    = \int_D \varphi(U(z))\,\pi_F(z)\,\mathrm{d}z.
+  \]
+  Hence $U(Z_F)$ under $Z_F \sim \pi_F$ has the same distribution as
+  $U(\Theta)$ under $\Theta \sim \pi$, so the two quantiles coincide:
+  the $(1{-}\alpha)$-quantile of $U_F(Z_F) = U(Z_F) - \log s$
+  is $u_\alpha - \log s$.
+  Part~(ii) follows directly:
+  $\{U_F \leq u_\alpha^F\} = \{U - \log s \leq u_\alpha - \log s\}
+  = \{U \leq u_\alpha\}$.
+\end{proof}
+
+\begin{corollary}\label{cor:hpd_geometry}
+  (a) $\diam(\cK_\alpha^F) \leq \diam(\cK_\alpha)$.
+  (b) The density floor satisfies
+  $\pi_{\min}^F := \inf_{\cK_\alpha^F} \pi_F
+  = s \cdot \inf_{\cK_\alpha \cap D} \pi \geq s \cdot \pi_{\min}$,
+  where $\pi_{\min} := \inf_{\cK_\alpha} \pi$.
+\end{corollary}
+
+\noindent
+Using essential infima with respect to the Lebesgue measure,
+the $G$-invariance of~$\pi$ ensures
+$\operatorname{ess\,inf}_{\cK_\alpha \cap D} \pi
+= \operatorname{ess\,inf}_{\cK_\alpha} \pi$,
+so $\pi_{\min}^F = s\,\pi_{\min}$.  With ordinary infima this
+equality holds for closed fundamental domains; in general we use
+the conservative bound $\pi_{\min}^F \geq s\,\pi_{\min}$.
+For label switching with $m = 4$ components, $s = 24$ and the
+floor is $24$~times higher.
+
+
+\subsection{Quotient proposal}
+\label{sec:quotient_proposal}
+
+Let $T_F\colon \R^d \to \R^d$ be a normalising flow
+(e.g.\ spectrally normalised RealNVP) trained on folded samples
+projected onto~$D$, and let
+$q_{T_F} = (T_F)_{\#}\cN(0, I_d)$ denote the induced density
+on~$\R^d$.
+
+\begin{definition}[Quotient proposal]\label{def:quotient_proposal}
+  The \emph{quotient proposal} on~$D$ is
+  \begin{equation}\label{eq:q_F}
+    q_F(z) \;=\; \sum_{g \in G} q_{T_F}(g \cdot z), \qquad z \in D.
+  \end{equation}
+\end{definition}
+
+\noindent
+Normalisation follows from the fundamental-domain decomposition:
+$\int_D q_F = \sum_g \int_D q_{T_F}(g \cdot z)\,\mathrm{d}z
+= \sum_g \int_{gD} q_{T_F}(\theta)\,\mathrm{d}\theta
+= \int_{\R^d} q_{T_F} = 1$.
+The construction is analogous to Schur averaging in representation
+theory: $q_F$ is the unique $G$-symmetric density on~$\R^d$
+that agrees with the orbit sum of $q_{T_F}$ when restricted to~$D$.
+
+The log-density ratio governing the Metropolis--Hastings
+acceptance is
+\begin{equation}\label{eq:h_F}
+  h_F(z)
+  \;=\; \log\frac{\pi_F(z)}{q_F(z)}
+  \;=\; \log\bigl(s \cdot \pi(z)\bigr)
+  \;-\; \log\!\Bigl(\sum_{g \in G} q_{T_F}(g \cdot z)\Bigr).
+\end{equation}
+
+\begin{remark}[Relation to unfolded MH]\label{rem:not_equivalent}
+  Independence MH on~$D$ with target~$\pi_F$ and proposal~$q_F$ is
+  a valid Markov chain with stationary distribution~$\pi_F$.  It is
+  \emph{not} identical to running MH on~$\R^d$ and projecting
+  samples onto~$D$, because $\pi_F(z)/q_F(z)$ generally differs from
+  $\pi(z)/q_{T_F}(z)$.  The two coincide when $q_{T_F}$ is itself
+  $G$-invariant.  In practice, when $q_{T_F}$ concentrates on a single
+  mode, the off-mode terms $q_{T_F}(g \cdot z)$ for $g \neq e$ are
+  negligible for $z$ deep in~$D$, and the two ratios agree
+  approximately.
+\end{remark}
+
+
+\subsection{Algorithm}
+\label{sec:algorithm}
+
+FolT-MCMC combines folding, transport, and certification in a
+three-stage pipeline.
+
+\medskip
+\begin{center}
+\fbox{\parbox{0.92\textwidth}{%
+\textbf{Algorithm: FolT-MCMC} \\[3pt]
+\textit{Input:} target~$\pi$ with known symmetry group~$G$,
+  fundamental domain~$D$. \\[2pt]
+\textit{Stage~1 (Fold and train).} \\
+\quad Draw reference samples $\{z_i\}_{i=1}^N$ from $\pi_F$
+  (fold exact or MCMC samples into~$D$). \\
+\quad Train a spectrally normalised RealNVP flow $T_F$ on~$\pi_F$
+  using NLL + oscillation regularisation. \\
+\quad Form the quotient proposal $q_F$ via~\eqref{eq:q_F}. \\[2pt]
+\textit{Stage~2 (Sample).} \\
+\quad Run independence Metropolis--Hastings on~$D$: \\
+\quad\quad Propose $z' \sim q_F$ by sampling $z_0 \sim \cN(0,I)$,
+  computing $\theta = T_F(z_0)$, setting $z' = \mathrm{proj}_D(\theta)$. \\
+\quad\quad Accept with probability
+  $\min\!\bigl(1,\,
+  e^{\,h_F(z_{\mathrm{curr}}) - h_F(z')}\bigr)$. \\[2pt]
+\textit{Stage~3 (Certify).} \\
+\quad Compute the empirical oscillation $\widehat{\osc}_n^F$
+  and gradient supremum~$\widehat{M}_n^F$
+  from an independent certification set on~$D$. \\
+\quad Solve the covering condition~\eqref{eq:covering_cond_F}
+  for $\varepsilon_F^*$. \\
+\quad Report the certified spectral-gap lower bound
+  $\underline{\gamma}_F
+  \geq 2/(1 + \exp(\widehat{\osc}_n^F + 2\widehat{M}_n^F\varepsilon_F^*))$.
+\\[2pt]
+\textit{Output:} certified posterior samples on~$D$;
+  spectral-gap certificate~$\underline{\gamma}_F$.
+}}
+\end{center}
+
+\medskip
+\noindent
+We highlight two concrete instantiations.
+
+\paragraph{Reflection fold ($G = \mathbb{Z}_2$).}
+The non-identity element acts by negating the first coordinate:
+$g \cdot \theta = (-\theta_1, \theta_2, \ldots, \theta_d)$.
+The fundamental domain is $D = \{\theta_1 \geq 0\}$ and
+$\mathrm{proj}_D(\theta) = (|\theta_1|, \theta_2, \ldots, \theta_d)$.
+The quotient proposal reduces to
+$q_F(z) = q_{T_F}(z) + q_{T_F}(-z_1, z_2, \ldots, z_d)$.
+
+\paragraph{Permutation fold ($G = S_m$).}
+Each $\theta \in \R^d$ is partitioned into $m$~blocks of $p$~parameters
+($d = mp$), and $G = S_m$ permutes blocks.
+The fundamental domain is the sorted chamber
+$D = \{\theta : \theta^{(1)}_1 \leq \theta^{(2)}_1 \leq \cdots
+\leq \theta^{(m)}_1\}$, where $\theta^{(j)}_1$ is the first parameter
+(e.g.\ natural frequency) of the $j$th block.
+Projection sorts the blocks by this parameter.
+
+
+\subsection{Quotient metric and covering}
+\label{sec:quotient_metric}
+
+The certification framework of \citet{LCNF} relies on a covering
+lemma (Lemma~5.2 therein) that lower-bounds the probability mass
+of balls intersected with the HPD set.  On the fundamental domain~$D$,
+Euclidean balls near the fold boundary $\partial D$ may be truncated,
+potentially losing mass.  We resolve this by working in the
+\emph{quotient metric}.
+
+\begin{definition}[Quotient metric]\label{def:quotient_metric}
+  For $\theta, \theta' \in \R^d$, define
+  \begin{equation}\label{eq:d_G}
+    d_G(\theta, \theta')
+    \;=\; \min_{g \in G}\, \|\theta - g \cdot \theta'\|.
+  \end{equation}
+  This descends to a well-defined metric on the orbit space $\R^d/G$.
+\end{definition}
+
+\noindent
+Since $d_G \leq \|\cdot\|$ (take $g = e$), any Euclidean
+$\varepsilon$-cover is automatically a quotient $\varepsilon$-cover,
+giving the covering-number bound
+\begin{equation}\label{eq:covering_number}
+  \cN_G(\cK_\alpha^F, \varepsilon)
+  \;\leq\;
+  \cN_E(\cK_\alpha^F, \varepsilon)
+  \;\leq\;
+  \Bigl(\frac{2\diam(\cK_\alpha^F)}{\varepsilon} + 1\Bigr)^{\!d}.
+\end{equation}
+
+The advantage of the quotient metric emerges when bounding the
+\emph{ball mass}.  For a point $z \in D$ whose stabiliser is trivial
+($\mathrm{Stab}(z) = \{e\}$), the quotient ball
+$B_G(z, \varepsilon) := \{z' : d_G(z, z') \leq \varepsilon\}$
+corresponds in $\R^d$ to the union
+$\bigcup_{g \in G}\bigl(B(g\!\cdot\!z,\,\varepsilon) \cap g\!\cdot\!D\bigr)$,
+which has total volume equal to that of a full Euclidean ball
+$V_d\,\varepsilon^d$---no half-ball or boundary correction is
+needed.  For well-separated mixture posteriors, the HPD set
+$\cK_\alpha^F$ lies in the interior of~$D$ and all stabilisers are
+trivial; we formalise this as a regularity condition.
+
+\begin{assumption}[Generic stabiliser]\label{asm:generic_stab}
+  $|\mathrm{Stab}(z)| = 1$ for every $z \in \cK_\alpha^F$.
+\end{assumption}
+
+\noindent
+Assumption~\ref{asm:generic_stab} holds whenever the mode centres are
+distinct after projection into~$D$ and the modes are sufficiently
+well separated that the HPD set does not touch the fold boundary.
+When it fails (e.g.\ at fixed-point strata of the group action),
+the ball-mass bound acquires a correction factor
+$1/h_{\max}$ where
+$h_{\max} = \max_{z \in \cK_\alpha^F} |\mathrm{Stab}(z)|$;
+see Supplement~A.
+
+The remaining ingredient is a Lipschitz property of $h_F$ under
+the quotient metric.
+
+\begin{lemma}[Quotient Lipschitz constant]\label{lem:lip_quotient}
+  Let $h_F$ be extended to $\R^d$ by
+  $h_F(\theta) = \log\bigl(s\pi(\theta)\bigr)
+  - \log\bigl(\sum_g q_{T_F}(g\theta)\bigr)$,
+  and let
+  $M_F = \sup\bigl\{\|\nabla h_F(w)\| :
+  d_G(w, \cK_\alpha^F) \leq \varepsilon_F^*\bigr\}$.
+  Then for all $x, y \in \cK_\alpha^F$:
+  \begin{equation}\label{eq:lip_dG}
+    |h_F(x) - h_F(y)| \;\leq\; M_F \cdot d_G(x, y).
+  \end{equation}
+\end{lemma}
+
+\begin{proof}
+  Both $\pi$ and $\sum_g q_{T_F}(g \cdot {})$ are $G$-invariant by
+  construction, so $h_F(g \cdot \theta) = h_F(\theta)$ for all~$g$.
+  For any $g \in G$, the mean value theorem gives
+  $|h_F(x) - h_F(y)| = |h_F(x) - h_F(g \cdot y)|
+  \leq M_F\,\|x - g \cdot y\|$,
+  where the supremum is taken over the $\varepsilon_F^*$-neighbourhood
+  of $\cK_\alpha^F$ to cover the interpolation path.
+  Minimising over~$g$ yields~\eqref{eq:lip_dG}.
+\end{proof}
+
+\noindent
+With the covering number~\eqref{eq:covering_number}, the ball-mass
+bound, and Lemma~\ref{lem:lip_quotient}, the LCNF empirical
+oscillation theorem~\citep[Theorem~5.1]{LCNF} carries over to the
+quotient setting.  The covering condition becomes
+\begin{equation}\label{eq:covering_cond_F}
+  \Bigl(\frac{D_F}{\varepsilon} + 1\Bigr)^{\!d}
+  \cdot
+  \bigl(1 - (s/h_{\max})\,\pi_{\min}^D\, V_d\, \varepsilon^d\bigr)^{n_{\mathrm{eff}}}
+  \;\leq\; \frac{\delta}{3},
+\end{equation}
+where $D_F = \diam(\cK_\alpha^F)$,
+$\pi_{\min}^D = \inf_{\cK_\alpha \cap D}\pi$, and
+$h_{\max} = \max_{z \in \cK_\alpha^F}|\mathrm{Stab}(z)|$.
+Under Assumption~\ref{asm:generic_stab}, $h_{\max} = 1$ and the
+mass factor simplifies to $\pi_{\min}^F \cdot V_d \cdot \varepsilon^d$.
+The resulting spectral-gap certificate is developed in
+Section~\ref{sec:theory}.
+
+\begin{remark}[Computational scalability]\label{rem:scalability}
+  The orbit sum in~\eqref{eq:q_F} has $s = |G|$ terms.
+  For $S_m$ with $m \leq 5$ ($s \leq 120$), this is inexpensive.
+  For larger~$m$, the sum can be approximated by restricting to
+  permutations that lie within a neighbourhood of the identity,
+  since distant permutations contribute negligibly when the modes
+  are well separated.
+\end{remark}

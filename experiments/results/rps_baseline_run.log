@@ -1,0 +1,25 @@
+Device: cuda  (QUICK=False)
+Config k3_p2: k=3, p=2, D=6, m!=6
+MCMC: 4 chains x 10000 steps, burn-in 2000
+
+Phase-4 QC gamma (rho=0.05): unfolded=0.0662, folded=0.6849
+
+Flows:
+    [unfolded] training flow (2500 epochs)...
+    [unfolded] trained in 143s, NLL=10.510 -> cached labelswitching_k3_p2_flow_unfolded.pt
+    [folded] training flow (2500 epochs)...
+    [folded] trained in 145s, NLL=8.529 -> cached labelswitching_k3_p2_flow_folded.pt
+
+(A) Unfolded IMH ...
+(B) FolT-MCMC ...
+(C) Random Permutation Sampler ...
+
+==============================================================================
+  SUMMARY  (k3_p2: m=3, p=2, D=6, m!=6 | 4x10000, burn-in 2000)
+==============================================================================
+  Method            Sorted ESS/samp   Accept   Wall(s)    s/eff   QC gamma(0.05)
+  Unfolded IMH               0.6068    0.622       0.1   0.0000            0.066
+  FolT-MCMC                  0.5401    0.881       0.1   0.0000            0.685
+  RPS                        0.4821    0.612     682.8   0.0354N/A (non-standard kernel)
+
+  -> C:\FolT-MCMC\experiments\results\rps_baseline_results.json

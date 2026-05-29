@@ -1,0 +1,51 @@
+{
+  "unfolded_imh": {
+    "sorted_ess_per_sample": 0.6068249633789062,
+    "acceptance_rate": 0.622275,
+    "wall_time_seconds": 0.07007002830505371,
+    "sec_per_effective_sample": 2.8867479311864368e-06,
+    "qc_gamma_rho005": 0.06617692997015885
+  },
+  "folt_mcmc": {
+    "sorted_ess_per_sample": 0.5400659606933593,
+    "acceptance_rate": 0.8807499999999999,
+    "wall_time_seconds": 0.07338452339172363,
+    "sec_per_effective_sample": 3.3970166948454545e-06,
+    "qc_gamma_rho005": 0.6849368903615649
+  },
+  "rps": {
+    "sorted_ess_per_sample": 0.48214969482421877,
+    "acceptance_rate": 0.6121458333333334,
+    "wall_time_seconds": 682.797581911087,
+    "sec_per_effective_sample": 0.03540381697016422,
+    "qc_gamma_rho005": "N/A (non-standard kernel)"
+  },
+  "config": {
+    "tag": "k3_p2",
+    "k": 3,
+    "p": 2,
+    "centers": [
+      [
+        2.0,
+        0.5
+      ],
+      [
+        5.0,
+        0.8
+      ],
+      [
+        8.0,
+        0.3
+      ]
+    ],
+    "n_layers": 10,
+    "hidden_dim": 128,
+    "n_epochs": 2500,
+    "n_train": 30000,
+    "dim": 6,
+    "n_perms": 6,
+    "n_chains": 4,
+    "chain_length": 10000,
+    "burnin": 2000
+  }
+}

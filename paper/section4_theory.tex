@@ -1,0 +1,410 @@
+% ══════════════════════════════════════════════════════════════
+%  FolT-MCMC Paper — Section 4: Theoretical Guarantees
+% ══════════════════════════════════════════════════════════════
+%  \input{section4_theory}
+
+\section{Theoretical guarantees}
+\label{sec:theory}
+
+We now establish that the LCNF certification framework
+\citep{LCNF} transfers to the quotient setting of
+Section~\ref{sec:framework}, and that the resulting certified
+spectral-gap lower bound is at least as sharp as---and typically
+much sharper than---the bound obtained on the original space.
+
+
+\subsection{Folded LCNF certificate}
+\label{sec:folded_cert}
+
+The LCNF empirical oscillation theorem \citep[Theorem~5.1]{LCNF}
+requires three regularity conditions on the target, the HPD set,
+and the log-density ratio.  We verify each in turn for the quotient
+setting $(\pi_F, \cK_\alpha^F, h_F)$.
+
+\paragraph{LCNF Assumption~1 (Compact HPD set with positive density floor).}
+By Proposition~\ref{prop:hpd}, $\cK_\alpha^F = \cK_\alpha \cap D$ is
+compact (intersection of a compact set and a closed domain).
+Its diameter satisfies $D_F \leq D_U := \diam(\cK_\alpha)$
+(Corollary~\ref{cor:hpd_geometry}a), and its density floor satisfies
+$\pi_{\min}^F \geq s\,\pi_{\min} > 0$
+(Corollary~\ref{cor:hpd_geometry}b).
+
+\paragraph{LCNF Assumption~2 (Smooth HPD boundary).}
+The boundary $\partial\cK_\alpha^F$ consists of three parts:
+(i)~the HPD level set $\{U_F = u_\alpha^F\} \cap \mathrm{int}(D)$,
+which is a smooth $(d{-}1)$-dimensional manifold wherever
+$\nabla U_F \neq 0$ (holding generically by Sard's theorem);
+(ii)~the fold boundary $\partial D \cap \mathrm{int}(\cK_\alpha^F)$,
+which inherits the smoothness of~$\partial D$ (a hyperplane for
+reflections, a polyhedral cone for permutations); and
+(iii)~the corner set $\{U_F = u_\alpha^F\} \cap \partial D$,
+which has Hausdorff dimension at most $d{-}2$ and does not affect
+the covering argument.
+Under Assumption~\ref{asm:generic_stab}, parts (ii) and (iii)
+are empty and $\partial\cK_\alpha^F$ is smooth.
+
+\paragraph{LCNF Assumption~3 (Local regularity of $h_F$).}
+On $\mathrm{int}(D)$, $\pi_F = s\pi$ inherits the smoothness
+of~$\pi$ (typically $C^\infty$ for Gaussian mixtures), and
+$q_F = \sum_g q_{T_F}(g\,\cdot\,)$ is $C^\infty$ when $T_F$
+uses $\tanh$ activations.  Therefore $h_F = \log\pi_F - \log q_F$
+is $C^1$ on a neighbourhood of $\cK_\alpha^F$, and the gradient
+supremum $M_F$ (Definition in Lemma~\ref{lem:lip_quotient}) is
+finite.
+
+\medskip
+With all three conditions verified, we state the folded certificate.
+
+\begin{theorem}[FolT-MCMC certificate]\label{thm:folded_cert}
+  Suppose $\pi$ is $G$-invariant with $|G| = s$,
+  Assumption~\ref{asm:generic_stab} holds, and $h_F$ is $C^1$ on a
+  neighbourhood of $\cK_\alpha^F$.
+  Draw $Z_1, \ldots, Z_n \overset{\mathrm{iid}}{\sim} \pi_F$ and
+  let $\widehat{\osc}_n^F = \max_i h_F(Z_i) - \min_i h_F(Z_i)$.
+  Let $\varepsilon_F^*$ be the smallest $\varepsilon > 0$
+  satisfying~\eqref{eq:covering_cond_F} with $h_{\max} = 1$, and
+  define $C_F = \widehat{\osc}_n^F + 2 M_F \varepsilon_F^*$.
+
+  Then with probability at least $1 - \delta$:
+  \begin{equation}\label{eq:osc_bound_F}
+    \osc_{\cK_\alpha^F}(h_F)
+    \;\leq\; C_F
+    \;=\; \widehat{\osc}_n^F + 2\,M_F\,\varepsilon_F^*.
+  \end{equation}
+  The independence MH chain on~$D$ with proposal $q_F$ has spectral
+  gap at least
+  \begin{equation}\label{eq:gamma_F}
+    \underline{\gamma}_F
+    \;\geq\; \frac{2}{1 + \exp(C_F)}.
+  \end{equation}
+\end{theorem}
+
+\begin{proof}
+  Apply \citet[Theorem~5.1]{LCNF} with the quotient-metric covering
+  (Section~\ref{sec:quotient_metric}): the covering
+  number is bounded by~\eqref{eq:covering_number}, the ball mass by
+  $\pi_{\min}^F \cdot V_d \cdot \varepsilon^d$
+  (Assumption~\ref{asm:generic_stab}), and the interpolation error by
+  $M_F \cdot d_G$ (Lemma~\ref{lem:lip_quotient}).
+  The Mengersen--Tweedie inequality
+  \citep{MengersenTweedie1996} yields~\eqref{eq:gamma_F}.
+\end{proof}
+
+
+\subsection{Covering radius improvement}
+\label{sec:covering_improvement}
+
+The folded certificate~\eqref{eq:osc_bound_F} has the same
+\emph{form} as the unfolded one, but its three constituent
+quantities are more favourable.  We begin with the covering
+radius.
+
+\begin{theorem}[Covering radius improvement]\label{thm:eps_improvement}
+  Let $\varepsilon_U^*$ denote the smallest $\varepsilon > 0$
+  satisfying the unfolded covering condition
+  \begin{equation}\label{eq:covering_cond_U}
+    \Bigl(\frac{D_U}{\varepsilon} + 1\Bigr)^{\!d}
+    \cdot
+    \bigl(1 - \pi_{\min}\, V_d\, \varepsilon^d\bigr)^{n_{\mathrm{eff}}}
+    \;\leq\; \frac{\delta}{3},
+  \end{equation}
+  and let $\varepsilon_F^*$ be defined
+  by~\eqref{eq:covering_cond_F} with $h_{\max} = 1$.  Then
+  $\varepsilon_F^* \leq \varepsilon_U^*$.
+\end{theorem}
+
+\begin{proof}
+  Write the left-hand side of the covering condition as
+  $\Phi(D_K,\, \pi_{\min},\, \varepsilon)
+  = (D_K/\varepsilon + 1)^d\,
+  (1 - \pi_{\min}\, V_d\, \varepsilon^d)^{n_{\mathrm{eff}}}$.
+  For any fixed $\varepsilon > 0$:
+  \begin{enumerate}[nosep]
+    \item $D_F \leq D_U$
+    (Corollary~\ref{cor:hpd_geometry}a), so the first factor does not
+    increase;
+    \item $\pi_{\min}^F \geq s\,\pi_{\min} \geq \pi_{\min}$
+    (Corollary~\ref{cor:hpd_geometry}b), so
+    $\pi_{\min}^F V_d \varepsilon^d \geq \pi_{\min} V_d \varepsilon^d$,
+    which makes the base of the second factor smaller and hence the
+    second factor does not increase.
+  \end{enumerate}
+  Therefore $\Phi(D_F, \pi_{\min}^F, \varepsilon)
+  \leq \Phi(D_U, \pi_{\min}, \varepsilon)$ for all
+  $\varepsilon > 0$.
+  Since $\varepsilon_U^*$ satisfies
+  $\Phi(D_U, \pi_{\min}, \varepsilon_U^*) \leq \delta/3$, we have
+  $\Phi(D_F, \pi_{\min}^F, \varepsilon_U^*) \leq \delta/3$, so by
+  minimality $\varepsilon_F^* \leq \varepsilon_U^*$.
+\end{proof}
+
+\begin{remark}[Asymptotic scaling]\label{rem:eps_scaling}
+  Under simplifying approximations (dropping the $+1$ term and using
+  $\log(1 - p) \approx -p$), the ratio
+  $\varepsilon_F^* / \varepsilon_U^*$ scales heuristically as
+  $s^{-1/d}$, up to logarithmic factors.  This explains the
+  empirical observation that the covering-radius improvement is
+  more pronounced in low dimensions
+  (Section~\ref{sec:experiments}).  However, the rigorous content
+  of Theorem~\ref{thm:eps_improvement} is the inequality
+  $\varepsilon_F^* \leq \varepsilon_U^*$, which is independent of
+  the cross-mode misspecification condition.
+\end{remark}
+
+
+\subsection{Certified gap improvement}
+\label{sec:gap_improvement}
+
+The covering-radius improvement (Theorem~\ref{thm:eps_improvement})
+guarantees that the radius factor $\varepsilon_F^*$ does not
+increase.  The full product $M_F\varepsilon_F^*$ need not be
+smaller unless $M_F$ is comparable to~$M_U$, which is why the
+sufficient condition below keeps both terms explicit.
+The dominant source of improvement, however, is the empirical
+oscillation $\widehat{\osc}_n^F$, which drops when the quotient
+proposal eliminates cross-mode residuals.
+
+We now compare the folded and unfolded certificates.
+Let $T_U\colon \R^d \to \R^d$ be a normalising flow trained on the
+original (unfolded) target~$\pi$, with proposal density
+$q_U = (T_U)_{\#}\cN(0,I)$ and log-density ratio
+$h_U = \log\pi - \log q_U$.
+The unfolded certificate is
+$C_U = \widehat{\osc}_n + 2 M_U \varepsilon_U^*$, where
+$\widehat{\osc}_n$, $M_U$, $\varepsilon_U^*$ are defined
+analogously to their folded counterparts but using $h_U$
+and~$\cK_\alpha$.
+
+To quantify the oscillation gap we introduce three conditions.
+
+\begin{description}[leftmargin=1.5em,nosep]
+  \item[(M\,$'$)]
+  \textbf{Relative cross-mode deficiency.}
+  For each off-mode component $\cK_\alpha^{(j)}$, $j \neq 1$,
+  there exists $\Delta_j > 0$ such that
+  \begin{equation}\label{eq:cond_M}
+    \inf_{\theta \in \cK_\alpha^{(j)}} h_U(\theta)
+    \;\geq\;
+    \sup_{\theta \in \cK_\alpha^{(1)}} h_U(\theta)
+    \;+\; \Delta_j.
+  \end{equation}
+
+  \item[(W)]
+  \textbf{Folded within-mode fit.}
+  There exists $r_1 \geq 0$ such that
+  \begin{equation}\label{eq:cond_W}
+    \osc_{\cK_\alpha^F}\!\bigl(\log(s\pi) - \log q_{T_F}\bigr)
+    \;\leq\; 2r_1.
+  \end{equation}
+
+  \item[(R)]
+  \textbf{Folded-proposal residual.}
+  \begin{equation}\label{eq:cond_R}
+    r_F \;:=\;
+    \sup_{z \in \cK_\alpha^F}
+    \bigl|\log q_F(z) - \log q_{T_F}(z)\bigr|
+    \;<\; \infty.
+  \end{equation}
+\end{description}
+
+\noindent
+Condition~(M$'$) says the unfolded log-density ratio~$h_U$ is
+uniformly higher on every off-mode than on the primary mode: the
+unfolded flow under-covers those regions by at least a factor
+of~$e^{\Delta_j}$.  This holds whenever the spectrally normalised
+RealNVP has insufficient capacity to represent multiple separated
+modes---a common situation in practice, as demonstrated by all
+our experiments (Section~\ref{sec:experiments}).
+Condition~(W) bounds the within-mode oscillation of the folded
+flow's unnormalised log-density ratio on~$\cK_\alpha^F$.
+Condition~(R) quantifies the contribution of off-mode orbit
+terms $q_{T_F}(g \cdot z)$ for $g \neq e$; for well-separated
+modes $r_F \approx 0$ since these terms are exponentially small.
+
+Note that (M$'$) involves the unfolded flow~$T_U$ while (W) and
+(R) involve the folded flow~$T_F$; this reflects the two-flow
+comparison at the heart of FolT-MCMC.
+
+\begin{lemma}[Oscillation gap]\label{lem:osc_gap}
+  Under conditions \textup{(M$'$)}, \textup{(W)}, and
+  \textup{(R)}, the empirical oscillations on the unfolded and
+  folded spaces satisfy, with probability at least $1 - \delta'$,
+  \begin{equation}\label{eq:osc_gap}
+    \widehat{\osc}_n
+    \;\geq\;
+    \widehat{\osc}_n^F
+    \;+\; \min_{j \neq 1} \Delta_j
+    \;-\; 2r_1 - r_F
+    \;-\; c_n,
+  \end{equation}
+  where $c_n = O\!\bigl(\sqrt{\log(2/\delta')/n}\bigr)$ accounts for
+  the sampling error in both empirical oscillations.
+\end{lemma}
+
+\begin{proof}
+  We bound $\widehat{\osc}_n$ from below and $\widehat{\osc}_n^F$
+  from above.
+
+  \emph{Lower bound on $\widehat{\osc}_n$.}\;
+  On the primary mode, condition~(W) gives
+  $\osc_{\cK_\alpha^{(1)}}(h_U) \leq 2r_1$.
+  On any off-mode, condition~(M$'$) gives
+  $\inf_{\cK_\alpha^{(j)}} h_U \geq \sup_{\cK_\alpha^{(1)}} h_U
+  + \Delta_j$.
+  Therefore
+  \[
+    \osc_{\cK_\alpha}(h_U)
+    \;\geq\;
+    \inf_{\cK_\alpha^{(j)}} h_U - \inf_{\cK_\alpha^{(1)}} h_U
+    \;\geq\;
+    \sup_{\cK_\alpha^{(1)}} h_U + \Delta_j - \inf_{\cK_\alpha^{(1)}} h_U
+    \;\geq\;
+    \min_{j \neq 1}\Delta_j.
+  \]
+  The empirical oscillation $\widehat{\osc}_n$ concentrates around
+  $\osc_{\cK_\alpha}(h_U)$ up to a term $O(\sqrt{\log/n})$.
+
+  \emph{Upper bound on $\widehat{\osc}_n^F$.}\;
+  For $z \in \cK_\alpha^F = \cK_\alpha^{(1)} \cap D$ (a.e.),
+  \[
+    h_F(z) = \log(s\pi(z)) - \log q_F(z)
+    = \underbrace{\log(s\pi(z)) - \log q_{T_F}(z)}_{\text{within-mode:
+      osc} \leq 2r_1}
+    \;-\; \log\!\Bigl(1 + \frac{\sum_{g \neq e} q_{T_F}(gz)}{q_{T_F}(z)}\Bigr).
+  \]
+  The last term lies in $[-r_F, 0]$ by condition~(R).
+  Therefore $\osc_{\cK_\alpha^F}(h_F) \leq 2r_1 + r_F$, and
+  $\widehat{\osc}_n^F$ concentrates similarly.
+
+  Combining: $\widehat{\osc}_n - \widehat{\osc}_n^F \geq
+  \min_j \Delta_j - 2r_1 - r_F - c_n$.
+\end{proof}
+
+We can now state the main comparison result.
+
+\begin{theorem}[Certified gap improvement]\label{thm:gap_improvement}
+  Adopt the setting of Theorem~\ref{thm:folded_cert} and let
+  $C_U = \widehat{\osc}_n + 2 M_U \varepsilon_U^*$ be the unfolded
+  certificate (with gradient constant~$M_U$ and covering
+  radius~$\varepsilon_U^*$).
+  Suppose conditions \textup{(M$'$)}, \textup{(W)}, \textup{(R)}
+  hold, and define
+  \[
+    \Delta
+    \;=\;
+    \min_{j \neq 1}\Delta_j - 2r_1 - r_F - c_n.
+  \]
+  If
+  \begin{equation}\label{eq:sufficient}
+    \Delta
+    \;>\;
+    2\bigl(M_F\,\varepsilon_F^*
+    \;-\; M_U\,\varepsilon_U^*\bigr)^{\!+}
+  \end{equation}
+  (where $(x)^+ = \max(x,0)$), then with probability at least
+  $1 - \delta_U - \delta_F - \delta'$:
+  \begin{equation}\label{eq:C_comparison}
+    C_F \;<\; C_U,
+    \qquad
+    \frac{\underline{\gamma}_F}{\underline{\gamma}_U}
+    \;=\;
+    \frac{1 + \exp(C_U)}{1 + \exp(C_F)}
+    \;>\; 1.
+  \end{equation}
+\end{theorem}
+
+\begin{proof}
+  Write
+  \begin{align*}
+    C_U - C_F
+    &= \bigl(\widehat{\osc}_n - \widehat{\osc}_n^F\bigr)
+       + 2\bigl(M_U\varepsilon_U^* - M_F\varepsilon_F^*\bigr) \\
+    &\geq \Delta + 2\bigl(M_U\varepsilon_U^* - M_F\varepsilon_F^*\bigr)
+      \qquad\text{(Lemma~\ref{lem:osc_gap})}.
+  \end{align*}
+  If $M_F\varepsilon_F^* \leq M_U\varepsilon_U^*$, both terms are
+  non-negative and $C_U - C_F \geq \Delta > 0$.
+  If $M_F\varepsilon_F^* > M_U\varepsilon_U^*$,
+  condition~\eqref{eq:sufficient} gives
+  $\Delta > 2(M_F\varepsilon_F^* - M_U\varepsilon_U^*)$, so again
+  $C_U - C_F > 0$.  The spectral-gap comparison follows from the
+  monotonicity of $C \mapsto 2/(1 + e^C)$.
+  The confidence level combines the three events via a union bound:
+  the folded certificate (prob $\geq 1 - \delta_F$), the unfolded
+  certificate ($\geq 1 - \delta_U$), and the oscillation-gap
+  concentration ($\geq 1 - \delta'$).
+\end{proof}
+
+
+\subsection{When does folding help?}
+\label{sec:when_folding_helps}
+
+Theorems~\ref{thm:eps_improvement} and~\ref{thm:gap_improvement}
+identify two complementary improvement mechanisms: a covering-radius
+reduction that holds independently of the cross-mode deficiency
+condition ($\varepsilon_F^* \leq \varepsilon_U^*$, under
+Assumption~\ref{asm:generic_stab}) and an oscillation
+reduction that holds under condition~(M$'$).
+
+\paragraph{The role of (M$'$).}
+Condition~(M$'$) is \emph{not} an assumption about the target; it is
+a condition on the \emph{unfolded flow}~$T_U$.  It asserts that the
+trained unfolded transport map fails to cover at least one off-mode.  This holds
+naturally for spectrally normalised RealNVP with scale clipping,
+whose limited expressiveness makes faithful representation of
+multiple separated modes difficult---especially in higher dimensions,
+where the coupling architecture must mediate inter-coordinate
+information through the conditioner network.  In all our experiments
+(Section~\ref{sec:experiments}), condition~(M$'$) is strongly
+satisfied, with $\Delta/C_U \in [0.75, 0.87]$.
+
+When the flow \emph{is} expressive enough to represent all modes
+faithfully, $\Delta \approx 0$ and the oscillation gap vanishes;
+the improvement then comes solely from the covering-radius
+reduction (Theorem~\ref{thm:eps_improvement}), which is
+modest---heuristically $O(s^{-1/d})$
+(Remark~\ref{rem:eps_scaling}).
+
+\paragraph{Fold boundary placement.}
+The main-text results
+(Theorems~\ref{thm:folded_cert}--\ref{thm:gap_improvement})
+are stated under Assumption~\ref{asm:generic_stab}, i.e.\ the HPD
+set does not touch the fold boundary.  The boundary-touching case
+is handled by the stabiliser-corrected covering
+condition~\eqref{eq:covering_cond_F} and is detailed in
+Supplement~A.
+When the fold boundary passes
+through a high-density region---as in our banana diagnostic
+experiment (Section~\ref{sec:exp_banana})---the full oscillation
+can increase due to boundary residuals, even while the
+quantile-core certificate improves.  This provides a practical
+design principle: \emph{the fold boundary should lie in a
+low-density region separating the symmetric modes}.
+For label-switching mixtures, the sorted-chamber boundary
+is automatically in the valley between modes whenever the
+components are well separated.
+
+\paragraph{Dimension dependence.}
+A key empirical finding is that $\underline{\gamma}_F$ is
+empirically nearly dimension-free: it stays in $[0.90, 0.94]$
+across $d = 2$ to $20$ for Gaussian mixtures, while
+$\underline{\gamma}_U$ collapses from $0.40$ to $0.016$
+(Section~\ref{sec:exp_dimension}).  The theoretical explanation is that all three terms in $C_F$ remain
+small as $d$ grows: $\widehat{\osc}_n^F$ reflects only the
+single-mode transport residual, $M_F$ is controlled by spectral
+normalisation, and $\varepsilon_F^*$ benefits from the $s$-fold
+density floor.  In contrast, $C_U$ is dominated by the cross-mode
+oscillation, which grows with~$d$ because the coupling-layer
+architecture struggles increasingly to generate multimodal
+structure in high dimensions.
+
+\paragraph{Mode count vs.\ dimension.}
+The label-switching experiments (Section~\ref{sec:exp_labelswitching})
+reveal that the unfolded certificate degrades primarily with the
+number of modes~$s = m!$, not with the dimension~$d$.
+Comparing $m = 3, p = 2$ ($d = 6$, $s = 6$) with $m = 3, p = 4$
+($d = 12$, $s = 6$): doubling the dimension while keeping $s$
+fixed reduces $\underline{\gamma}_U$ by only a factor of~$2$,
+whereas increasing $s$ from $6$ to $24$ (at fixed block size)
+reduces it by a factor of~$15$.  The folded certificate is
+insensitive to both.
