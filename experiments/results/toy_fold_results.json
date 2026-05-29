@@ -1,0 +1,199 @@
+{
+  "unfolded": {
+    "osc_bound": 30.698579788208008,
+    "certified_gamma": 0.2722113269454246,
+    "ess_per_sample": 0.04828008861541748,
+    "ess_per_gradient": 0.04023340717951457,
+    "acceptance_rate": 0.60425,
+    "train_loss_final": 4.339266777038574,
+    "extended": {
+      "gamma_full_osc": 9.306924511833697e-14,
+      "gamma_mengersen_tweedie": 4.653462255917065e-14,
+      "certified_osc_core": 1.8480189442634583,
+      "headline_rho": 0.05,
+      "n_cert_valid": 20000,
+      "n_cert_eval": 20000,
+      "r_mean": 0.34856703877449036,
+      "r_std": 0.7754194736480713,
+      "ess_total": 965.6017723083496,
+      "ess_each": [
+        316.287841796875,
+        35.156185150146484,
+        71.34426879882812,
+        542.8134765625
+      ],
+      "accept_each": [
+        0.6532,
+        0.5312,
+        0.5952,
+        0.6374
+      ],
+      "v1_covering": {
+        "cert": 45.316222263155296,
+        "gamma": 4.1729648454446385e-20,
+        "eps_star": 0.24101855601058556,
+        "grad_sup": 30.324724197387695,
+        "correction": 14.61764247494729
+      },
+      "quantile_core": {
+        "eps_n": 0.009603227913199208,
+        "levels": {
+          "0.005": {
+            "feasible": false
+          },
+          "0.01": {
+            "feasible": true,
+            "c_raw": 4.220912933349609,
+            "c_formal": 16.694543838500977,
+            "gamma_core": 1.1237810496690281e-07,
+            "mu_core": 0.9992,
+            "pi_hat": 0.8820856213569641
+          },
+          "0.025": {
+            "feasible": true,
+            "c_raw": 2.5904080867767334,
+            "c_formal": 3.4133286476135254,
+            "gamma_core": 0.06376299662138543,
+            "mu_core": 0.9692,
+            "pi_hat": 0.7542278170585632
+          },
+          "0.05": {
+            "feasible": true,
+            "c_raw": 1.5797610580921173,
+            "c_formal": 1.8480189442634583,
+            "gamma_core": 0.2722113269454246,
+            "mu_core": 0.9192,
+            "pi_hat": 0.6855692267417908
+          },
+          "0.1": {
+            "feasible": true,
+            "c_raw": 0.924429202452302,
+            "c_formal": 1.0034520961344242,
+            "gamma_core": 0.5365264793823401,
+            "mu_core": 0.8192,
+            "pi_hat": 0.5900524854660034
+          },
+          "0.25": {
+            "feasible": true,
+            "c_raw": 0.39219872653484344,
+            "c_formal": 0.4109754264354706,
+            "gamma_core": 0.7973565105385556,
+            "mu_core": 0.5192,
+            "pi_hat": 0.3574623465538025
+          }
+        }
+      }
+    }
+  },
+  "folded": {
+    "osc_bound": 58.37762451171875,
+    "certified_gamma": 0.32032105541923656,
+    "ess_per_sample": 0.041922888374328615,
+    "ess_per_gradient": 0.03493574031194051,
+    "acceptance_rate": 0.59445,
+    "train_loss_final": 3.3424782752990723,
+    "extended": {
+      "gamma_full_osc": 8.870534791657848e-26,
+      "gamma_mengersen_tweedie": 4.435267395828924e-26,
+      "certified_osc_core": 1.657034158706665,
+      "headline_rho": 0.05,
+      "n_cert_valid": 19521,
+      "n_cert_eval": 20000,
+      "r_mean": -0.3105204105377197,
+      "r_std": 0.7409617304801941,
+      "ess_total": 838.4577674865723,
+      "ess_each": [
+        46.181636810302734,
+        71.80640411376953,
+        398.0871887207031,
+        322.3825378417969
+      ],
+      "accept_each": [
+        0.5192,
+        0.5722,
+        0.641,
+        0.6454
+      ],
+      "v1_covering": {
+        "cert": 101.18163110252385,
+        "gamma": 2.282474518967576e-44,
+        "eps_star": 0.24249771445703758,
+        "grad_sup": 88.25651550292969,
+        "correction": 42.80400659080511
+      },
+      "quantile_core": {
+        "eps_n": 0.009720334340992582,
+        "levels": {
+          "0.005": {
+            "feasible": false
+          },
+          "0.01": {
+            "feasible": true,
+            "c_raw": 3.3149068355560303,
+            "c_formal": 14.266556739807129,
+            "gamma_core": 1.2739220394533494e-06,
+            "mu_core": 0.9993852773935762,
+            "pi_hat": 0.8832507729530334
+          },
+          "0.025": {
+            "feasible": true,
+            "c_raw": 2.1169930696487427,
+            "c_formal": 2.624451994895935,
+            "gamma_core": 0.1351624298965206,
+            "mu_core": 0.9693663234465447,
+            "pi_hat": 0.7474611401557922
+          },
+          "0.05": {
+            "feasible": true,
+            "c_raw": 1.4704803824424744,
+            "c_formal": 1.657034158706665,
+            "gamma_core": 0.32032105541923656,
+            "mu_core": 0.9193688847907382,
+            "pi_hat": 0.6678337454795837
+          },
+          "0.1": {
+            "feasible": true,
+            "c_raw": 0.9764635562896729,
+            "c_formal": 1.0375447571277618,
+            "gamma_core": 0.523248024854111,
+            "mu_core": 0.819374007479125,
+            "pi_hat": 0.5605254769325256
+          },
+          "0.25": {
+            "feasible": true,
+            "c_raw": 0.46985965967178345,
+            "c_formal": 0.4906596168875694,
+            "gamma_core": 0.7594763821799805,
+            "mu_core": 0.5193893755442857,
+            "pi_hat": 0.33350396156311035
+          }
+        }
+      },
+      "ess_unfolded_theta": 14458.859375,
+      "note_ess": "ess_per_sample is measured on the native z-chain (true mixing); ess_unfolded_theta is on theta1 after random-branch unfolding, where the i.i.d. sign artificially decorrelates theta1."
+    }
+  },
+  "improvement": {
+    "osc_reduction_ratio": 0.5258620926249844,
+    "gamma_improvement_ratio": 1.1767366884165604,
+    "ess_improvement_ratio": 0.8683266658491842
+  },
+  "config": {
+    "hp": {
+      "n_layers": 8,
+      "hidden_dim": 64,
+      "lr": 0.001,
+      "n_epochs": 2000,
+      "n_train": 20000,
+      "batch_size": 512
+    },
+    "n_cert": 20000,
+    "zeta": 0.05,
+    "headline_rho": 0.05,
+    "n_chains": 4,
+    "chain_length": 5000,
+    "burnin": 1000,
+    "seed": 0,
+    "target": "AsymmetricDoubleBanana(a=1.0,b=0.5,sigma=0.5,tau=2.0)"
+  }
+}
