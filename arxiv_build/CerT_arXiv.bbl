@@ -1,0 +1,117 @@
+\begin{thebibliography}{xx}
+
+\harvarditem{Brooks \harvardand\ Gelman}{1998}{BrooksGelman1998}
+Brooks, S.~P. \harvardand\ Gelman, A.  \harvardyearleft 1998\harvardyearright ,
+  `General methods for monitoring convergence of iterative simulations', {\em
+  Journal of Computational and Graphical Statistics} {\bf 7}(4),~434--455.
+
+\harvarditem[Detrano et~al.]{Detrano, Janosi, Steinbrunn, Pfisterer, Schmid,
+  Sandhu, Guppy, Lee \harvardand\ Froelicher}{1989}{Detrano1989}
+Detrano, R., Janosi, A., Steinbrunn, W., Pfisterer, M., Schmid, J.-J., Sandhu,
+  S., Guppy, K.~H., Lee, S. \harvardand\ Froelicher, V.  \harvardyearleft
+  1989\harvardyearright , `International application of a new probability
+  algorithm for the diagnosis of coronary artery disease', {\em American
+  Journal of Cardiology} {\bf 64}(5),~304--310.
+
+\harvarditem[Dinh et~al.]{Dinh, Sohl-Dickstein \harvardand\
+  Bengio}{2017}{Dinh2017}
+Dinh, L., Sohl-Dickstein, J. \harvardand\ Bengio, S.  \harvardyearleft
+  2017\harvardyearright , Density estimation using {Real NVP}, {\em in}
+  `International Conference on Learning Representations (ICLR)'.
+
+\harvarditem[Dvoretzky et~al.]{Dvoretzky, Kiefer \harvardand\
+  Wolfowitz}{1956}{DKW1956}
+Dvoretzky, A., Kiefer, J. \harvardand\ Wolfowitz, J.  \harvardyearleft
+  1956\harvardyearright , `Asymptotic minimax character of the sample
+  distribution function and of the classical multinomial estimator', {\em
+  Annals of Mathematical Statistics} {\bf 27}(3),~642--669.
+
+\harvarditem[Gabri\'{e} et~al.]{Gabri\'{e}, Rotskoff \harvardand\
+  Vanden-Eijnden}{2022}{Gabrie2022}
+Gabri\'{e}, M., Rotskoff, G.~M. \harvardand\ Vanden-Eijnden, E.
+  \harvardyearleft 2022\harvardyearright , `Adaptive {Monte Carlo} augmented
+  with normalizing flows', {\em Proceedings of the National Academy of
+  Sciences} {\bf 119}(10),~e2109420119.
+
+\harvarditem{Gelman \harvardand\ Rubin}{1992}{GelmanRubin1992}
+Gelman, A. \harvardand\ Rubin, D.~B.  \harvardyearleft 1992\harvardyearright ,
+  `Inference from iterative simulation using multiple sequences', {\em
+  Statistical Science} {\bf 7}(4),~457--472.
+
+\harvarditem[Hoffman et~al.]{Hoffman, Sountsov, Dillon, Langmore, Tran
+  \harvardand\ Vasudevan}{2019}{Hoffman2019NeuTra}
+Hoffman, M., Sountsov, P., Dillon, J.~V., Langmore, I., Tran, D. \harvardand\
+  Vasudevan, S.  \harvardyearleft 2019\harvardyearright , `{NeuTra}-lizing bad
+  geometry in {Hamiltonian Monte Carlo} using neural transport', {\em arXiv
+  preprint arXiv:1903.03704} .
+
+\harvarditem[Lam et~al.]{Lam, Hu, Zhang \harvardand\ Ni}{2019}{LamHu2019}
+Lam, H.-F., Hu, J., Zhang, F.-L. \harvardand\ Ni, Y.-Q.  \harvardyearleft
+  2019\harvardyearright , `{Markov} chain {Monte Carlo}-based {Bayesian} model
+  updating of a sailboat-shaped building using a parallel technique', {\em
+  Engineering Structures} {\bf 193},~12--27.
+
+\harvarditem{Massart}{1990}{Massart1990}
+Massart, P.  \harvardyearleft 1990\harvardyearright , `The tight constant in
+  the {Dvoretzky--Kiefer--Wolfowitz} inequality', {\em Annals of Probability}
+  {\bf 18}(3),~1269--1283.
+
+\harvarditem{Mengersen \harvardand\ Tweedie}{1996}{MengersenTweedie1996}
+Mengersen, K.~L. \harvardand\ Tweedie, R.~L.  \harvardyearleft
+  1996\harvardyearright , `Rates of convergence of the {Hastings} and
+  {Metropolis} algorithms', {\em Annals of Statistics} {\bf 24}(1),~101--121.
+
+\harvarditem[Papamakarios et~al.]{Papamakarios, Nalisnick, Rezende, Mohamed
+  \harvardand\ Lakshminarayanan}{2021}{Papamakarios2021}
+Papamakarios, G., Nalisnick, E., Rezende, D.~J., Mohamed, S. \harvardand\
+  Lakshminarayanan, B.  \harvardyearleft 2021\harvardyearright , `Normalizing
+  flows for probabilistic modeling and inference', {\em Journal of Machine
+  Learning Research} {\bf 22}(57),~1--64.
+
+\harvarditem{Parno \harvardand\ Marzouk}{2018}{ParnoMarzouk2018}
+Parno, M.~D. \harvardand\ Marzouk, Y.~M.  \harvardyearleft
+  2018\harvardyearright , `Transport map accelerated {Markov} chain {Monte
+  Carlo}', {\em SIAM/ASA Journal on Uncertainty Quantification} {\bf
+  6}(2),~645--682.
+
+\harvarditem{Rezende \harvardand\ Mohamed}{2015}{Rezende2015}
+Rezende, D.~J. \harvardand\ Mohamed, S.  \harvardyearleft 2015\harvardyearright
+  , Variational inference with normalizing flows, {\em in} `Proceedings of the
+  32nd International Conference on Machine Learning (ICML)', pp.~1530--1538.
+
+\harvarditem{Rosenthal}{1995}{Rosenthal1995}
+Rosenthal, J.~S.  \harvardyearleft 1995\harvardyearright , `Minorization
+  conditions and convergence rates for {Markov} chain {Monte Carlo}', {\em
+  Journal of the American Statistical Association} {\bf 90}(430),~558--566.
+
+\harvarditem[Street et~al.]{Street, Wolberg \harvardand\
+  Mangasarian}{1993}{StreetWolbergMangasarian1993}
+Street, W.~N., Wolberg, W.~H. \harvardand\ Mangasarian, O.~L.  \harvardyearleft
+  1993\harvardyearright , `Nuclear feature extraction for breast tumor
+  diagnosis', {\em Proceedings of SPIE} {\bf 1905},~861--870.
+
+\harvarditem{Tierney}{1994}{Tierney1994}
+Tierney, L.  \harvardyearleft 1994\harvardyearright , `Markov chains for
+  exploring posterior distributions', {\em Annals of Statistics} {\bf
+  22}(4),~1701--1728.
+
+\harvarditem[Vats et~al.]{Vats, Flegal \harvardand\ Jones}{2019}{Vats2019}
+Vats, D., Flegal, J.~M. \harvardand\ Jones, G.~L.  \harvardyearleft
+  2019\harvardyearright , `Multivariate output analysis for {Markov} chain
+  {Monte Carlo}', {\em Biometrika} {\bf 106}(2),~321--337.
+
+\harvarditem[Vehtari et~al.]{Vehtari, Gelman, Simpson, Carpenter \harvardand\
+  B\"{u}rkner}{2021}{Vehtari2021}
+Vehtari, A., Gelman, A., Simpson, D., Carpenter, B. \harvardand\ B\"{u}rkner,
+  P.-C.  \harvardyearleft 2021\harvardyearright , `Rank-normalization, folding,
+  and localization: An improved {$\widehat{R}$} for assessing convergence of
+  {MCMC}', {\em Bayesian Analysis} {\bf 16}(2),~667--718.
+
+\harvarditem[Wong et~al.]{Wong, Gabri\'{e} \harvardand\
+  Foreman-Mackey}{2023}{Wong2023flowMC}
+Wong, K. W.~K., Gabri\'{e}, M. \harvardand\ Foreman-Mackey, D.
+  \harvardyearleft 2023\harvardyearright , `{flowMC}: Normalizing-flow enhanced
+  sampling package for probabilistic inference in {JAX}', {\em Journal of Open
+  Source Software} {\bf 8}(83),~5021.
+
+\end{thebibliography}

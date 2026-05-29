@@ -1,0 +1,66 @@
+{
+  "dataset": {
+    "name": "Pima Indians Diabetes",
+    "source": "UCI via OpenML",
+    "reference": "Smith et al. (1988)",
+    "n": 768,
+    "D": 8,
+    "balance": 0.3489583432674408
+  },
+  "hparams": {
+    "n_layers": 10,
+    "hidden_dim": 64,
+    "n_train": 5000,
+    "n_epochs": 2000,
+    "n_cert": 50000,
+    "n_warmup": 2000,
+    "step_size": 0.005,
+    "thin": 3
+  },
+  "tau": 5.0,
+  "accept": 0.97,
+  "ess_ratio": 1.0,
+  "std_r": 0.07286126166582108,
+  "full_osc": 2.25341796875,
+  "v1_gamma": 0.015453566546147013,
+  "quantiles": {
+    "0.005": {
+      "feasible": false
+    },
+    "0.01": {
+      "feasible": true,
+      "c_formal": 0.522216796875,
+      "gamma_core": 0.7446680374243825,
+      "mu_core": 0.99212,
+      "pi_hat": 0.9914178252220154
+    },
+    "0.025": {
+      "feasible": true,
+      "c_formal": 0.296356201171875,
+      "gamma_core": 0.8528969615968809,
+      "mu_core": 0.96212,
+      "pi_hat": 0.9608675241470337
+    },
+    "0.05": {
+      "feasible": true,
+      "c_formal": 0.219696044921875,
+      "gamma_core": 0.8905916856283596,
+      "mu_core": 0.91226,
+      "pi_hat": 0.910629153251648
+    },
+    "0.1": {
+      "feasible": true,
+      "c_formal": 0.161834716796875,
+      "gamma_core": 0.919258785627825,
+      "mu_core": 0.81222,
+      "pi_hat": 0.8102758526802063
+    },
+    "0.25": {
+      "feasible": true,
+      "c_formal": 0.08282470703125,
+      "gamma_core": 0.9586113040833057,
+      "mu_core": 0.51222,
+      "pi_hat": 0.5105045437812805
+    }
+  }
+}

@@ -1,0 +1,56 @@
+C:\CerT-MCMC-v2\experiments\benchmark_logreg_realdata.py:16: SyntaxWarning: invalid escape sequence '\C'
+  cd C:\CerT-MCMC-v2\experiments
+Device: cuda
+
+  Loading: heart
+  DEBUG: y dtype=object, unique values=['absent' 'present']
+  DEBUG: y.mean()=0.4444, sum(y)=120, n=270
+  Heart Disease (UCI Statlog): n=270, D=14, balance=0.44
+
+======================================================================
+  REAL-DATA LOGISTIC REGRESSION: Heart Disease (UCI Statlog)
+  D=14, n_obs=270, tau=5.0
+  Flow: 14 layers, 112 hidden
+  Training: 8000 epochs, 30000 MALA samples
+  Cert: 200,000 samples
+======================================================================
+    MALA: n=30000, warmup=5000, step=0.005, thin=5
+      Step 50000, 22s
+      Step 100000, 46s
+      Step 150000, 71s
+    Done. Accept=0.942, shape=torch.Size([30000, 14]), 73s
+    [ 1600/8000] NLL=-1.724 | 78s
+    [ 3200/8000] NLL=-1.476 | 150s
+    [ 4800/8000] NLL=-1.453 | 691s
+    [ 6400/8000] NLL=-1.515 | 1238s
+    [ 8000/8000] NLL=-1.467 | 1787s
+  Training: 1862s
+
+  Quantile diagnostic (200,000 samples)...
+  std(r)=0.1516, full_osc=3.1236
+
+  IMH (5000 samples)...
+  Accept=0.9160, ESS ratio=0.9282
+
+======================================================================
+  RESULTS ¡ª Heart Disease (UCI Statlog) (D=14)
+======================================================================
+  std(r)=0.1516, full_osc=3.1236
+  V1: C=8.3656, gamma=0.000465
+
+  rho         C_hat      gamma    mu(G)    pi(G)
+  ______________________________________________
+  0.005      1.2055   0.460981   0.9961   0.9949
+  0.010      0.9081   0.574763   0.9861   0.9836
+  0.025      0.6472   0.687241   0.9561   0.9517
+  0.050      0.4897   0.759928   0.9061   0.9000
+  0.100      0.3477   0.827861   0.8061   0.7989
+  0.250      0.1643   0.918016   0.5061   0.5001
+
+  Accept=0.9160, ESS ratio=0.9282
+
+  VERDICT:
+  *** SUCCESS: gamma_01=0.5748, accept=0.9160
+  *** This can be a JASA main real-data experiment!
+
+  Saved: results_v2\real_logreg_heart.json

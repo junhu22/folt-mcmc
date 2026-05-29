@@ -1,0 +1,71 @@
+{
+  "dataset": {
+    "name": "Heart Disease (UCI Statlog)",
+    "source": "UCI via OpenML",
+    "reference": "Detrano et al. (1989)",
+    "D": 13,
+    "intercept": false,
+    "n": 270,
+    "balance": 0.4444444477558136
+  },
+  "hparams": {
+    "n_layers": 13,
+    "hidden_dim": 104,
+    "n_train": 30000,
+    "n_epochs": 8000,
+    "n_cert": 200000,
+    "n_warmup": 5000,
+    "step_size": 0.005,
+    "thin": 5
+  },
+  "tau": 5.0,
+  "accept": 0.9368,
+  "ess_ratio": 0.8248838782310486,
+  "std_r": 0.1267072707414627,
+  "full_osc": 2.8753814697265625,
+  "v1_gamma": 0.001730703351218773,
+  "quantiles": {
+    "0.005": {
+      "feasible": true,
+      "c_formal": 1.0314407348632812,
+      "gamma_core": 0.5256097660354782,
+      "mu_core": 0.99607,
+      "pi_hat": 0.995247483253479
+    },
+    "0.01": {
+      "feasible": true,
+      "c_formal": 0.7637939453125,
+      "gamma_core": 0.6356462539319815,
+      "mu_core": 0.98607,
+      "pi_hat": 0.9842790365219116
+    },
+    "0.025": {
+      "feasible": true,
+      "c_formal": 0.5438461303710938,
+      "gamma_core": 0.734586657550211,
+      "mu_core": 0.956075,
+      "pi_hat": 0.9528060555458069
+    },
+    "0.05": {
+      "feasible": true,
+      "c_formal": 0.40944671630859375,
+      "gamma_core": 0.7980895912375543,
+      "mu_core": 0.90607,
+      "pi_hat": 0.9016278386116028
+    },
+    "0.1": {
+      "feasible": true,
+      "c_formal": 0.28751373291015625,
+      "gamma_core": 0.8572253101544859,
+      "mu_core": 0.80607,
+      "pi_hat": 0.8008576035499573
+    },
+    "0.25": {
+      "feasible": true,
+      "c_formal": 0.13414764404296875,
+      "gamma_core": 0.9330265833825844,
+      "mu_core": 0.506115,
+      "pi_hat": 0.5019173622131348
+    }
+  }
+}

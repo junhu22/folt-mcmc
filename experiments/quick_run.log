@@ -1,0 +1,52 @@
+C:\CerT-MCMC-v2\experiments\benchmark_logreg_realdata.py:16: SyntaxWarning: invalid escape sequence '\C'
+  cd C:\CerT-MCMC-v2\experiments
+Device: cuda
+
+  Loading: heart
+  DEBUG: y dtype=object, unique values=['absent' 'present']
+  DEBUG: y.mean()=0.4444, sum(y)=120, n=270
+  Heart Disease (UCI Statlog): n=270, D=14, balance=0.44
+
+======================================================================
+  REAL-DATA LOGISTIC REGRESSION: Heart Disease (UCI Statlog)
+  D=14, n_obs=270, tau=5.0
+  Flow: 14 layers, 112 hidden
+  Training: 2000 epochs, 5000 MALA samples
+  Cert: 50,000 samples
+======================================================================
+    MALA: n=5000, warmup=2000, step=0.005, thin=3
+    Done. Accept=0.941, shape=torch.Size([5000, 14]), 6s
+    [  400/2000] NLL=-1.393 | 28s
+    [  800/2000] NLL=-1.496 | 44s
+    [ 1200/2000] NLL=-1.631 | 92s
+    [ 1600/2000] NLL=-1.527 | 139s
+    [ 2000/2000] NLL=-1.488 | 187s
+  Training: 195s
+
+  Quantile diagnostic (50,000 samples)...
+  std(r)=0.2160, full_osc=4.0175
+
+  IMH (2000 samples)...
+  Accept=0.8820, ESS ratio=0.8250
+
+======================================================================
+  RESULTS ¡ª Heart Disease (UCI Statlog) (D=14)
+======================================================================
+  std(r)=0.2160, full_osc=4.0175
+  V1: C=10.1270, gamma=0.000080
+
+  rho         C_hat      gamma    mu(G)    pi(G)
+  ______________________________________________
+  0.010      1.3730   0.404271   0.9921   0.9879
+  0.025      0.9266   0.567246   0.9621   0.9521
+  0.050      0.7099   0.659239   0.9121   0.8977
+  0.100      0.5240   0.743844   0.8121   0.7941
+  0.250      0.2669   0.867315   0.5122   0.4964
+
+  Accept=0.8820, ESS ratio=0.8250
+
+  VERDICT:
+  *** SUCCESS: gamma_01=0.4043, accept=0.8820
+  *** This can be a JASA main real-data experiment!
+
+  Saved: results_v2\real_logreg_heart.json
