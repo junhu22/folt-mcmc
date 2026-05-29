@@ -1,0 +1,29 @@
+Device: cuda  (QUICK=False)
+Data: real typhoon window (id=52, trace_of_15ch_cross_psd)
+  51 PSD ordinates in [0.703, 1.094] Hz, df=0.0078 Hz, peak/floor=160
+
+Generating 50000 training samples (ensemble RW-MH on sorted posterior)...
+  done in 1s
+  whitening: freq~N(0.881,0.099), xi~N(0.0228,0.0144)
+
+  ---- pipeline [unfolded] (D=6) ----
+    trained 2500 epochs in 416s, NLL=4.617
+    full_osc=37.870  gamma_core(rho=0.05)=9.892e-06  accept=0.204  ESS/sample=0.0590  (n_valid=18608)
+
+  ---- pipeline [folded] (D=6) ----
+    trained 2500 epochs in 359s, NLL=0.958
+    full_osc=30.574  gamma_core(rho=0.05)=0.001777  accept=0.371  ESS/sample=0.0804  (n_valid=16971)
+
+==========================================================================
+  STRUCTURAL MODAL ID  (k=3, p=2, D=6, 3!=6)
+==========================================================================
+  Method        QC gamma(0.05)    Accept   ESS/sample   Wall(s)
+  Unfolded              0.0000     0.204       0.0590      0.05
+  FolT-MCMC             0.0018     0.371       0.0804      0.06
+
+  label-switch rate:  unfolded=0.170   folded=0.000
+  posterior freqs (Hz, sorted): [0.8037 0.8376 0.8732]
+  Paper-4 nominal cluster:      [0.8516 0.8906 0.9258]
+  gamma improvement: 179.65x
+
+  outputs -> C:\FolT-MCMC\experiments\results
