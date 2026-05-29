@@ -79,9 +79,14 @@ class PermutationFold(FoldingMap):
     """
 
     def __init__(self, n_components: int, block_size: int, sort_param_idx: int = 0):
+        import math
+        from itertools import permutations
         self.n_components = n_components
         self.block_size = block_size
         self.sort_param_idx = sort_param_idx
+        # Enumerate the k! permutations once; branch j applies self.perms[j].
+        self.perms = list(permutations(range(n_components)))
+        self._n_branches = math.factorial(n_components)
 
     def fold(self, theta: torch.Tensor) -> torch.Tensor:
         batch = theta.shape[0]
@@ -93,14 +98,22 @@ class PermutationFold(FoldingMap):
         return sorted_blocks.view(batch, -1)
 
     def unfold(self, z: torch.Tensor, branch: int = 0) -> torch.Tensor:
-        # branch indexes a permutation; 0 = identity (sorted order)
-        # For full implementation, enumerate permutations
-        # Placeholder: only branch=0 implemented
-        return z.clone()
+        """Reorder the (sorted) component blocks of z by permutation `branch`.
+
+        branch indexes self.perms (0 = identity / sorted order). The j-th
+        permutation sigma is applied to the component blocks: output block i
+        is input block sigma[i]. Choosing branch uniformly in 0..k!-1 inverts
+        the fold by mapping a sorted z to one of its k! preimages.
+        """
+        perm = self.perms[branch]
+        batch = z.shape[0]
+        blocks = z.view(batch, self.n_components, self.block_size)
+        idx = torch.tensor(perm, device=z.device)
+        permuted = blocks.index_select(1, idx)
+        return permuted.reshape(batch, -1)
 
     def n_branches(self) -> int:
-        import math
-        return math.factorial(self.n_components)
+        return self._n_branches
 
     def log_det_fold(self, theta: torch.Tensor) -> torch.Tensor:
         return torch.zeros(theta.shape[0], device=theta.device)
