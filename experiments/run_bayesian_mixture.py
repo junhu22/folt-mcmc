@@ -65,7 +65,7 @@ DIM = K * P
 SEED = 0
 
 # True data-generating parameters.
-W_TRUE = [0.35, 0.40, 0.25]
+W_TRUE = [1.0/3, 1.0/3, 1.0/3]
 MU_TRUE = [0.0, 3.0, 6.0]
 SIG_TRUE = [0.8, 1.0, 0.7]
 N_DATA = 500

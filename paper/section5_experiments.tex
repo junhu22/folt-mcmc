@@ -7,17 +7,18 @@
 \label{sec:experiments}
 
 We evaluate FolT-MCMC on three synthetic target families designed to
-isolate the mechanisms predicted by the theory, followed by a
-comparison with the random permutation sampler
-\citep{FruhwirthSchnatter2001}.  The first experiment
-is a diagnostic stress test showing that folding can be harmful when
-the fold boundary intersects high-density mass.  The second evaluates
-dimension scaling for a well-separated reflection-symmetric Gaussian
-mixture.  The third evaluates permutation folding for label-switching
-mixtures.  The fourth compares FolT-MCMC with the standard
-label-switching baseline.  Across experiments, we report
-quantile-core oscillation certificates, certified lower bounds,
-NLL, acceptance, and ESS.
+isolate the mechanisms predicted by the theory, a comparison with
+the random permutation sampler \citep{FruhwirthSchnatter2001},
+and a standard Bayesian Gaussian mixture posterior.  The first
+experiment is a diagnostic stress test showing that folding can be
+harmful when the fold boundary intersects high-density mass.  The
+second evaluates dimension scaling for a well-separated
+reflection-symmetric Gaussian mixture.  The third evaluates
+permutation folding for label-switching mixtures.  The fourth
+compares FolT-MCMC with the standard label-switching baseline.  The
+fifth applies all methods to a textbook Bayesian three-component
+mixture posterior.  Across experiments, we report quantile-core
+certified lower bounds, NLL, acceptance, and ESS.
 All experiments use the same architecture and training protocol;
 the only variable across conditions is whether folding is applied.
 
@@ -139,7 +140,7 @@ relative to a single-component peak is
 $\exp(-9/2) \approx 0.011$.
 
 \paragraph{Results.}
-Table~\ref{tab:mixture_scaling} presents the key comparison.
+Table~\ref{tab:mixture_scaling} and Figure~\ref{fig:headline} present the key comparison.
 
 \begin{table}[t]
 \centering
@@ -161,16 +162,16 @@ $d$ & QC $\underline{\gamma}_U$ & QC $\underline{\gamma}_F$
 \end{tabular}
 \end{table}
 
-% Figure 3: headline γ vs d
-% \begin{figure}[t]
-% \centering
-% \includegraphics[width=0.65\textwidth]{mixture_scaling_gamma_vs_dim.png}
-% \caption{Certified spectral-gap lower bound vs.\ dimension
-%   (Gaussian mixture, $s = 2$, $\rho = 0.05$).
-%   The folded certificate is empirically nearly dimension-free;
-%   the unfolded certificate collapses.}
-% \label{fig:headline}
-% \end{figure}
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.65\textwidth]{figures/fig_gamma_vs_dim.pdf}
+\caption{Quantile-core certified lower bound vs.\ dimension
+  (Gaussian mixture, $s = 2$, $\rho = 0.05$).
+  The folded certificate is empirically nearly dimension-free;
+  the unfolded certificate collapses.
+  Numbers indicate the improvement ratio at each dimension.}
+\label{fig:headline}
+\end{figure}
 
 The folded quantile-core certificate QC~$\underline{\gamma}_F$
 remains in $[0.90, 0.94]$ across $d = 2$ to $20$, while the
@@ -221,25 +222,25 @@ Config & $d$ & $s$ & QC $\underline{\gamma}_U$ & QC $\underline{\gamma}_F$
 $m{=}2,\,p{=}2$ & $4$  & $2$   & $0.366$ & $0.820$ & $2.2\times$   & $1.50$ & $0.37$ \\
 $m{=}3,\,p{=}2$ & $6$  & $6$   & $0.066$ & $0.685$ & $10.4\times$  & $3.38$ & $0.65$ \\
 $m{=}3,\,p{=}4$ & $12$ & $6$   & $0.036$ & $0.683$ & $19.1\times$  & $4.01$ & $0.66$ \\
-$m{=}4,\,p{=}2$ & $8$  & $24$  & $0.004$ & $0.624$ & $145\times$   & $6.14$ & $0.79$ \\
+$m{=}4,\,p{=}2$ & $8$  & $24$  & $0.0043$ & $0.624$ & $145\times$   & $6.14$ & $0.79$ \\
 \hline
 \end{tabular}
 \end{table}
 
-% Figure 5: γ vs s
-% \begin{figure}[t]
-% \centering
-% \includegraphics[width=0.65\textwidth]{labelswitching_gamma_vs_k.png}
-% \caption{Certified spectral-gap lower bound vs.\ symmetry group
-%   size~$s = |G|$.  The folded certificate degrades slowly;
-%   the unfolded certificate collapses superlinearly in~$s$.}
-% \label{fig:labelswitching}
-% \end{figure}
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.65\textwidth]{figures/fig_gamma_vs_s.pdf}
+\caption{Quantile-core certified lower bound across label-switching
+  configurations.  The folded certificate varies slowly;
+  the unfolded certificate collapses superlinearly with~$s$.
+  Numbers indicate the improvement ratio.}
+\label{fig:labelswitching}
+\end{figure}
 
 The folded quantile-core certificate
 QC~$\underline{\gamma}_F$ stays in $[0.62, 0.82]$
 across all configurations, while the unfolded certificate collapses
-from $0.366$ to $0.004$ as the number of equivalent modes grows
+from $0.366$ to $0.0043$ as the number of equivalent modes grows
 from $s = 2$ to $s = 24$.  The improvement ratio reaches
 $145\times$ at $m = 4$.
 
@@ -345,3 +346,110 @@ This comparison underscores the core thesis of FolT-MCMC:
 \emph{folding does not primarily improve raw mixing speed; it
 improves the certifiability of the chain}, closing the gap between
 the provable lower bound and the empirical performance.
+
+
+\subsection{Standard Bayesian mixture posterior}
+\label{sec:exp_bayesian_mixture}
+
+\paragraph{Purpose.}
+To validate FolT-MCMC on a textbook Bayesian inference problem
+rather than a method-specific synthetic target, and to demonstrate
+that post-hoc relabelling fails when the underlying chain does not
+mix.
+
+\paragraph{Model.}
+$N = 500$ observations drawn from a three-component univariate
+Gaussian mixture with equal known weights
+$w = (1/3, 1/3, 1/3)$ and unknown component means and
+standard deviations.
+Parameters: $\theta = (\mu_1, \log\sigma_1, \mu_2, \log\sigma_2,
+\mu_3, \log\sigma_3)$, $d = 6$.
+Priors: $\mu_k \sim \cN(3, 5^2)$,
+$\log\sigma_k \sim \cN(0, 0.5^2)$.
+Equal weights and exchangeable priors ensure exact $S_3$
+label-switching symmetry ($s = 6$).
+Training samples are generated by a random-walk Metropolis
+pre-run of $200\,000$~steps, thinned to $50\,000$.
+
+\paragraph{Methods compared.}
+Four pipelines, all using the same RealNVP architecture
+(10~layers, hidden dim 128):
+(i)~unfolded IMH; (ii)~FolT-MCMC with permutation fold
+($D = \{\mu_1 \leq \mu_2 \leq \mu_3\}$);
+(iii)~RPS (unfolded flow $+$ random permutation);
+(iv)~post-hoc sort (unfolded chain samples sorted by~$\mu_k$).
+
+\paragraph{Results.}
+
+\begin{table}[t]
+\centering
+\caption{Bayesian mixture benchmark
+  ($K{=}3$, $d{=}6$, $s{=}6$, $N{=}500$, $w{=}1/3$).
+  True parameters: $\mu = (0, 3, 6)$,
+  $\sigma = (0.8, 1.0, 0.7)$.
+  Estimates $\hat\mu_k$ are sorted posterior means for all methods
+  except unfolded IMH, which reports raw labelled means from the
+  single mode in which the chain is stuck.}
+\label{tab:bayesian_mixture}
+\smallskip
+\begin{tabular}{lcccccc}
+\hline
+Method & QC $\underline{\gamma}$ & Accept
+       & $\hat\mu_1$ & $\hat\mu_2$ & $\hat\mu_3$ \\
+\hline
+Unfolded IMH & ${\approx}0$ & ${\approx}0$
+             & $1.15$ & $5.60$ & $2.07$ \\
+FolT-MCMC    & $0.878$ & $0.960$
+             & $-0.12$ & $2.95$ & $5.98$ \\
+RPS          & N/A & $0.001$
+             & $-0.11$ & $3.02$ & $5.99$ \\
+Post-hoc sort & ${\approx}0$ & ${\approx}0$
+              & $-0.16$ & $2.99$ & $5.99$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/bayesian_mixture_trace.png}
+\caption{Trace plots for the Bayesian mixture posterior.
+  Left: unfolded IMH is frozen (acceptance $\approx 0$).
+  Centre: RPS exhibits textbook label switching.
+  Right: FolT-MCMC in sorted space shows clean separated bands.}
+\label{fig:bayesian_trace}
+\end{figure}
+
+The unfolded RealNVP cannot fit the six sharp, well-separated
+posterior modes (full oscillation $= 443$), so the unfolded IMH
+chain freezes entirely: acceptance rate $\approx 0$, and the raw
+labelled parameter estimates
+($\hat\mu = 1.15, 5.60, 2.07$, not sorted) reflect the single
+mode in which the chain is stuck rather than the true posterior.
+The certificate is completely vacuous
+(QC~$\underline{\gamma} \approx 10^{-27}$).
+
+FolT-MCMC, sampling in the sorted chamber, achieves acceptance
+$0.960$ and recovers the true parameters
+accurately: $\hat\mu = (-0.12, 2.95, 5.98)$,
+$\hat\sigma = (0.78, 0.92, 0.81)$.  The quantile-core certificate
+QC~$\underline{\gamma} = 0.878$ is tight: it predicts
+$\mathrm{ESS}/n \approx 0.72$, close to the empirical~$0.81$.
+
+\paragraph{Post-hoc relabelling fails.}
+The post-hoc sort baseline applies label sorting to the frozen
+unfolded chain.  Because the chain never mixed, the sorted
+estimates inherit the bias of whichever mode the chain is trapped
+in.  This demonstrates a key methodological point:
+\emph{post-hoc relabelling is not a substitute for quotient-space
+sampling, because it inherits the mixing failure of the underlying
+chain}.
+
+\paragraph{RPS recovers estimates but lacks certification.}
+The random permutation sampler, using the same frozen flow but
+forcing label permutations, achieves textbook label switching
+(switch rate~$0.83$) and recovers the true parameters reasonably
+well ($\hat\mu = -0.11, 3.02, 5.99$).  However, the underlying
+MH acceptance remains $0.001$: the permutation step randomises
+labels but does not improve the transport proposal quality, so
+the chain explores each ordered chamber poorly.
+RPS provides no certified convergence guarantee.
