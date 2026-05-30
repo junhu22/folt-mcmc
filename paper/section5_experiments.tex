@@ -7,13 +7,17 @@
 \label{sec:experiments}
 
 We evaluate FolT-MCMC on three synthetic target families designed to
-isolate the mechanisms predicted by the theory.  The first experiment
+isolate the mechanisms predicted by the theory, followed by a
+comparison with the random permutation sampler
+\citep{FruhwirthSchnatter2001}.  The first experiment
 is a diagnostic stress test showing that folding can be harmful when
 the fold boundary intersects high-density mass.  The second evaluates
 dimension scaling for a well-separated reflection-symmetric Gaussian
 mixture.  The third evaluates permutation folding for label-switching
-mixtures.  Across experiments, we report quantile-core oscillation
-certificates, certified lower bounds, NLL, acceptance, and ESS.
+mixtures.  The fourth compares FolT-MCMC with the standard
+label-switching baseline.  Across experiments, we report
+quantile-core oscillation certificates, certified lower bounds,
+NLL, acceptance, and ESS.
 All experiments use the same architecture and training protocol;
 the only variable across conditions is whether folding is applied.
 
@@ -271,19 +275,73 @@ $\mathrm{ESS/sample} = 0.85$).
 
 % ──────────────────────────────────────────────────────────────
 % Section 5.5: Baseline comparison
-% [To be completed after Phase 5 experiment]
 % ──────────────────────────────────────────────────────────────
 
-% \subsection{Comparison with random permutation sampler}
-% \label{sec:exp_baseline}
-%
-% \paragraph{Purpose.}
-% To compare FolT-MCMC with the most widely used label-switching
-% mitigation: the random permutation sampler of
-% \citet{FruhwirthSchnatter2001}.
-%
-% \paragraph{Target.}
-% $m = 3$ Gaussian mixture ($d = 6$, $s = 6$).
-%
-% \paragraph{Results.}
-% [Table 5: ESS, mixing time, acceptance rate comparison]
+\subsection{Comparison with random permutation sampler}
+\label{sec:exp_baseline}
+
+\paragraph{Purpose.}
+To compare FolT-MCMC with the random permutation sampler
+(RPS) of \citet{FruhwirthSchnatter2001}, the most widely used
+label-switching mitigation in Bayesian mixture modelling.
+
+\paragraph{Setup.}
+All three methods use the $m = 3$, $p = 2$ label-switching target
+($d = 6$, $s = 6$) from Section~\ref{sec:exp_labelswitching}.
+The unfolded IMH and RPS share the same trained flow as proposal;
+RPS additionally applies a random component-label permutation
+after each MH accept/reject step.
+FolT-MCMC uses its own folded flow in the sorted chamber.
+Chains: $4 \times 10\,000$ steps, burn-in $2\,000$.
+To ensure a fair mixing comparison, we report ESS after projecting
+all samples into the sorted fundamental domain.
+
+\paragraph{Results.}
+
+\begin{table}[t]
+\centering
+\caption{Baseline comparison ($m = 3$, $d = 6$, $s = 6$).
+  Sorted ESS is computed after projecting all samples into the
+  sorted chamber.}
+\label{tab:baseline}
+\smallskip
+\begin{tabular}{lcccc}
+\hline
+Method & Sorted ESS\,/\,sample & Acceptance & Time (s)
+       & QC $\underline{\gamma}$ \\
+\hline
+Unfolded IMH & $0.607$ & $0.622$ & $0.07$ & $0.066$ \\
+FolT-MCMC    & $0.540$ & $0.881$ & $0.07$ & $0.685$ \\
+RPS          & $0.482$ & $0.612$ & $682.8$ & N/A \\
+\hline
+\end{tabular}
+\end{table}
+
+The sorted ESS per sample is comparable across all three methods
+($0.48$--$0.61$), well within the variance of the batch-means
+estimator.  This is expected: all three use a global independence
+proposal from a well-trained flow that already covers all six
+modes, so no chain gets stuck in a single mode---the setting where
+RPS was designed to help \citep{FruhwirthSchnatter2001}.
+RPS incurs a large wall-clock overhead in our implementation
+($682.8$\,s vs.\ $0.07$\,s), because the per-sample permutation
+step is not batched.
+
+The real differentiator is the certified guarantee.
+FolT-MCMC's certificate QC~$\underline{\gamma} = 0.685$ predicts
+$\mathrm{ESS}/n \approx \gamma/(2-\gamma) = 0.52$, matching the
+empirical $0.54$---a tight certificate.
+The unfolded certificate QC~$\underline{\gamma} = 0.066$ predicts
+$\mathrm{ESS}/n \approx 0.034$, far below the empirical $0.61$:
+the certificate is valid but loose, reflecting worst-case
+cross-mode oscillation that did not materialise on this particular
+run.
+For RPS, we do not have an LCNF/Mengersen--Tweedie certificate:
+its composite IMH-plus-permutation kernel does not fit the
+independence-proposal minorisation structure underlying our
+certification framework.
+
+This comparison underscores the core thesis of FolT-MCMC:
+\emph{folding does not primarily improve raw mixing speed; it
+improves the certifiability of the chain}, closing the gap between
+the provable lower bound and the empirical performance.

@@ -71,12 +71,19 @@ With all three conditions verified, we state the folded certificate.
     \;\leq\; C_F
     \;=\; \widehat{\osc}_n^F + 2\,M_F\,\varepsilon_F^*.
   \end{equation}
-  The independence MH chain on~$D$ with proposal $q_F$ has spectral
-  gap at least
+  The resulting $\alpha$-HPD certified spectral-gap lower bound is
   \begin{equation}\label{eq:gamma_F}
-    \underline{\gamma}_F
+    \underline{\gamma}_{F,\alpha}
     \;\geq\; \frac{2}{1 + \exp(C_F)}.
   \end{equation}
+  This bounds the spectral gap of the independence MH chain
+  restricted to $\cK_\alpha^F$; for the full chain on~$D$,
+  $\underline{\gamma}_{F,\alpha}$ is a conservative certified lower
+  bound whose tightness depends on the tail behaviour of~$h_F$
+  outside $\cK_\alpha^F$.  In all experiments we report
+  quantile-core certificates (denoted
+  QC~$\underline{\gamma}$) at $\rho = 0.05$, following
+  \citet{CerTMCMC}.
 \end{theorem}
 
 \begin{proof}
@@ -246,9 +253,7 @@ comparison at the heart of FolT-MCMC.
   from above.
 
   \emph{Lower bound on $\widehat{\osc}_n$.}\;
-  On the primary mode, condition~(W) gives
-  $\osc_{\cK_\alpha^{(1)}}(h_U) \leq 2r_1$.
-  On any off-mode, condition~(M$'$) gives
+  Condition~(M$'$) gives, for any off-mode $j \neq 1$,
   $\inf_{\cK_\alpha^{(j)}} h_U \geq \sup_{\cK_\alpha^{(1)}} h_U
   + \Delta_j$.
   Therefore
@@ -309,8 +314,10 @@ We can now state the main comparison result.
     \frac{\underline{\gamma}_F}{\underline{\gamma}_U}
     \;=\;
     \frac{1 + \exp(C_U)}{1 + \exp(C_F)}
-    \;>\; 1.
+    \;>\; 1,
   \end{equation}
+  where $\underline{\gamma}_F$ and $\underline{\gamma}_U$ are the
+  respective HPD-core certified lower bounds.
 \end{theorem}
 
 \begin{proof}
@@ -327,8 +334,8 @@ We can now state the main comparison result.
   If $M_F\varepsilon_F^* > M_U\varepsilon_U^*$,
   condition~\eqref{eq:sufficient} gives
   $\Delta > 2(M_F\varepsilon_F^* - M_U\varepsilon_U^*)$, so again
-  $C_U - C_F > 0$.  The spectral-gap comparison follows from the
-  monotonicity of $C \mapsto 2/(1 + e^C)$.
+  $C_U - C_F > 0$.  The certified lower-bound comparison follows
+  from the monotonicity of $C \mapsto 2/(1 + e^C)$.
   The confidence level combines the three events via a union bound:
   the folded certificate (prob $\geq 1 - \delta_F$), the unfolded
   certificate ($\geq 1 - \delta_U$), and the oscillation-gap

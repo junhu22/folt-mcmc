@@ -1,0 +1,32 @@
+Device: cuda  (QUICK=False)
+Data: N=500 from 3-comp GMM  (true mu=[0.0, 3.0, 6.0], sig=[0.8, 1.0, 0.7], w=[0.35, 0.4, 0.25])
+
+Generating 50000 training samples (ensemble RW-MH on sorted posterior)...
+  done in 1s
+  whitening: mu~N(2.94,2.48), logsig~N(-0.138,0.150)
+
+  ---- pipeline [unfolded] (D=6) ----
+    trained 2000 epochs in 359s, NLL=10.683
+    full_osc=276.164  gamma_core=3.699e-10  accept=0.001  (n_valid=20000)
+
+  ---- pipeline [folded] (D=6) ----
+    trained 2000 epochs in 354s, NLL=-3.320
+    full_osc=3.729  gamma_core=0.844  accept=0.948  (n_valid=20000)
+
+  ---- pipeline [rps] (reuse unfolded flow) ----
+    accept=0.001  wall=412.1s
+
+============================================================================================
+  STANDARD BAYESIAN GMM BENCHMARK  (K=3, D=6, 3!=6; true mu=[0,3,6])
+============================================================================================
+  Method                QC gamma   Accept  ESS/samp   mu1(0.0)   mu2(3.0)   mu3(6.0)
+  Unfolded IMH (raw)      0.0000    0.001    0.0045      2.931      3.484      2.319
+  FolT-MCMC               0.8440    0.948    0.8202     -0.131      3.023      5.956
+  RPS               N/A (non-standard kernel)    0.001    0.5031     -0.027      3.153      5.683
+  Post-hoc sort           0.0000    0.001    0.0045     -0.030      3.070      5.693
+
+  label-switch rate:  unfolded=0.000  folded=0.000  rps=0.832
+  FolT sorted sigma est: [0.778 1.001 0.842] (true [0.8, 1.0, 0.7])
+  gamma improvement (folded/unfolded): 2281860461.6x
+
+  outputs -> C:\FolT-MCMC\experiments\results

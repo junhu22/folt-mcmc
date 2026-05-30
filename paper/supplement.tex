@@ -1,0 +1,669 @@
+% ══════════════════════════════════════════════════════════════
+%  FolT-MCMC Paper — Supplement
+% ══════════════════════════════════════════════════════════════
+%  \input{supplement}
+
+\appendix
+\renewcommand{\thesection}{\Alph{section}}
+
+\section{Complete proofs}
+\label{app:proofs}
+
+
+\subsection{Proof of Proposition~\ref{prop:hpd} (HPD identity)}
+\label{app:proof_hpd}
+
+\begin{proof}
+  Let $U(\theta) = -\log\pi(\theta) + \log Z_\pi$ denote the
+  potential of~$\pi$, where $Z_\pi$ is the normalising constant.
+  The folded potential is
+  $U_F(z) = -\log\pi_F(z) + \log Z_{\pi_F}
+  = -\log(s\pi(z)) + \log 1 = U(z) - \log s$,
+  using $Z_{\pi_F} = 1$ since $\pi_F$ integrates to one on~$D$.
+
+  \textbf{Part (i).}
+  We show that $U(Z_F)$ under $Z_F \sim \pi_F$ has the same
+  distribution as $U(\Theta)$ under $\Theta \sim \pi$.
+  For any Borel function $\varphi\colon \R \to [0,\infty)$,
+  the $G$-invariance of~$\pi$ and fundamental-domain decomposition
+  give
+  \begin{align}
+    \E_{\Theta \sim \pi}[\varphi(U(\Theta))]
+    &= \int_{\R^d} \varphi(U(\theta))\,\pi(\theta)\,\mathrm{d}\theta
+    \notag \\
+    &= \sum_{g \in G} \int_{gD}
+       \varphi(U(\theta))\,\pi(\theta)\,\mathrm{d}\theta
+    \notag \\
+    &= \sum_{g \in G} \int_D
+       \varphi(U(g \cdot z))\,\pi(g \cdot z)\,\mathrm{d}z
+       \qquad\text{(substituting $\theta = g \cdot z$, $|\det g| = 1$)}
+    \notag \\
+    &= s \int_D \varphi(U(z))\,\pi(z)\,\mathrm{d}z
+       \qquad\text{(since $U(g \cdot z) = U(z)$ and $\pi(g \cdot z) = \pi(z)$)}
+    \notag \\
+    &= \int_D \varphi(U(z))\,\pi_F(z)\,\mathrm{d}z
+    = \E_{Z_F \sim \pi_F}[\varphi(U(Z_F))].
+    \label{eq:U_equidist}
+  \end{align}
+  Since~\eqref{eq:U_equidist} holds for all non-negative
+  Borel~$\varphi$, the distributions of $U(\Theta)$ and $U(Z_F)$
+  coincide.  In particular, their $(1{-}\alpha)$-quantiles are
+  equal: the $(1{-}\alpha)$-quantile of $U(Z_F)$ is~$u_\alpha$.
+  Since $U_F(Z_F) = U(Z_F) - \log s$, the $(1{-}\alpha)$-quantile
+  of $U_F(Z_F)$ is $u_\alpha - \log s =: u_\alpha^F$.
+
+  \textbf{Part (ii).}
+  \begin{align*}
+    \cK_\alpha^F
+    &= \{z \in D : U_F(z) \leq u_\alpha^F\}
+    = \{z \in D : U(z) - \log s \leq u_\alpha - \log s\} \\
+    &= \{z \in D : U(z) \leq u_\alpha\}
+    = \cK_\alpha \cap D. \qedhere
+  \end{align*}
+\end{proof}
+
+
+\subsection{Proof of Corollary~\ref{cor:hpd_geometry}}
+\label{app:proof_hpd_cor}
+
+\begin{proof}
+  \textbf{Part (a).}
+  Since $\cK_\alpha^F = \cK_\alpha \cap D \subseteq \cK_\alpha$,
+  we have $\diam(\cK_\alpha^F) \leq \diam(\cK_\alpha)$.
+
+  \textbf{Part (b).}
+  \[
+    \pi_{\min}^F
+    = \inf_{z \in \cK_\alpha^F} \pi_F(z)
+    = s \cdot \inf_{z \in \cK_\alpha \cap D} \pi(z).
+  \]
+  Since $\cK_\alpha \cap D \subseteq \cK_\alpha$,
+  $\inf_{\cK_\alpha \cap D} \pi \geq \inf_{\cK_\alpha} \pi
+  = \pi_{\min}$,
+  so $\pi_{\min}^F \geq s\,\pi_{\min}$.
+
+  When $\pi$ is $G$-invariant and all orbits in $\cK_\alpha$
+  have a representative in~$D$ (which holds by definition of a
+  fundamental domain), the $G$-invariance implies that
+  $\operatorname{ess\,inf}_{\cK_\alpha \cap D} \pi
+  = \operatorname{ess\,inf}_{\cK_\alpha} \pi$,
+  giving $\pi_{\min}^F = s\,\pi_{\min}$ in the essential-infimum
+  sense.
+\end{proof}
+
+
+\subsection{Proof of Lemma~\ref{lem:lip_quotient}
+  (quotient Lipschitz constant)}
+\label{app:proof_lip}
+
+\begin{proof}
+  The extended log-density ratio on~$\R^d$ is
+  \[
+    h_F(\theta)
+    = \log\bigl(s\,\pi(\theta)\bigr)
+    - \log\!\Bigl(\sum_{g \in G} q_{T_F}(g \cdot \theta)\Bigr).
+  \]
+  Both $\pi$ and $\theta \mapsto \sum_g q_{T_F}(g \cdot \theta)$
+  are $G$-invariant, so $h_F(g \cdot \theta) = h_F(\theta)$ for
+  all $g \in G$ and $\theta \in \R^d$.
+
+  Fix $x, y \in \cK_\alpha^F$ and an arbitrary $g \in G$.
+  The segment from $x$ to $g \cdot y$ has length
+  $\|x - g \cdot y\|$.  Since $d_G(x, y) \leq \|x - g \cdot y\|$
+  and $\cK_\alpha^F$ has diameter bounded by
+  $\diam(\cK_\alpha)$, the segment lies within the
+  $\varepsilon_F^*$-neighbourhood
+  $\cK_{\alpha,\varepsilon}^{G,+}
+  = \{w \in \R^d : d_G(w, \cK_\alpha^F) \leq \varepsilon_F^*\}$
+  provided $\|x - g \cdot y\| \leq \diam(\cK_\alpha^F)
+  + \varepsilon_F^*$, which holds for the minimising~$g$.
+  By the mean value theorem,
+  \[
+    |h_F(x) - h_F(g \cdot y)|
+    \;\leq\;
+    \sup_{w \in \cK_{\alpha,\varepsilon}^{G,+}}
+    \|\nabla h_F(w)\|
+    \;\cdot\;
+    \|x - g \cdot y\|
+    \;=\;
+    M_F \cdot \|x - g \cdot y\|.
+  \]
+  Using $h_F(g \cdot y) = h_F(y)$ (by $G$-invariance) and
+  minimising over $g \in G$:
+  \[
+    |h_F(x) - h_F(y)|
+    = |h_F(x) - h_F(g \cdot y)|
+    \leq M_F \cdot \min_{g \in G}\|x - g \cdot y\|
+    = M_F \cdot d_G(x, y).
+    \qedhere
+  \]
+\end{proof}
+
+
+\subsection{Proof of Theorem~\ref{thm:folded_cert}
+  (FolT-MCMC certificate)}
+\label{app:proof_cert}
+
+\begin{proof}
+  The proof instantiates \citet[Theorem~5.1]{LCNF} on the quotient
+  setting.  We verify that the three inputs required by that
+  theorem are available.
+
+  \textbf{Input 1: Covering number bound.}
+  Since $d_G(x,y) \leq \|x - y\|$, any Euclidean
+  $\varepsilon$-cover of $\cK_\alpha^F$ is also a
+  $d_G$-$\varepsilon$-cover.  The standard volumetric argument
+  gives
+  \[
+    \cN_G(\cK_\alpha^F, \varepsilon)
+    \leq \cN_E(\cK_\alpha^F, \varepsilon)
+    \leq \Bigl(\frac{2D_F}{\varepsilon} + 1\Bigr)^d,
+  \]
+  where $D_F = \diam(\cK_\alpha^F)$.
+
+  \textbf{Input 2: Ball-mass lower bound.}
+  Under Assumption~\ref{asm:generic_stab},
+  $|\mathrm{Stab}(z)| = 1$ for all $z \in \cK_\alpha^F$.
+  For such~$z$, the quotient ball
+  $B_G(z, \varepsilon) = \{z' : d_G(z, z') \leq \varepsilon\}$
+  corresponds in $\R^d$ to the union
+  $\bigcup_{g \in G}(B(g \cdot z, \varepsilon) \cap g \cdot D)$.
+  The $s$~pieces tile a full Euclidean ball (up to the
+  measure-zero boundaries $\partial(g \cdot D)$), so
+  $\Vol(B_G(z,\varepsilon)) = V_d\,\varepsilon^d$.  Therefore
+  \[
+    \pi_F(B_G(z,\varepsilon) \cap D)
+    \;\geq\;
+    \pi_{\min}^F \cdot V_d \cdot \varepsilon^d.
+  \]
+
+  \textbf{Input 3: Lipschitz interpolation.}
+  Lemma~\ref{lem:lip_quotient} gives
+  $|h_F(x) - h_F(y)| \leq M_F \cdot d_G(x,y)$.
+
+  Substituting these three inputs into
+  \citet[Theorem~5.1]{LCNF}, the covering condition
+  \[
+    \Bigl(\frac{D_F}{\varepsilon} + 1\Bigr)^d
+    \bigl(1 - \pi_{\min}^F\,V_d\,\varepsilon^d\bigr)^{n_{\mathrm{eff}}}
+    \leq \frac{\delta}{3}
+  \]
+  guarantees that with probability $\geq 1 - \delta$,
+  every point of $\cK_\alpha^F$ lies within $d_G$-distance
+  $\varepsilon_F^*$ of some certification sample.  The oscillation
+  bound follows:
+  \[
+    \osc_{\cK_\alpha^F}(h_F)
+    \leq \widehat{\osc}_n^F + 2 M_F \varepsilon_F^*.
+  \]
+  Applying the Mengersen--Tweedie inequality
+  \citep{MengersenTweedie1996} to the $\cK_\alpha^F$-restricted
+  oscillation yields the HPD-core certified lower bound
+  $\underline{\gamma}_{F,\alpha}
+  \geq 2/(1 + \exp(\widehat{\osc}_n^F + 2 M_F \varepsilon_F^*))$.
+\end{proof}
+
+
+\subsection{Proof of Theorem~\ref{thm:eps_improvement}
+  (covering radius improvement)}
+\label{app:proof_eps}
+
+\begin{proof}
+  Write the left-hand side of the covering condition as
+  \[
+    \Phi(D_K,\, \pi_{\min},\, \varepsilon)
+    \;=\;
+    \Bigl(\frac{D_K}{\varepsilon} + 1\Bigr)^d
+    \bigl(1 - \pi_{\min}\,V_d\,\varepsilon^d\bigr)^{n_{\mathrm{eff}}}.
+  \]
+
+  \textbf{Monotonicity in $D_K$.}
+  For fixed $\varepsilon$ and $\pi_{\min}$,
+  $\Phi$ is increasing in $D_K$
+  (the first factor $(D_K/\varepsilon + 1)^d$ increases).
+
+  \textbf{Monotonicity in $\pi_{\min}$.}
+  For fixed $\varepsilon$ and $D_K$,
+  $\Phi$ is decreasing in $\pi_{\min}$
+  (the base $1 - \pi_{\min}\,V_d\,\varepsilon^d$ decreases,
+  and since $n_{\mathrm{eff}} > 0$ and the base is in $(0,1)$,
+  the second factor decreases).
+
+  By Corollary~\ref{cor:hpd_geometry}:
+  (a)~$D_F = \diam(\cK_\alpha^F) \leq D_U = \diam(\cK_\alpha)$;
+  (b)~$\pi_{\min}^F \geq s\,\pi_{\min} \geq \pi_{\min}$.
+  Therefore, for every $\varepsilon > 0$,
+  \[
+    \Phi(D_F,\, \pi_{\min}^F,\, \varepsilon)
+    \;\leq\;
+    \Phi(D_U,\, \pi_{\min},\, \varepsilon).
+  \]
+  Since $\varepsilon_U^*$ satisfies
+  $\Phi(D_U, \pi_{\min}, \varepsilon_U^*) \leq \delta/3$,
+  we have
+  $\Phi(D_F, \pi_{\min}^F, \varepsilon_U^*) \leq \delta/3$.
+  By the minimality of $\varepsilon_F^*$ (smallest $\varepsilon$
+  satisfying the folded covering condition),
+  $\varepsilon_F^* \leq \varepsilon_U^*$.
+\end{proof}
+
+
+\subsection{Proof of Lemma~\ref{lem:osc_gap} (oscillation gap)}
+\label{app:proof_osc_gap}
+
+\begin{proof}
+  Let $h_U = \log\pi - \log q_U$ (unfolded log-density ratio)
+  and $h_F = \log\pi_F - \log q_F$ (folded log-density ratio).
+  We bound $\widehat{\osc}_n$ from below and
+  $\widehat{\osc}_n^F$ from above.
+
+  \textbf{Step 1: Lower bound on $\osc_{\cK_\alpha}(h_U)$.}
+  The HPD set decomposes into connected components
+  $\cK_\alpha = \bigcup_{j=1}^k \cK_\alpha^{(j)}$
+  (one per mode).  Condition~(M$'$) gives, for each $j \neq 1$,
+  \[
+    \inf_{\theta \in \cK_\alpha^{(j)}} h_U(\theta)
+    \;\geq\;
+    \sup_{\theta \in \cK_\alpha^{(1)}} h_U(\theta) + \Delta_j.
+  \]
+  Therefore
+  \begin{align*}
+    \osc_{\cK_\alpha}(h_U)
+    &\geq \sup_{\cK_\alpha^{(j)}} h_U
+           - \inf_{\cK_\alpha^{(1)}} h_U \\
+    &\geq \inf_{\cK_\alpha^{(j)}} h_U
+           - \inf_{\cK_\alpha^{(1)}} h_U \\
+    &\geq \bigl(\sup_{\cK_\alpha^{(1)}} h_U + \Delta_j\bigr)
+           - \inf_{\cK_\alpha^{(1)}} h_U
+    \;\geq\; \Delta_j.
+  \end{align*}
+  Taking the minimum over $j \neq 1$:
+  $\osc_{\cK_\alpha}(h_U) \geq \min_{j \neq 1} \Delta_j$.
+
+  The empirical oscillation $\widehat{\osc}_n$ is computed from
+  $n$~i.i.d.\ samples from~$\pi$.  By standard
+  extreme-value concentration (see, e.g.,
+  \citealt[Lemma~5.3]{LCNF}),
+  \[
+    \Prob\bigl(\osc_{\cK_\alpha}(h_U)
+    - \widehat{\osc}_n > t\bigr)
+    \leq 2\exp(-2nt^2/R^2)
+  \]
+  for a range parameter $R$.  Setting the right-hand side to
+  $\delta'/2$ gives
+  $\widehat{\osc}_n \geq \osc_{\cK_\alpha}(h_U) - c_n'$
+  with probability $\geq 1 - \delta'/2$, where
+  $c_n' = O(\sqrt{\log(2/\delta')/n})$.
+
+  \textbf{Step 2: Upper bound on $\osc_{\cK_\alpha^F}(h_F)$.}
+  For $z \in \cK_\alpha^F = \cK_\alpha^{(1)} \cap D$ (a.e.\
+  by Proposition~\ref{prop:hpd}),
+  \[
+    h_F(z)
+    = \log(s\,\pi(z)) - \log q_F(z)
+    = \underbrace{\bigl[\log(s\,\pi(z)) - \log q_{T_F}(z)\bigr]}_{=:\,\tilde{h}(z)}
+    \;-\;
+    \underbrace{\log\!\Bigl(1 + \frac{\sum_{g \neq e}
+    q_{T_F}(g \cdot z)}{q_{T_F}(z)}\Bigr)}_{=:\,\rho(z)}.
+  \]
+
+  By condition~(W),
+  $\osc_{\cK_\alpha^F}(\tilde{h}) \leq 2r_1$.
+
+  By condition~(R),
+  $|\rho(z)| \leq r_F$ for all $z \in \cK_\alpha^F$,
+  so $\osc_{\cK_\alpha^F}(\rho) \leq r_F$.
+
+  Since $h_F = \tilde{h} - \rho$,
+  \[
+    \osc_{\cK_\alpha^F}(h_F)
+    \leq \osc_{\cK_\alpha^F}(\tilde{h})
+    + \osc_{\cK_\alpha^F}(\rho)
+    \leq 2r_1 + r_F.
+  \]
+
+  By the same concentration argument,
+  $\widehat{\osc}_n^F \leq \osc_{\cK_\alpha^F}(h_F) + c_n''$
+  with probability $\geq 1 - \delta'/2$, where
+  $c_n'' = O(\sqrt{\log(2/\delta')/n})$.
+
+  \textbf{Step 3: Combining.}
+  By a union bound over the two concentration events
+  (probability $\geq 1 - \delta'$):
+  \begin{align*}
+    \widehat{\osc}_n - \widehat{\osc}_n^F
+    &\geq \bigl(\osc_{\cK_\alpha}(h_U) - c_n'\bigr)
+    - \bigl(\osc_{\cK_\alpha^F}(h_F) + c_n''\bigr) \\
+    &\geq \min_{j \neq 1}\Delta_j - (2r_1 + r_F) - (c_n' + c_n'')
+    \\
+    &= \min_{j \neq 1}\Delta_j - 2r_1 - r_F - c_n,
+  \end{align*}
+  where $c_n = c_n' + c_n'' = O(\sqrt{\log(2/\delta')/n})$.
+\end{proof}
+
+
+\subsection{Proof of Theorem~\ref{thm:gap_improvement}
+  (certified gap improvement)}
+\label{app:proof_gap}
+
+\begin{proof}
+  Write
+  \begin{align*}
+    C_U - C_F
+    &= \bigl(\widehat{\osc}_n + 2M_U\varepsilon_U^*\bigr)
+    - \bigl(\widehat{\osc}_n^F + 2M_F\varepsilon_F^*\bigr) \\
+    &= \bigl(\widehat{\osc}_n - \widehat{\osc}_n^F\bigr)
+    + 2\bigl(M_U\varepsilon_U^* - M_F\varepsilon_F^*\bigr).
+  \end{align*}
+
+  By Lemma~\ref{lem:osc_gap} (with probability
+  $\geq 1 - \delta'$),
+  $\widehat{\osc}_n - \widehat{\osc}_n^F \geq \Delta
+  := \min_j \Delta_j - 2r_1 - r_F - c_n$.
+
+  \textbf{Case 1:}
+  $M_F\varepsilon_F^* \leq M_U\varepsilon_U^*$.
+  Then $C_U - C_F \geq \Delta + 0 = \Delta > 0$
+  (by assumption $\Delta > 0$).
+
+  \textbf{Case 2:}
+  $M_F\varepsilon_F^* > M_U\varepsilon_U^*$.
+  The sufficient condition~\eqref{eq:sufficient} gives
+  $\Delta > 2(M_F\varepsilon_F^* - M_U\varepsilon_U^*)$, so
+  \[
+    C_U - C_F
+    \geq \Delta - 2(M_F\varepsilon_F^* - M_U\varepsilon_U^*) > 0.
+  \]
+
+  In both cases, $C_F < C_U$.  The function
+  $C \mapsto 2/(1 + e^C)$ is strictly decreasing, so
+  \[
+    \underline{\gamma}_F
+    = \frac{2}{1 + e^{C_F}}
+    > \frac{2}{1 + e^{C_U}}
+    = \underline{\gamma}_U.
+  \]
+
+  The overall confidence is $\geq 1 - \delta_U - \delta_F - \delta'$
+  by a union bound over the three events:
+  folded certificate (prob $\geq 1 - \delta_F$),
+  unfolded certificate ($\geq 1 - \delta_U$),
+  oscillation-gap concentration ($\geq 1 - \delta'$).
+\end{proof}
+
+
+% ══════════════════════════════════════════════════════════════
+\section{Boundary analysis}
+\label{app:boundary}
+
+
+\subsection{Fold boundary density for Gaussian mixtures}
+\label{app:boundary_density}
+
+For the symmetric two-component Gaussian mixture
+$\pi = \tfrac{1}{2}\cN(\mu_1, \sigma^2 I_d)
++ \tfrac{1}{2}\cN(\mu_2, \sigma^2 I_d)$
+with $\mu_1 = (\delta/2, 0, \ldots, 0)$,
+$\mu_2 = -\mu_1$, and reflection fold boundary
+$\partial D = \{\theta_1 = 0\}$:
+
+The density on the fold boundary is
+\[
+  \pi(0, \theta_{2:d})
+  = \frac{1}{2}(2\pi\sigma^2)^{-d/2}
+  \exp\!\Bigl(-\frac{\delta^2/4 + \|\theta_{2:d}\|^2}{2\sigma^2}\Bigr)
+  \cdot 2
+  = (2\pi\sigma^2)^{-d/2}
+  \exp\!\Bigl(-\frac{\delta^2/4 + \|\theta_{2:d}\|^2}{2\sigma^2}\Bigr).
+\]
+
+The peak density (at $\mu_1$) is
+\[
+  \pi(\mu_1) = \frac{1}{2}(2\pi\sigma^2)^{-d/2} + \text{negligible}.
+\]
+
+The ratio at the midpoint $\theta = 0$ is
+\[
+  \frac{\pi(0)}{\pi(\mu_1)}
+  \approx 2\exp\!\Bigl(-\frac{\delta^2}{8\sigma^2}\Bigr).
+\]
+
+For $\delta = 6\sigma$: ratio $\approx 2\exp(-4.5) \approx 0.022$.
+
+This confirms that the fold boundary lies in a low-density valley,
+with density approximately $2\%$ of the peak.
+
+
+\subsection{Condition for $\cK_\alpha^F \cap \partial D = \varnothing$}
+\label{app:boundary_separation}
+
+The HPD set $\cK_\alpha^F = \cK_\alpha \cap D$ does not touch the
+fold boundary if and only if $\cK_\alpha \cap \partial D = \varnothing$.
+For the Gaussian mixture above, $\cK_\alpha$ consists of two
+balls of radius $R_\alpha = \sigma\sqrt{\chi^2_{d,1-\alpha}}$
+centred at $\pm\mu_1 = (\pm\delta/2, 0, \ldots, 0)$.
+The closest point of $\cK_\alpha^{(1)}$ to $\partial D$ has
+$\theta_1 = \delta/2 - R_\alpha$.  The separation condition is
+\[
+  \cK_\alpha^F \cap \partial D = \varnothing
+  \quad\Longleftrightarrow\quad
+  \delta/2 > R_\alpha
+  \quad\Longleftrightarrow\quad
+  \delta > 2\sigma\sqrt{\chi^2_{d,1-\alpha}}.
+\]
+
+\begin{center}
+\begin{tabular}{rccl}
+\hline
+$d$ & $\chi^2_{d,0.95}$ & $2\sigma\sqrt{\chi^2}$ & $\delta = 6\sigma$ OK? \\
+\hline
+2  & 5.99 & 4.90 & Yes \\
+5  & 11.07 & 6.65 & No \\
+10 & 18.31 & 8.56 & No \\
+20 & 31.41 & 11.21 & No \\
+\hline
+\end{tabular}
+\end{center}
+
+For $\delta = 6\sigma$, the condition holds only at $d = 2$.
+At $d \geq 5$, the HPD set touches the fold boundary.
+However, the experiments in Section~\ref{sec:exp_dimension}
+show strong certified improvement at all dimensions, indicating
+that the boundary-touching case is handled adequately by the
+quotient-metric covering (Section~\ref{sec:quotient_metric}).
+
+
+\subsection{Stabiliser analysis for permutation folding}
+\label{app:stabiliser}
+
+For label-switching with $G = S_m$, the fundamental domain
+is the sorted chamber
+$D = \{(\theta^{(1)}, \ldots, \theta^{(m)}) :
+\theta^{(1)}_1 \leq \cdots \leq \theta^{(m)}_1\}$.
+
+A point $z \in D$ has non-trivial stabiliser if and only if
+two or more blocks share the same value of the sort coordinate:
+$\mathrm{Stab}(z) \supsetneq \{e\}$
+$\Longleftrightarrow$
+$\exists\, j \neq k : z^{(j)}_1 = z^{(k)}_1$.
+
+For well-separated components (centres
+$c_1 < c_2 < \cdots < c_m$ with $c_{j+1} - c_j \gg \sigma$),
+the HPD set $\cK_\alpha^F$ is concentrated near the sorted
+centre $(c_1, \ldots, c_m)$, which has trivial stabiliser.
+The fixed-point stratum
+$\{z^{(j)}_1 = z^{(k)}_1\}$ lies at distance
+$\geq (c_{j+1} - c_j)/2 - R_\alpha$ from $\cK_\alpha^F$,
+which is positive for sufficiently separated components.
+
+In this case Assumption~\ref{asm:generic_stab} holds and
+$h_{\max} = 1$.  When components are not well separated
+(as in the structural identification example of
+Section~\ref{sec:application}), $h_{\max}$ may exceed~$1$
+and the covering condition uses the corrected mass factor
+$(s/h_{\max})\,\pi_{\min}^D\,V_d\,\varepsilon^d$.
+
+
+% ══════════════════════════════════════════════════════════════
+\section{Experimental details}
+\label{app:experiments}
+
+\subsection{Architecture and hyperparameters}
+\label{app:hyperparams}
+
+All flows use spectrally normalised RealNVP with $\tanh$
+activations and scale clip $c = 0.7$.  The architecture scales
+with dimension:
+
+\begin{center}
+\begin{tabular}{rcccc}
+\hline
+$d$ & Layers $L$ & Hidden dim $h$ & Epochs & Batch size \\
+\hline
+$\leq 4$ & 8  & 64  & 2000 & 512 \\
+5--6     & 10 & 128 & 2000 & 512 \\
+8--12    & 12 & 128 & 3500 & 512 \\
+20       & 16 & 256 & 3500 & 512 \\
+\hline
+\end{tabular}
+\end{center}
+
+Training uses Adam with learning rate $10^{-3}$ and annealed
+oscillation/gradient regularisation (FolT-OG-Anneal, as in
+\citealt{CerTMCMC}).  The regularisation weight is annealed from
+$0$ to its final value over the first $30\%$ of training.
+
+The folded and unfolded pipelines use identical architecture
+and hyperparameters for each~$d$.  Training samples are drawn
+from the target's exact sampler (for synthetic targets) or from
+a long-run random-walk Metropolis chain (for the structural
+identification application).
+
+\subsection{Certification protocol}
+\label{app:cert_protocol}
+
+Certification uses $n = 20\,000$ independent samples from the
+target (folded samples projected onto~$D$ for the folded
+pipeline).  Quantile-core certificates are computed at
+$\rho \in \{0.025, 0.05, 0.10, 0.25\}$ with DKW-corrected
+confidence $\delta = 0.05$.  The primary metric reported in
+all tables is the $\rho = 0.05$ certificate.
+
+The gradient supremum $M_F$ is estimated as the empirical maximum
+of $\|\nabla h_F(Z_i)\|$ over the certification samples, computed
+via automatic differentiation.
+
+\subsection{MCMC protocol}
+\label{app:mcmc_protocol}
+
+Independence Metropolis--Hastings with 4 chains of 5\,000 steps
+each (10\,000 for the RPS baseline comparison), burn-in equal to
+$20\%$ of the chain length.  Effective sample size (ESS) is
+estimated via batch means with batch size $\sqrt{n_{\mathrm{chain}}}$.
+
+For the structural identification application
+(Section~\ref{sec:application}), training samples are generated
+by a preliminary random-walk Metropolis run of $200\,000$ steps
+with adaptive step size, thinned to $50\,000$ samples.
+
+\subsection{Full quantile-core tables}
+\label{app:qc_tables}
+
+\paragraph{Gaussian mixture, dimension scaling.}
+
+\begin{center}
+\begin{tabular}{rccccc}
+\hline
+& \multicolumn{4}{c}{QC $\underline{\gamma}$ at $\rho =$} \\
+\cline{2-5}
+$d$ & $0.025$ & $0.05$ & $0.10$ & $0.25$ & Full $\gamma$ \\
+\hline
+\multicolumn{6}{l}{\textit{Unfolded}} \\
+2  & 0.216 & 0.402 & 0.608 & 0.810 & $\sim10^{-3}$ \\
+5  & 0.031 & 0.094 & 0.260 & 0.565 & $\sim10^{-5}$ \\
+10 & 0.005 & 0.016 & 0.065 & 0.290 & $\sim10^{-7}$ \\
+20 & 0.005 & 0.016 & 0.062 & 0.280 & $\sim10^{-5}$ \\
+\hline
+\multicolumn{6}{l}{\textit{FolT-MCMC}} \\
+2  & 0.890 & 0.936 & 0.968 & 0.990 & 0.06--0.18 \\
+5  & 0.895 & 0.941 & 0.970 & 0.991 & 0.06--0.18 \\
+10 & 0.870 & 0.922 & 0.958 & 0.986 & 0.06--0.18 \\
+20 & 0.850 & 0.902 & 0.950 & 0.983 & 0.06--0.18 \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Label switching.}
+
+\begin{center}
+\begin{tabular}{lcccccc}
+\hline
+& & \multicolumn{4}{c}{QC $\underline{\gamma}$ at $\rho =$} \\
+\cline{3-6}
+Config & $s$ & $0.025$ & $0.05$ & $0.10$ & $0.25$ \\
+\hline
+\multicolumn{6}{l}{\textit{Unfolded}} \\
+$m{=}2, p{=}2$ & 2  & 0.142 & 0.366 & 0.571 & 0.790 \\
+$m{=}3, p{=}2$ & 6  & 0.019 & 0.066 & 0.185 & 0.486 \\
+$m{=}3, p{=}4$ & 6  & 0.010 & 0.036 & 0.111 & 0.380 \\
+$m{=}4, p{=}2$ & 24 & 0.001 & 0.004 & 0.018 & 0.115 \\
+\hline
+\multicolumn{6}{l}{\textit{FolT-MCMC}} \\
+$m{=}2, p{=}2$ & 2  & 0.620 & 0.820 & 0.905 & 0.965 \\
+$m{=}3, p{=}2$ & 6  & 0.450 & 0.685 & 0.830 & 0.935 \\
+$m{=}3, p{=}4$ & 6  & 0.445 & 0.683 & 0.828 & 0.930 \\
+$m{=}4, p{=}2$ & 24 & 0.380 & 0.624 & 0.785 & 0.910 \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Banana diagnostic ($d = 2$, $s = 2$).}
+
+\begin{center}
+\begin{tabular}{lcccc}
+\hline
+& \multicolumn{4}{c}{QC $\underline{\gamma}$ at $\rho =$} \\
+\cline{2-5}
+& $0.025$ & $0.05$ & $0.10$ & $0.25$ \\
+\hline
+Unfolded  & 0.064 & 0.272 & 0.537 & 0.797 \\
+FolT-MCMC & 0.135 & 0.320 & 0.523 & 0.759 \\
+\hline
+\end{tabular}
+\end{center}
+
+Note that at $\rho = 0.10$ and $0.25$, the unfolded certificate
+slightly exceeds the folded one for the banana target.  This
+reflects the fold-boundary residual spike entering the
+$\rho$-core at larger~$\rho$, consistent with the diagnostic
+analysis in Section~\ref{sec:exp_banana}.
+
+
+\subsection{Condition verification for Theorem~\ref{thm:gap_improvement}}
+\label{app:condition_check}
+
+We verify conditions (M$'$), (W), (R), and (S) empirically
+for the Gaussian mixture ($d = 10$, $s = 2$) and label-switching
+($m = 4$, $p = 2$, $s = 24$) experiments.
+
+\begin{center}
+\begin{tabular}{lcc}
+\hline
+Quantity & Mixture $d{=}10$ & Label $m{=}4$ \\
+\hline
+$\min_j \Delta_j$ (from QC osc gap) & $\geq 4.69$ & $\geq 5.35$ \\
+$2r_1$ (folded within-mode osc) & $\leq 0.32$ & $\leq 1.58$ \\
+$r_F$ (quotient proposal residual) & $\approx 0$ & $\approx 0$ \\
+$\Delta = \min_j\Delta_j - 2r_1 - r_F$ & $\geq 4.37$ & $\geq 3.77$ \\
+$2(M_F\varepsilon_F^* - M_U\varepsilon_U^*)^+$ & $\approx 0$ & $\approx 0$ \\
+Condition (S) satisfied? & Yes & Yes \\
+$\Delta / C_U$ & $0.90$ & $0.87$ \\
+\hline
+\end{tabular}
+\end{center}
+
+In both cases, the cross-mode deficiency~$\Delta_j$ is much
+larger than the folded within-mode oscillation~$r_1$, and the
+quotient proposal residual~$r_F$ is negligible.  The sufficient
+condition (S) is easily satisfied, confirming that the certified
+improvement in Theorem~\ref{thm:gap_improvement} holds.

@@ -1,0 +1,121 @@
+% ══════════════════════════════════════════════════════════════
+%  FolT-MCMC Paper — Section 6: Application
+% ══════════════════════════════════════════════════════════════
+%  \input{section6_application}
+
+\section{Application: closely-spaced structural modes}
+\label{sec:application}
+
+We apply FolT-MCMC to Bayesian modal identification of a
+supertall building instrumented during Typhoon Mangkhut (2018).
+Three closely-spaced modes in the $0.7$--$1.1$\,Hz band create
+an $S_3$ label-switching problem ($s = 6$) that renders the
+unfolded certificate vacuous.
+
+
+\subsection{Data and model}
+\label{sec:app_setup}
+
+\paragraph{Data.}
+Accelerometer recordings from 15 usable channels at 32\,Hz.
+We select a single 30-minute window near peak typhoon intensity
+(band signal-to-noise ratio ${\approx}\,18$\,dB) and compute
+the trace of the $15 \times 15$ cross-power spectral density
+matrix over $0.7$--$1.1$\,Hz (51~frequency ordinates),
+capturing the total vibrational power across all channels.
+Building identity and location are anonymised per the owner's
+request.
+
+\paragraph{Model.}
+A simplified Whittle likelihood with three single-degree-of-freedom
+Lorentzian peaks plus a flat noise floor.  Each mode~$j$ has two
+parameters (natural frequency~$f_j$, damping ratio~$\xi_j$),
+giving $d = 6$ total.  The overall amplitude is profiled out in
+closed form (conditional MLE), preserving exact $S_3$~symmetry.
+Uniform priors: $f_j \in [0.7, 1.1]$\,Hz,
+$\xi_j \in [0.001, 0.05]$.
+
+This is deliberately simpler than a full multi-output Bayesian
+operational modal analysis: the goal is to exhibit the
+label-switching phenomenon and demonstrate FolT-MCMC's
+certifiability advantage, not to compete on estimation accuracy.
+
+\paragraph{Folding.}
+Permutation fold with $G = S_3$, $s = 6$.  The fundamental domain
+is the sorted chamber $D = \{f_1 \leq f_2 \leq f_3\}$.
+Parameters are block-whitened (one shared mean and standard
+deviation for the frequency slots, one for the damping slots) to
+bring all coordinates to unit scale while preserving the
+commutativity of whitening and sorting.
+
+
+\subsection{Results}
+\label{sec:app_results}
+
+Training uses 50\,000 pre-samples from a long-run random-walk
+Metropolis chain, folded onto~$D$.  Architecture and certification
+protocol follow Section~\ref{sec:exp_setup}.
+
+\begin{table}[t]
+\centering
+\caption{Structural modal identification
+  ($d = 6$, $s = 6$, Typhoon Mangkhut window).}
+\label{tab:structural}
+\smallskip
+\begin{tabular}{lcccc}
+\hline
+Method & QC $\underline{\gamma}$ ($\rho{=}0.05$)
+       & Acceptance & ESS\,/\,sample & Label-switch rate \\
+\hline
+Unfolded & $9.9 \times 10^{-6}$ (vacuous)
+         & $0.204$ & $0.059$ & $0.170$ \\
+FolT-MCMC & $0.0018$
+          & $0.371$ & $0.080$ & $0.000$ \\
+\hline
+\end{tabular}
+\end{table}
+
+% Figures: uncomment when paths are finalized
+% \begin{figure}[t]
+% \centering
+% \includegraphics[width=\textwidth]{structural_trace.png}
+% \caption{Trace plots of the three identified frequencies.
+%   Left: unfolded chain with frequent label switching
+%   (17\% of steps).
+%   Right: FolT-MCMC in sorted space with no label switching.}
+% \label{fig:structural_trace}
+% \end{figure}
+
+\paragraph{Label switching.}
+The unfolded chain exhibits dense label switching, with $17\%$
+of steps swapping the frequency assignment among the three modes
+(Table~\ref{tab:structural}).
+The FolT-MCMC chain in sorted space shows zero label switches:
+the sorted frequencies remain cleanly separated throughout the run.
+
+\paragraph{Certified guarantee.}
+The unfolded quantile-core certificate is
+QC~$\underline{\gamma} \approx 10^{-5}$---completely vacuous, as
+the six permutation modes inflate the oscillation bound beyond
+any useful range.  FolT-MCMC provides a non-vacuous quantile-core certificate
+($\underline{\gamma} = 0.0018$), a $180\times$
+improvement.  The absolute value is modest, reflecting the genuine
+difficulty of closely-spaced modes: the near-degenerate boundary
+$f_i \approx f_j$ in the sorted chamber creates heavy-tailed
+density ratios that resist tight certification.  Nevertheless, the
+qualitative transition from \emph{no usable certificate} to
+\emph{a certificate} is the operationally meaningful distinction.
+
+\paragraph{Posterior estimates.}
+The posterior median frequencies are
+$\hat{f}_1 = 0.804$, $\hat{f}_2 = 0.838$, $\hat{f}_3 = 0.873$\,Hz,
+recovering the closely-spaced cluster structure.  These values are
+approximately $0.05$\,Hz below the nominal multi-output estimates
+from the full Bayesian OMA of the same building
+\citep{Hu2019}, a systematic offset attributable to the
+single-output trace-spectrum model, which under-weights the
+transverse mode (${\approx}\,0.93$\,Hz) relative to the
+translational modes.  The demonstration targets the sampler's
+certifiability, not estimation accuracy;
+the full AD-BOMA model is developed separately
+\citep{SATMCMCpaper}.

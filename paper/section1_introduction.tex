@@ -1,0 +1,85 @@
+% ══════════════════════════════════════════════════════════════
+%  FolT-MCMC Paper — Section 1: Introduction
+% ══════════════════════════════════════════════════════════════
+%  \input{section1_introduction}
+
+\section{Introduction}
+\label{sec:introduction}
+
+Transport maps trained as normalising flows have become a
+powerful tool for accelerating Markov chain Monte Carlo
+\citep{Parno2018,Hoffman2019,Gabrie2022}.  By learning a
+diffeomorphism that approximately Gaussianises the target
+density, a transport map provides a high-quality independence
+proposal whose mismatch with the target can be corrected exactly
+through Metropolis--Hastings acceptance.  Recent work has
+established \emph{certified} spectral-gap lower bounds for
+such chains via computable oscillation bounds on the log-density
+ratio \citep{LCNF,CerTMCMC}, giving practitioners a provable
+convergence guarantee rather than a heuristic diagnostic.
+
+A fundamental limitation of existing transport MCMC and its
+certification framework is \emph{symmetric multimodality}.
+When the posterior possesses a finite symmetry
+group---label switching in mixture models ($m!$~equivalent
+modes), reflection symmetry in latent-variable models, or
+approximate permutation invariance in structural modal
+identification---the flow must represent multiple separated modes
+simultaneously.  Finite-capacity architectures such as
+coupling-based RealNVP struggle with this task, especially in
+higher dimensions.  The resulting cross-mode oscillation in the
+log-density ratio inflates the certified bound and can render
+the spectral-gap certificate vacuous, even when the flow fits
+each individual mode well.
+
+This paper introduces \emph{Folded Transport MCMC} (FolT-MCMC),
+which eliminates symmetric multimodality before sampling by
+passing to a quotient target on a fundamental domain of the
+symmetry group.  The method constructs a quotient-space
+independence sampler whose symmetrised proposal density removes
+the cross-mode oscillation, while the LCNF covering certificate
+transfers to the quotient metric with full ball-volume
+preservation.  The three main contributions are:
+\begin{enumerate}[nosep]
+  \item \textbf{Quotient-space framework.}
+  We define the folded target $\pi_F = |G|\cdot\pi$ on the
+  fundamental domain, the quotient proposal
+  $q_F(z) = \sum_{g \in G} q_{T_F}(gz)$, and the associated
+  quotient metric $d_G$.  The HPD set satisfies an exact identity
+  $\cK_\alpha^F = \cK_\alpha \cap D$, and the density floor
+  improves by a factor of~$|G|$
+  (Section~\ref{sec:framework}).
+
+  \item \textbf{Certified improvement.}
+  We prove that the LCNF empirical oscillation theorem carries over
+  to the quotient setting, that the covering radius does not increase
+  ($\varepsilon_F^* \leq \varepsilon_U^*$), and that the certified
+  spectral-gap lower bound improves whenever the unfolded flow
+  exhibits cross-mode proposal deficiency---a condition satisfied
+  empirically in all our experiments
+  (Section~\ref{sec:theory}).
+
+  \item \textbf{Empirical validation.}
+  On Gaussian mixtures ($d = 2$--$20$) and label-switching targets
+  ($m! = 2$--$24$ modes), the quantile-core certified lower bound
+  ratio $\underline{\gamma}_F / \underline{\gamma}_U$ ranges from
+  $2\times$ to $145\times$.  The folded certificate is empirically
+  nearly dimension-free, while the unfolded certificate collapses
+  with both dimension and mode count.
+  On real accelerometer data from a supertall building during
+  Typhoon Mangkhut, FolT-MCMC yields a non-vacuous
+  quantile-core certificate for a simplified closely-spaced
+  three-mode identification problem, where the unfolded
+  certificate is vacuous
+  (Sections~\ref{sec:experiments}--\ref{sec:application}).
+\end{enumerate}
+
+The remainder of the paper is organised as follows.
+Section~\ref{sec:background} reviews transport MCMC, the LCNF
+certification framework, and symmetry in Bayesian inference.
+Section~\ref{sec:framework} develops the FolT-MCMC framework.
+Section~\ref{sec:theory} establishes the theoretical guarantees.
+Section~\ref{sec:experiments} presents the synthetic experiments.
+Section~\ref{sec:application} applies FolT-MCMC to structural
+modal identification with real typhoon data.
+Section~\ref{sec:discussion} discusses limitations and extensions.
