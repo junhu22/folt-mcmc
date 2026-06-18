@@ -1,0 +1,96 @@
+% ══════════════════════════════════════════════════════════════
+%  FolT-MCMC Paper — Section 1: Introduction (JRSS-B version)
+% ══════════════════════════════════════════════════════════════
+%  \input{section1_introduction}
+
+\section{Introduction}
+\label{sec:introduction}
+
+Bayesian models with finite exchangeability---mixture models,
+hidden Markov models, factor models with interchangeable
+components---define posterior distributions that are invariant
+under permutation of component labels.  This symmetry creates
+$m!$~equivalent posterior modes, a phenomenon known as \emph{label
+switching} \citep{Stephens2000,Jasra2005,Celeux2000}.
+The standard response is to run MCMC on the full labelled
+parameterisation and then relabel or reorder the samples post~hoc
+\citep{FruhwirthSchnatter2001,Papastamoulis2010}.
+But the underlying chain must still traverse $m!$~symmetric modes,
+and convergence diagnostics computed on this redundant space are
+unreliable: certified spectral-gap bounds, when they can be
+computed at all, are inflated by cross-mode oscillation and
+frequently vacuous.
+
+A cleaner alternative is to perform inference directly on the
+\emph{quotient posterior}: the distribution on equivalence classes
+induced by the symmetry group.  By sampling on a fundamental
+domain---a sorted chamber, a reflection half-space---the chain
+never encounters label switching, and the inference target is the
+identifiable object of interest.  This idea has appeared informally
+in the mixture-model literature
+\citep{Celeux2000,FruhwirthSchnatter2001}, but has not been
+combined with transport-map proposals or convergence certification.
+
+This paper introduces \emph{Folded Transport MCMC} (FolT-MCMC),
+a quotient-space independence sampler whose proposal density is
+constructed by symmetrising a learned normalising flow over the
+orbits of the symmetry group.  The method pairs naturally with the
+LCNF oscillation-based certification framework
+\citep{LCNF,CerTMCMC}: folding onto the fundamental domain
+removes the cross-mode oscillation that makes unfolded certificates
+vacuous, while a quotient-metric covering argument preserves the
+ball-mass bounds needed for certification.
+
+The three main contributions are:
+\begin{enumerate}[nosep]
+  \item \textbf{Quotient posterior framework.}
+  For a target~$\pi$ invariant under a finite group~$G$ ($|G|=s$),
+  we define the folded target $\pi_F = s \cdot \pi$ on the
+  fundamental domain~$D$, prove an exact HPD identity
+  $\cK_\alpha^F = \cK_\alpha \cap D$, and construct the
+  quotient proposal $q_F(z) = \sum_{g \in G} q_{T_F}(g \cdot z)$.
+  The density floor improves by a factor of~$s$
+  (Section~\ref{sec:framework}).
+
+  \item \textbf{Quotient-space certification.}
+  We show that the LCNF empirical oscillation theorem transfers
+  to the quotient metric with a stabiliser-corrected ball-mass
+  bound, that the covering radius does not increase
+  ($\varepsilon_F^* \leq \varepsilon_U^*$), and that the
+  quantile-core certified lower bound
+  $\mathrm{QC}\,\underline{\gamma}$ improves whenever the unfolded
+  flow exhibits cross-mode proposal deficiency
+  (Section~\ref{sec:theory}).
+
+  \item \textbf{Empirical validation.}
+  On symmetric Gaussian mixtures ($d = 2$--$20$),
+  label-switching targets ($m! = 2$--$24$ modes), and a standard
+  Bayesian three-component mixture posterior, the
+  QC~$\underline{\gamma}$ ratio ranges from $2\times$ to
+  $145\times$, with the folded certificate empirically nearly
+  dimension-free.  On real accelerometer data from a supertall
+  building during Typhoon Mangkhut, FolT-MCMC yields a
+  non-vacuous quantile-core certificate for a simplified
+  closely-spaced three-mode identification problem, where the
+  unfolded certificate is vacuous
+  (Sections~\ref{sec:experiments}--\ref{sec:application}).
+\end{enumerate}
+
+\noindent
+The quantile-core certificate is a computable diagnostic for
+density-ratio stability on the high-probability posterior core; it
+does not constitute a full-support spectral-gap guarantee, which
+would require additional tail-control assumptions
+(Section~\ref{sec:when_folding_helps}).  This limitation is shared
+with the LCNF and CerT-MCMC frameworks on which FolT-MCMC builds.
+
+The remainder of the paper is organised as follows.
+Section~\ref{sec:background} reviews transport MCMC, the LCNF
+certification framework, and symmetry in Bayesian inference.
+Section~\ref{sec:framework} develops the FolT-MCMC framework.
+Section~\ref{sec:theory} establishes the theoretical guarantees.
+Section~\ref{sec:experiments} presents the synthetic and standard
+Bayesian mixture experiments.
+Section~\ref{sec:application} applies FolT-MCMC to structural
+modal identification with real typhoon data.
+Section~\ref{sec:discussion} discusses limitations and extensions.

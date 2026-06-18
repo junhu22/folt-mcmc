@@ -1,0 +1,312 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\bibstyle{abbrvnat}
+\citation{Stephens2000,Jasra2005,Celeux2000}
+\citation{Au2011,YangLamBeck2019}
+\citation{Stephens2000}
+\citation{Papastamoulis2010}
+\citation{FruhwirthSchnatter2001}
+\citation{Celeux2000,FruhwirthSchnatter2001}
+\citation{Parno2018,Hoffman2019,Gabrie2022}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}{section.1}\protected@file@percent }
+\newlabel{sec:introduction}{{1}{2}{Introduction}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}The label-switching problem}{2}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Our approach: sampling on a fundamental domain}{2}{subsection.1.2}\protected@file@percent }
+\citation{MengersenTweedie1996}
+\citation{LCNF,CerTMCMC}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}A computable convergence diagnostic}{3}{subsection.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Contributions}{4}{subsection.1.4}\protected@file@percent }
+\citation{Parno2018,Hoffman2019,Gabrie2022}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}Outline}{5}{subsection.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Terminology and notation.}{5}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background and notation}{5}{section.2}\protected@file@percent }
+\newlabel{sec:background}{{2}{5}{Background and notation}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Transport MCMC and independence Metropolis--Hastings}{5}{subsection.2.1}\protected@file@percent }
+\newlabel{sec:bg_transport}{{2.1}{5}{Transport MCMC and independence Metropolis--Hastings}{subsection.2.1}{}}
+\citation{MengersenTweedie1996}
+\citation{LCNF}
+\citation{DinhSohlDickstein2017}
+\citation{Miyato2018}
+\citation{LCNF}
+\newlabel{eq:mt_bound}{{1}{6}{Transport MCMC and independence Metropolis--Hastings}{equation.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}A computable convergence diagnostic}{6}{subsection.2.2}\protected@file@percent }
+\newlabel{sec:bg_lcnf}{{2.2}{6}{A computable convergence diagnostic}{subsection.2.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Spectrally normalised RealNVP.}{6}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Empirical oscillation theorem.}{6}{section*.3}\protected@file@percent }
+\citation{CerTMCMC}
+\citation{Celeux2000,Jasra2005}
+\citation{Stephens2000}
+\citation{Papastamoulis2010}
+\citation{FruhwirthSchnatter2001}
+\newlabel{eq:lcnf_thm}{{2}{7}{Empirical oscillation theorem}{equation.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Quantile-core diagnostic.}{7}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Limitation: multimodality.}{7}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Symmetry in Bayesian inference}{7}{subsection.2.3}\protected@file@percent }
+\newlabel{sec:bg_symmetry}{{2.3}{7}{Symmetry in Bayesian inference}{subsection.2.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Label switching.}{7}{section*.6}\protected@file@percent }
+\citation{Au2011,YangLamBeck2019}
+\citation{Kohler2020,Rezende2019}
+\@writefile{toc}{\contentsline {paragraph}{Structural modal identification.}{8}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Equivariant normalising flows.}{8}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}The FolT-MCMC framework}{8}{section.3}\protected@file@percent }
+\newlabel{sec:framework}{{3}{8}{The FolT-MCMC framework}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}The folded target}{8}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:quotient_target}{{3.1}{8}{The folded target}{subsection.3.1}{}}
+\newlabel{def:quotient_target}{{3.1}{9}{Folded target}{theorem.3.1}{}}
+\newlabel{eq:pi_F}{{3}{9}{Folded target}{equation.3}{}}
+\newlabel{prop:hpd}{{3.2}{9}{HPD identity}{theorem.3.2}{}}
+\newlabel{cor:hpd_geometry}{{3.3}{9}{}{theorem.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Quotient proposal}{10}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:quotient_proposal}{{3.2}{10}{Quotient proposal}{subsection.3.2}{}}
+\newlabel{def:quotient_proposal}{{3.4}{10}{Folded (quotient) proposal}{theorem.3.4}{}}
+\newlabel{eq:q_F}{{4}{10}{Folded (quotient) proposal}{equation.4}{}}
+\newlabel{eq:h_F}{{5}{10}{Quotient proposal}{equation.5}{}}
+\newlabel{rem:not_equivalent}{{3.5}{10}{Relation to unfolded MH}{theorem.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Algorithm}{10}{subsection.3.3}\protected@file@percent }
+\newlabel{sec:algorithm}{{3.3}{10}{Algorithm}{subsection.3.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces FolT-MCMC pipeline. Left: the original posterior $\pi $ has $s$ symmetric modes; folding onto the fundamental domain~$D$ produces the quotient target $\pi _F$ with a single representative mode. Right: the four-stage pipeline trains a transport map on $\pi _F$, forms the quotient proposal, runs independence MH on~$D$, and computes the convergence diagnostic from the oscillation framework.}}{11}{figure.1}\protected@file@percent }
+\newlabel{fig:schematic}{{1}{11}{FolT-MCMC pipeline. Left: the original posterior $\pi $ has $s$ symmetric modes; folding onto the fundamental domain~$D$ produces the quotient target $\pi _F$ with a single representative mode. Right: the four-stage pipeline trains a transport map on $\pi _F$, forms the quotient proposal, runs independence MH on~$D$, and computes the convergence diagnostic from the oscillation framework}{figure.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Reflection fold ($G = \mathbb  {Z}_2$).}{11}{section*.9}\protected@file@percent }
+\citation{LCNF}
+\@writefile{toc}{\contentsline {paragraph}{Permutation fold ($G = S_m$).}{12}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Quotient metric and covering}{12}{subsection.3.4}\protected@file@percent }
+\newlabel{sec:quotient_metric}{{3.4}{12}{Quotient metric and covering}{subsection.3.4}{}}
+\newlabel{def:quotient_metric}{{3.6}{12}{Quotient metric}{theorem.3.6}{}}
+\newlabel{eq:d_G}{{6}{12}{Quotient metric}{equation.6}{}}
+\newlabel{eq:covering_number}{{7}{12}{Quotient metric and covering}{equation.7}{}}
+\newlabel{asm:generic_stab}{{3.7}{12}{Generic stabiliser}{theorem.3.7}{}}
+\citation{LCNF}
+\citation{LCNF}
+\newlabel{lem:lip_quotient}{{3.8}{13}{Quotient Lipschitz constant}{theorem.3.8}{}}
+\newlabel{eq:lip_dG}{{8}{13}{Quotient Lipschitz constant}{equation.8}{}}
+\newlabel{eq:covering_cond_F}{{9}{13}{Quotient metric and covering}{equation.9}{}}
+\newlabel{rem:scalability}{{3.9}{13}{Computational scalability}{theorem.3.9}{}}
+\citation{LCNF}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Theoretical guarantees}{14}{section.4}\protected@file@percent }
+\newlabel{sec:theory}{{4}{14}{Theoretical guarantees}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}The folded convergence diagnostic}{14}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:folded_cert}{{4.1}{14}{The folded convergence diagnostic}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Regularity condition 1 (Compact HPD set with positive density floor).}{14}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Regularity condition 2 (Smooth HPD boundary).}{14}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Regularity condition 3 (Local regularity of $h_F$).}{14}{section*.13}\protected@file@percent }
+\newlabel{thm:folded_cert}{{4.1}{14}{FolT-MCMC convergence diagnostic}{theorem.4.1}{}}
+\citation{CerTMCMC}
+\citation{LCNF,CerTMCMC}
+\citation{LCNF}
+\citation{MengersenTweedie1996}
+\newlabel{eq:osc_bound_F}{{10}{15}{FolT-MCMC convergence diagnostic}{equation.10}{}}
+\newlabel{eq:gamma_F}{{11}{15}{FolT-MCMC convergence diagnostic}{equation.11}{}}
+\newlabel{rem:scope}{{4.2}{15}{Scope of the diagnostic}{theorem.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Covering radius improvement}{16}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:covering_improvement}{{4.2}{16}{Covering radius improvement}{subsection.4.2}{}}
+\newlabel{thm:eps_improvement}{{4.3}{16}{Covering radius improvement}{theorem.4.3}{}}
+\newlabel{eq:covering_cond_U}{{12}{16}{Covering radius improvement}{equation.12}{}}
+\newlabel{rem:eps_scaling}{{4.4}{16}{Asymptotic scaling}{theorem.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Diagnostic improvement}{16}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:gap_improvement}{{4.3}{16}{Diagnostic improvement}{subsection.4.3}{}}
+\newlabel{eq:cond_M}{{13}{17}{Diagnostic improvement}{equation.13}{}}
+\newlabel{eq:cond_W}{{14}{17}{Diagnostic improvement}{equation.14}{}}
+\newlabel{eq:cond_R}{{15}{17}{Diagnostic improvement}{equation.15}{}}
+\newlabel{lem:osc_gap}{{4.5}{18}{Oscillation gap}{theorem.4.5}{}}
+\newlabel{eq:osc_gap}{{16}{18}{Oscillation gap}{equation.16}{}}
+\newlabel{thm:gap_improvement}{{4.6}{18}{Diagnostic improvement}{theorem.4.6}{}}
+\newlabel{eq:sufficient}{{17}{19}{Diagnostic improvement}{equation.17}{}}
+\newlabel{eq:C_comparison}{{18}{19}{Diagnostic improvement}{equation.18}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}When does folding help?}{19}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:when_folding_helps}{{4.4}{19}{When does folding help?}{subsection.4.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{The role of (M$'$).}{19}{section*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Fold boundary placement.}{20}{section*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Dimension dependence.}{20}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Mode count vs.\ dimension.}{20}{section*.17}\protected@file@percent }
+\citation{FruhwirthSchnatter2001}
+\citation{DinhSohlDickstein2017,Miyato2018}
+\citation{LCNF}
+\citation{CerTMCMC}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{21}{section.5}\protected@file@percent }
+\newlabel{sec:experiments}{{5}{21}{Experiments}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Setup}{21}{subsection.5.1}\protected@file@percent }
+\newlabel{sec:exp_setup}{{5.1}{21}{Setup}{subsection.5.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Architecture.}{21}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Training.}{21}{section*.19}\protected@file@percent }
+\citation{CerTMCMC}
+\@writefile{toc}{\contentsline {paragraph}{Diagnostic computation.}{22}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{MCMC.}{22}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hardware and code.}{22}{section*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Diagnostic: fold boundary location}{22}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:exp_banana}{{5.2}{22}{Diagnostic: fold boundary location}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Purpose.}{22}{section*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Target.}{22}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Results.}{22}{section*.25}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Banana diagnostic ($d = 2$, $s = 2$). The fold boundary passes through a high-density region.}}{23}{table.1}\protected@file@percent }
+\newlabel{tab:banana}{{1}{23}{Banana diagnostic ($d = 2$, $s = 2$). The fold boundary passes through a high-density region}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Dimension scaling for Gaussian mixture ($s = 2$, $\rho = 0.05$).}}{23}{table.2}\protected@file@percent }
+\newlabel{tab:mixture_scaling}{{2}{23}{Dimension scaling for Gaussian mixture ($s = 2$, $\rho = 0.05$)}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Dimension scaling: well-separated mixture}{23}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:exp_dimension}{{5.3}{23}{Dimension scaling: well-separated mixture}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Purpose.}{23}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Target.}{23}{section*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Results.}{23}{section*.28}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Quantile-core convergence diagnostic vs.\ dimension (Gaussian mixture, $s = 2$, $\rho = 0.05$). The folded diagnostic is empirically nearly dimension-free; the unfolded diagnostic collapses. Numbers indicate the improvement ratio at each dimension.}}{24}{figure.2}\protected@file@percent }
+\newlabel{fig:headline}{{2}{24}{Quantile-core convergence diagnostic vs.\ dimension (Gaussian mixture, $s = 2$, $\rho = 0.05$). The folded diagnostic is empirically nearly dimension-free; the unfolded diagnostic collapses. Numbers indicate the improvement ratio at each dimension}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Label-switching scaling}{24}{subsection.5.4}\protected@file@percent }
+\newlabel{sec:exp_labelswitching}{{5.4}{24}{Label-switching scaling}{subsection.5.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Purpose.}{24}{section*.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Target.}{24}{section*.30}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Results.}{24}{figure.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Label-switching scaling (quantile-core, $\rho = 0.05$).}}{25}{table.3}\protected@file@percent }
+\newlabel{tab:labelswitching}{{3}{25}{Label-switching scaling (quantile-core, $\rho = 0.05$)}{table.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Quantile-core convergence diagnostic across label-switching configurations. The folded diagnostic varies slowly; the unfolded diagnostic collapses superlinearly with~$s$. Numbers indicate the improvement ratio.}}{25}{figure.3}\protected@file@percent }
+\newlabel{fig:labelswitching}{{3}{25}{Quantile-core convergence diagnostic across label-switching configurations. The folded diagnostic varies slowly; the unfolded diagnostic collapses superlinearly with~$s$. Numbers indicate the improvement ratio}{figure.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Disentangling mode count from dimension.}{25}{section*.32}\protected@file@percent }
+\citation{FruhwirthSchnatter2001}
+\citation{FruhwirthSchnatter2001}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Baseline comparison ($m = 3$, $d = 6$, $s = 6$). Sorted ESS is computed after projecting all samples into the sorted chamber.}}{26}{table.4}\protected@file@percent }
+\newlabel{tab:baseline}{{4}{26}{Baseline comparison ($m = 3$, $d = 6$, $s = 6$). Sorted ESS is computed after projecting all samples into the sorted chamber}{table.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Convergence at $m = 4$.}{26}{section*.33}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Comparison with random permutation sampler}{26}{subsection.5.5}\protected@file@percent }
+\newlabel{sec:exp_baseline}{{5.5}{26}{Comparison with random permutation sampler}{subsection.5.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Purpose.}{26}{section*.34}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Setup.}{26}{section*.35}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Results.}{26}{table.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Standard Bayesian mixture posterior}{27}{subsection.5.6}\protected@file@percent }
+\newlabel{sec:exp_bayesian_mixture}{{5.6}{27}{Standard Bayesian mixture posterior}{subsection.5.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Purpose.}{27}{section*.37}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Model.}{27}{section*.38}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Methods compared.}{27}{section*.39}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Results.}{28}{figure.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Post-hoc relabelling: correct point estimates, no guarantee.}{28}{section*.41}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{RPS: correct estimates, no diagnostic.}{28}{section*.42}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Bayesian mixture benchmark ($K{=}3$, $d{=}6$, $s{=}6$, $N{=}500$, $w = (1/3, 1/3, 1/3)$). True parameters: $\mu = (0, 3, 6)$, $\sigma = (0.8, 1.0, 0.7)$. Estimates $\hat  \mu _k$ are sorted posterior means for all methods except unfolded IMH, which reports raw labelled means from the single mode in which the chain is stuck.}}{29}{table.5}\protected@file@percent }
+\newlabel{tab:bayesian_mixture}{{5}{29}{Bayesian mixture benchmark ($K{=}3$, $d{=}6$, $s{=}6$, $N{=}500$, $w = (1/3, 1/3, 1/3)$). True parameters: $\mu = (0, 3, 6)$, $\sigma = (0.8, 1.0, 0.7)$. Estimates $\hat \mu _k$ are sorted posterior means for all methods except unfolded IMH, which reports raw labelled means from the single mode in which the chain is stuck}{table.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Trace plots for the Bayesian mixture posterior. Left: unfolded IMH is frozen (acceptance ${\approx }0$). Centre: RPS exhibits textbook label switching in raw labelled coordinates. Right: FolT-MCMC in sorted space shows clean separated bands.}}{29}{figure.4}\protected@file@percent }
+\newlabel{fig:bayesian_trace}{{4}{29}{Trace plots for the Bayesian mixture posterior. Left: unfolded IMH is frozen (acceptance ${\approx }0$). Centre: RPS exhibits textbook label switching in raw labelled coordinates. Right: FolT-MCMC in sorted space shows clean separated bands}{figure.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Application: closely-spaced structural modes}{29}{section.6}\protected@file@percent }
+\newlabel{sec:application}{{6}{29}{Application: closely-spaced structural modes}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Data and model}{29}{subsection.6.1}\protected@file@percent }
+\newlabel{sec:app_setup}{{6.1}{29}{Data and model}{subsection.6.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Data.}{29}{section*.43}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Structural modal identification ($d = 6$, $s = 6$, Typhoon Mangkhut window).}}{30}{table.6}\protected@file@percent }
+\newlabel{tab:structural}{{6}{30}{Structural modal identification ($d = 6$, $s = 6$, Typhoon Mangkhut window)}{table.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Model.}{30}{section*.44}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Folding.}{30}{section*.45}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Results}{30}{subsection.6.2}\protected@file@percent }
+\newlabel{sec:app_results}{{6.2}{30}{Results}{subsection.6.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Label switching.}{30}{section*.46}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Convergence diagnostic.}{30}{section*.47}\protected@file@percent }
+\citation{SATMCMCpaper}
+\citation{SATMCMCpaper}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Trace plots of the three identified frequencies. Left: unfolded chain with frequent label switching (17\% of steps). Right: FolT-MCMC in sorted space with no label switching.}}{31}{figure.5}\protected@file@percent }
+\newlabel{fig:structural_trace}{{5}{31}{Trace plots of the three identified frequencies. Left: unfolded chain with frequent label switching (17\% of steps). Right: FolT-MCMC in sorted space with no label switching}{figure.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Posterior estimates.}{31}{section*.48}\protected@file@percent }
+\citation{Kohler2020}
+\citation{Rezende2019}
+\citation{Stephens2000}
+\citation{Papastamoulis2010}
+\citation{FruhwirthSchnatter2001}
+\citation{LCNF}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion}{32}{section.7}\protected@file@percent }
+\newlabel{sec:discussion}{{7}{32}{Discussion}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Design principles}{32}{subsection.7.1}\protected@file@percent }
+\newlabel{sec:disc_design}{{7.1}{32}{Design principles}{subsection.7.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Relation to existing work}{32}{subsection.7.2}\protected@file@percent }
+\newlabel{sec:disc_related}{{7.2}{32}{Relation to existing work}{subsection.7.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Equivariant normalising flows.}{32}{section*.49}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Post-hoc relabelling.}{32}{section*.50}\protected@file@percent }
+\citation{Geyer1991,Earl2005}
+\citation{Dehmamy2021}
+\@writefile{toc}{\contentsline {paragraph}{Tempering and replica exchange.}{33}{section*.51}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Limitations and future work}{33}{subsection.7.3}\protected@file@percent }
+\newlabel{sec:disc_limitations}{{7.3}{33}{Limitations and future work}{subsection.7.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Exact symmetry.}{33}{section*.52}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Unknown symmetry groups.}{33}{section*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Continuous symmetries.}{33}{section*.54}\protected@file@percent }
+\citation{LCNF}
+\citation{CerTMCMC}
+\bibdata{references}
+\bibcite{Au2011}{{1}{2011}{{Au}}{{}}}
+\@writefile{toc}{\contentsline {paragraph}{Scalability.}{34}{section*.55}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Core diagnostic vs.\ full-support guarantee.}{34}{section*.56}\protected@file@percent }
+\bibcite{Celeux2000}{{2}{2000}{{Celeux et~al.}}{{Celeux, Hurn, and Robert}}}
+\bibcite{Dehmamy2021}{{3}{2021}{{Dehmamy et~al.}}{{Dehmamy, Walters, Liu, Wang, and Yu}}}
+\bibcite{DinhSohlDickstein2017}{{4}{2017}{{Dinh et~al.}}{{Dinh, Sohl-Dickstein, and Bengio}}}
+\bibcite{Earl2005}{{5}{2005}{{Earl and Deem}}{{}}}
+\bibcite{FruhwirthSchnatter2001}{{6}{2001}{{Fr\"{u}hwirth-Schnatter}}{{}}}
+\bibcite{Gabrie2022}{{7}{2022}{{Gabri\'{e} et~al.}}{{Gabri\'{e}, Rotskoff, and Vanden-Eijnden}}}
+\bibcite{Geyer1991}{{8}{1991}{{Geyer}}{{}}}
+\bibcite{Hoffman2019}{{9}{2019}{{Hoffman et~al.}}{{Hoffman, Sountsov, Dillon, Langmore, Tran, and Vasudevan}}}
+\bibcite{CerTMCMC}{{10}{2026{a}}{{Hu}}{{}}}
+\bibcite{LCNF}{{11}{2026{b}}{{Hu}}{{}}}
+\bibcite{SATMCMCpaper}{{12}{2026}{{Hu and Lam}}{{}}}
+\bibcite{Jasra2005}{{13}{2005}{{Jasra et~al.}}{{Jasra, Holmes, and Stephens}}}
+\bibcite{Kohler2020}{{14}{2020}{{K\"{o}hler et~al.}}{{K\"{o}hler, Klein, and No\'{e}}}}
+\bibcite{MengersenTweedie1996}{{15}{1996}{{Mengersen and Tweedie}}{{}}}
+\bibcite{Miyato2018}{{16}{2018}{{Miyato et~al.}}{{Miyato, Kataoka, Koyama, and Yoshida}}}
+\bibcite{Papastamoulis2010}{{17}{2010}{{Papastamoulis and Iliopoulos}}{{}}}
+\bibcite{Parno2018}{{18}{2018}{{Parno and Marzouk}}{{}}}
+\bibcite{Rezende2019}{{19}{2019}{{Rezende et~al.}}{{Rezende, Racani\`{e}re, Higgins, and Toth}}}
+\bibcite{Stephens2000}{{20}{2000}{{Stephens}}{{}}}
+\bibcite{YangLamBeck2019}{{21}{2019}{{Yang et~al.}}{{Yang, Lam, and Beck}}}
+\citation{LCNF}
+\citation{CerTMCMC}
+\citation{MengersenTweedie1996}
+\citation{LCNF}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Self-contained certification toolkit}{38}{section.A}\protected@file@percent }
+\newlabel{app:toolkit}{{A}{38}{Self-contained certification toolkit}{section.A}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Independence MH oscillation bound}{38}{subsection.A.1}\protected@file@percent }
+\newlabel{app:toolkit_imh}{{A.1}{38}{Independence MH oscillation bound}{subsection.A.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}LCNF empirical oscillation theorem}{38}{subsection.A.2}\protected@file@percent }
+\newlabel{app:toolkit_lcnf}{{A.2}{38}{LCNF empirical oscillation theorem}{subsection.A.2}{}}
+\newlabel{thm:lcnf_restated}{{A.1}{38}{LCNF empirical oscillation; restated}{theorem.A.1}{}}
+\citation{CerTMCMC}
+\newlabel{eq:covering_restated}{{19}{39}{LCNF empirical oscillation; restated}{equation.19}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Quantile-core certificates}{39}{subsection.A.3}\protected@file@percent }
+\newlabel{app:toolkit_qc}{{A.3}{39}{Quantile-core certificates}{subsection.A.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}From LCNF to quotient space: what FolT-MCMC adds}{39}{subsection.A.4}\protected@file@percent }
+\newlabel{app:toolkit_folt}{{A.4}{39}{From LCNF to quotient space: what FolT-MCMC adds}{subsection.A.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Complete proofs}{40}{section.B}\protected@file@percent }
+\newlabel{app:proofs}{{B}{40}{Complete proofs}{section.B}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Proof of Proposition~\ref {prop:hpd} (HPD identity)}{40}{subsection.B.1}\protected@file@percent }
+\newlabel{app:proof_hpd}{{B.1}{40}{Proof of Proposition~\ref {prop:hpd} (HPD identity)}{subsection.B.1}{}}
+\newlabel{eq:U_equidist}{{20}{40}{Proof of Proposition~\ref {prop:hpd} (HPD identity)}{equation.20}{}}
+\citation{LCNF}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Proof of Corollary~\ref {cor:hpd_geometry}}{41}{subsection.B.2}\protected@file@percent }
+\newlabel{app:proof_hpd_cor}{{B.2}{41}{Proof of Corollary~\ref {cor:hpd_geometry}}{subsection.B.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Proof of Lemma~\ref {lem:lip_quotient} (quotient Lipschitz constant)}{41}{subsection.B.3}\protected@file@percent }
+\newlabel{app:proof_lip}{{B.3}{41}{Proof of Lemma~\ref {lem:lip_quotient} (quotient Lipschitz constant)}{subsection.B.3}{}}
+\citation{LCNF}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.4}Proof of Theorem~\ref {thm:folded_cert} (FolT-MCMC convergence diagnostic)}{42}{subsection.B.4}\protected@file@percent }
+\newlabel{app:proof_cert}{{B.4}{42}{Proof of Theorem~\ref {thm:folded_cert} (FolT-MCMC convergence diagnostic)}{subsection.B.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.5}Proof of Theorem~\ref {thm:eps_improvement} (covering radius improvement)}{43}{subsection.B.5}\protected@file@percent }
+\newlabel{app:proof_eps}{{B.5}{43}{Proof of Theorem~\ref {thm:eps_improvement} (covering radius improvement)}{subsection.B.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.6}Proof of Lemma~\ref {lem:osc_gap} (oscillation gap)}{43}{subsection.B.6}\protected@file@percent }
+\newlabel{app:proof_osc_gap}{{B.6}{43}{Proof of Lemma~\ref {lem:osc_gap} (oscillation gap)}{subsection.B.6}{}}
+\citation{LCNF}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.7}Proof of Theorem~\ref {thm:gap_improvement} (diagnostic improvement)}{45}{subsection.B.7}\protected@file@percent }
+\newlabel{app:proof_gap}{{B.7}{45}{Proof of Theorem~\ref {thm:gap_improvement} (diagnostic improvement)}{subsection.B.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}Boundary analysis}{46}{section.C}\protected@file@percent }
+\newlabel{app:boundary}{{C}{46}{Boundary analysis}{section.C}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}Fold boundary density for Gaussian mixtures}{46}{subsection.C.1}\protected@file@percent }
+\newlabel{app:boundary_density}{{C.1}{46}{Fold boundary density for Gaussian mixtures}{subsection.C.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}Condition for $\mathcal  {K}_\alpha ^F \cap \partial D = \varnothing $}{46}{subsection.C.2}\protected@file@percent }
+\newlabel{app:boundary_separation}{{C.2}{46}{Condition for $\cK _\alpha ^F \cap \partial D = \varnothing $}{subsection.C.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.3}Stabiliser analysis for permutation folding}{47}{subsection.C.3}\protected@file@percent }
+\newlabel{app:stabiliser}{{C.3}{47}{Stabiliser analysis for permutation folding}{subsection.C.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D}Experimental details}{47}{section.D}\protected@file@percent }
+\newlabel{app:experiments}{{D}{47}{Experimental details}{section.D}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.1}Architecture and hyperparameters}{47}{subsection.D.1}\protected@file@percent }
+\newlabel{app:hyperparams}{{D.1}{47}{Architecture and hyperparameters}{subsection.D.1}{}}
+\citation{CerTMCMC}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.2}Certification protocol}{48}{subsection.D.2}\protected@file@percent }
+\newlabel{app:cert_protocol}{{D.2}{48}{Certification protocol}{subsection.D.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.3}MCMC protocol}{48}{subsection.D.3}\protected@file@percent }
+\newlabel{app:mcmc_protocol}{{D.3}{48}{MCMC protocol}{subsection.D.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.4}Full quantile-core tables}{49}{subsection.D.4}\protected@file@percent }
+\newlabel{app:qc_tables}{{D.4}{49}{Full quantile-core tables}{subsection.D.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Gaussian mixture, dimension scaling.}{49}{section*.61}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Label switching.}{49}{section*.62}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Banana diagnostic ($d = 2$, $s = 2$).}{49}{section*.63}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {D.5}Condition verification for Theorem~\ref {thm:gap_improvement}}{50}{subsection.D.5}\protected@file@percent }
+\newlabel{app:condition_check}{{D.5}{50}{Condition verification for Theorem~\ref {thm:gap_improvement}}{subsection.D.5}{}}
+\gdef \@abspage@last{50}

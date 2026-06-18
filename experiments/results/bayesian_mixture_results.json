@@ -199,7 +199,7 @@
       "sorted_ess_per_sample": 0.2531347486495972,
       "acceptance_rate": 0.0008333333333333333,
       "qc_gamma_rho005": "N/A (non-standard kernel)",
-      "wall_time_seconds": 336.06955218315125,
+      "wall_time_seconds": 422.8939666748047,
       "label_switch_rate": 0.8315663132626525
     },
     "posthoc_sort": {
@@ -265,7 +265,7 @@
       "certified_gamma": 1.4871778124042646e-27,
       "certified_osc_core": 62.466064453125,
       "acceptance_rate": 0.00035000000000000005,
-      "wall_time_seconds": 0.053383827209472656,
+      "wall_time_seconds": 0.16327428817749023,
       "train_loss_final": 8.074941635131836,
       "extended": {
         "gamma_full_osc": 8.69819080238025e-193,
@@ -286,7 +286,7 @@
       "certified_gamma": 0.8783520251124817,
       "certified_osc_core": 0.2445068359375,
       "acceptance_rate": 0.95955,
-      "wall_time_seconds": 0.05449104309082031,
+      "wall_time_seconds": 0.19304347038269043,
       "train_loss_final": -2.9660046100616455,
       "extended": {
         "gamma_full_osc": 0.14608130315559653,

@@ -276,22 +276,20 @@ def plot_data(data, out):
 
 def plot_trace(unf_stacked, rps_stacked, fol_stacked, out):
     cols = ['#CC3333', '#33AA55', '#3366CC']
-    panels = [(unf_stacked, 'Unfolded IMH (frozen: accept $\\approx$ 0)'),
-              (rps_stacked, 'RPS (label switching)'),
-              (fol_stacked, 'FolT-MCMC (sorted, stable)')]
-    fig, axes = plt.subplots(1, 3, figsize=(16, 4.8), sharey=True)
+    panels = [(unf_stacked, 'Unfolded IMH'),
+              (rps_stacked, 'RPS (raw labelled)'),
+              (fol_stacked, 'FolT-MCMC (sorted)')]
+    fig, axes = plt.subplots(1, 3, figsize=(14, 4), sharey=True)
     for ax, (st, title) in zip(axes, panels):
         dat = st[0][:, 0::2].cpu().numpy()
         n_show = min(1500, dat.shape[0])
         for j in range(3):
-            ax.plot(dat[:n_show, j], color=cols[j], lw=0.6, alpha=0.85,
-                    label=f'$\\mu$ block {j}')
+            ax.plot(dat[:n_show, j], color=cols[j], lw=0.6, alpha=0.85)
         for m in MU_TRUE:
             ax.axhline(m, color='0.6', ls=':', lw=0.7)
         ax.set_xlabel('MH step'); ax.set_title(title); ax.grid(True, alpha=0.3)
-    axes[0].set_ylabel(r'$\mu$'); axes[0].legend(loc='center right', fontsize=8)
-    fig.suptitle('Component-mean traces: unfolded IMH cannot move; RPS swaps labels; '
-                 'FolT stays sorted and mixes')
+        ax.set_ylim(-2, 8)
+    axes[0].set_ylabel(r'$\mu$')
     fig.tight_layout(); fig.savefig(out, dpi=150); plt.close(fig)
 
 

@@ -2,7 +2,7 @@
 Figure 1: FolT-MCMC pipeline schematic.
 
 Left: original multi-modal target -> fold -> single-mode folded target.
-Right: four-stage pipeline (Train -> Proposal -> IMH -> Certify).
+Right: four-stage pipeline (Train -> Proposal -> IMH -> Diagnose).
 
 A single axes holds both halves in one coordinate system, so the panels stay
 compact and a connecting arrow can run from the folded space into the pipeline.
@@ -20,7 +20,7 @@ from matplotlib.patches import FancyBboxPatch
 import numpy as np
 
 # ── single coordinate system for the whole schematic ──
-fig = plt.figure(figsize=(11, 5.5))
+fig = plt.figure(figsize=(12, 6))
 ax = fig.add_axes([0.0, 0.06, 1.0, 0.90])
 ax.set_xlim(0, 13.2)
 ax.set_ylim(0, 6.6)
@@ -35,7 +35,7 @@ C_FOLD = '#0F6E56'
 # LEFT: quotient-space reduction
 # ══════════════════════════════════════════════════════════════
 ax.text(2.7, 6.42, 'Quotient-space reduction', ha='center', va='center',
-        fontsize=12, fontweight='medium')
+        fontsize=13, fontweight='medium')
 
 # --- original space (dashed box around two symmetric modes) ---
 rect_orig = FancyBboxPatch((0.2, 4.05), 5.0, 1.75, boxstyle='round,pad=0.12',
@@ -50,7 +50,7 @@ for cx, label in [(1.45, 'mode 1'), (3.95, 'mode 2')]:
                                   linewidth=0.5))
     ax.add_patch(mpatches.Ellipse((cx, 4.85), 0.85, 0.55, alpha=0.25, color=C_ORIG,
                                   linewidth=0))
-    ax.text(cx, 4.85, label, ha='center', va='center', fontsize=8,
+    ax.text(cx, 4.85, label, ha='center', va='center', fontsize=10.5,
             color=C_ORIG, style='italic')
 
 # fold boundary: dashed symmetry axis between the modes, label set to the SIDE
@@ -76,7 +76,7 @@ ax.add_patch(mpatches.Ellipse((2.55, 1.95), 1.8, 1.05, alpha=0.12, color=C_FOLD,
                               linewidth=0.5))
 ax.add_patch(mpatches.Ellipse((2.55, 1.95), 1.0, 0.62, alpha=0.30, color=C_FOLD,
                               linewidth=0))
-ax.text(2.55, 1.95, 'single mode', ha='center', va='center', fontsize=8,
+ax.text(2.55, 1.95, 'single mode', ha='center', va='center', fontsize=10.5,
         color=C_FOLD, style='italic')
 # solid fundamental-domain edge (left side of the folded box)
 ax.plot([0.9, 0.9], [1.15, 3.0], '-', color='#333', linewidth=1.5)
@@ -85,13 +85,13 @@ ax.plot([0.9, 0.9], [1.15, 3.0], '-', color='#333', linewidth=1.5)
 # RIGHT: pipeline stages
 # ══════════════════════════════════════════════════════════════
 ax.text(9.6, 6.42, 'FolT-MCMC pipeline', ha='center', va='center',
-        fontsize=12, fontweight='medium')
+        fontsize=13, fontweight='medium')
 
 stages = [
-    ('Stage 1: Train $T_F$ on $\\pi_F$', 'SN-RealNVP + OscReg', C_FOLD, '#E1F5EE'),
+    ('Stage 1: Train $T_F$ on $\\pi_F$', 'Spectrally constrained flow', C_FOLD, '#E1F5EE'),
     ('Stage 2: Quotient proposal', '$q_F(z) = \\sum_g q_{T_F}(g \\cdot z)$', C_FOLD, '#E1F5EE'),
     ('Stage 3: IMH on $D$', 'Accept/reject with $h_F$', C_ORIG, '#EEEDFE'),
-    ('Stage 4: Certify', 'Quotient-metric LCNF', '#D85A30', '#FAECE7'),
+    ('Stage 4: Diagnose', 'Density-ratio diagnostic', '#D85A30', '#FAECE7'),
 ]
 
 box_w, box_h = 3.8, 0.78
@@ -106,9 +106,9 @@ for i, (title, subtitle, text_color, bg_color) in enumerate(stages):
                           facecolor=bg_color, edgecolor=text_color, linewidth=0.8)
     ax.add_patch(rect)
     ax.text(x0 + box_w / 2, y + box_h * 0.64, title, ha='center', va='center',
-            fontsize=9.5, fontweight='medium', color=text_color)
+            fontsize=11, fontweight='medium', color=text_color)
     ax.text(x0 + box_w / 2, y + box_h * 0.27, subtitle, ha='center', va='center',
-            fontsize=8, color=text_color, alpha=0.78)
+            fontsize=10, color=text_color, alpha=0.78)
     stage_centers.append((x0, y + box_h / 2))     # left-edge midpoint
     if i < len(stages) - 1:
         ax.annotate('', xy=(x0 + box_w / 2, y - gap),
@@ -121,8 +121,8 @@ rect_out = FancyBboxPatch((x0 + 0.5, y_out), box_w - 1.0, 0.58,
                           boxstyle='round,pad=0.08', facecolor='#F1EFE8',
                           edgecolor='#888780', linewidth=0.8)
 ax.add_patch(rect_out)
-ax.text(x0 + box_w / 2, y_out + 0.29, 'QC certified lower bound',
-        ha='center', va='center', fontsize=9.5, fontweight='medium', color='#444441')
+ax.text(x0 + box_w / 2, y_out + 0.29, 'Core convergence diagnostic',
+        ha='center', va='center', fontsize=11, fontweight='medium', color='#444441')
 ax.annotate('', xy=(x0 + box_w / 2, y_out + 0.58),
             xytext=(x0 + box_w / 2, y_out + 0.58 + gap),
             arrowprops=dict(arrowstyle='->', color='#555', lw=1.2))
@@ -139,9 +139,8 @@ ax.text(5.95, 4.30, r'$\pi_F$', ha='center', va='center', fontsize=11,
 
 # ── summary strip ──
 fig.text(0.5, 0.03,
-         'Folding eliminates symmetric modes  →  transport fits one mode  →  '
-         'oscillation bound drops  →  certified lower bound improves',
-         ha='center', va='bottom', fontsize=9, style='italic', color='#555')
+         'cross-mode oscillation removed  →  core convergence diagnostic improves',
+         ha='center', va='bottom', fontsize=10, style='italic', color='#555')
 
 fig.savefig('fig_schematic.pdf', bbox_inches='tight', dpi=300)
 fig.savefig('fig_schematic.png', bbox_inches='tight', dpi=300)

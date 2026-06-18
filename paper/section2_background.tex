@@ -3,7 +3,7 @@
 % ══════════════════════════════════════════════════════════════
 %  \input{section2_background}
 
-\section{Background}
+\section{Background and notation}
 \label{sec:background}
 
 
@@ -46,25 +46,33 @@ $\osc(h) = 0$ and $\gamma = 1$; as the approximation degrades,
 $\osc(h)$ grows and $\gamma$ shrinks exponentially.
 
 
-\subsection{Certified spectral gaps via LCNF}
+\subsection{A computable convergence diagnostic}
 \label{sec:bg_lcnf}
 
 The oscillation $\osc(h)$ is not directly computable from
 finite samples, because both the supremum and infimum range
-over the entire support of~$\pi$.  The LCNF framework
-\citep{LCNF} provides a \emph{certified} upper bound on
-$\osc(h)$, and thereby a certified lower bound on~$\gamma$,
-using three ingredients.
+over the entire support of~$\pi$.  Recent work by the author
+\citep{LCNF} provides a computable upper bound on the
+oscillation over a highest posterior density (HPD) credible
+set~$\cK_\alpha$---the smallest region containing
+$(1{-}\alpha)$ of the posterior mass---yielding a
+computable core lower-bound diagnostic, using three ingredients.
 
 \paragraph{Spectrally normalised RealNVP.}
-The flow~$T$ is built from $L$~coupling layers, each with a
-spectral-norm constraint on the conditioner network and a scale
-clip~$c$.  This gives a per-layer bi-Lipschitz bound, ensuring
-that the Jacobian and its log-determinant are well controlled.
+The flow~$T$ is a RealNVP---a coupling-based normalising flow
+architecture \citep{DinhSohlDickstein2017} in which each layer transforms
+half of the coordinates conditionally on the other half---built
+from $L$~coupling layers.  Each conditioner network is
+\emph{spectrally normalised}: a weight-matrix constraint that
+bounds the Lipschitz constant of the network
+\citep{Miyato2018}, here combined with a scale clip~$c$.
+This gives a per-layer bi-Lipschitz bound, ensuring that the
+Jacobian and its log-determinant are well controlled.
 
 \paragraph{Empirical oscillation theorem.}
 Given $n$~i.i.d.\ samples $\{Z_i\}$ from~$\pi$ and the
-$(1{-}\alpha)$-HPD set $\cK_\alpha$, the LCNF theorem states
+$(1{-}\alpha)$-HPD set $\cK_\alpha$, the empirical oscillation
+theorem of \citet{LCNF} states
 that with probability $\geq 1 - \delta$:
 \begin{equation}\label{eq:lcnf_thm}
   \osc_{\cK_\alpha}(h)
@@ -80,14 +88,15 @@ $\diam(\cK_\alpha)$, $\pi_{\min}$, and~$n$.
 The right-hand side is fully computable from samples and
 network parameters.
 
-\paragraph{Quantile-core certificates.}
-The full oscillation bound~\eqref{eq:lcnf_thm} is often
-dominated by extreme tails.  The CerT-MCMC extension
-\citep{CerTMCMC} replaces the full HPD set with a
+\paragraph{Quantile-core diagnostic.}
+The HPD-core oscillation bound~\eqref{eq:lcnf_thm}
+can still be dominated by extreme density-ratio values
+among the retained core samples.  The quantile-core extension
+of \citet{CerTMCMC} replaces the full HPD set with a
 $\rho$-trimmed core that excludes the highest-oscillation
-fraction, yielding tighter \emph{quantile-core} certificates.
-In all experiments of the present paper, we report
-quantile-core certificates at $\rho = 0.05$.
+fraction, yielding a tighter \emph{quantile-core} (QC) diagnostic.
+In all experiments of the present paper, we report the
+quantile-core diagnostic at $\rho = 0.05$.
 
 \paragraph{Limitation: multimodality.}
 When $\pi$ has $k$~well-separated modes and the flow can
@@ -120,14 +129,14 @@ equivalence-class representative algorithm
 \citep{Papastamoulis2010}, or random permutation at each
 step \citep{FruhwirthSchnatter2001}.  These methods do not
 address the poor mixing of the underlying chain, nor do they
-provide certified convergence guarantees.
+provide a convergence diagnostic.
 
 \paragraph{Structural modal identification.}
 In Bayesian operational modal analysis of buildings and bridges,
 closely-spaced structural modes create approximate label-switching
 symmetry: the posterior over $m$~sets of modal parameters
 (frequency, damping ratio) is nearly $S_m$-invariant when the
-modes have similar frequencies \citep{Au2011,Hu2019}.
+modes have similar frequencies \citep{Au2011,YangLamBeck2019}.
 This is a key motivation for the present work.
 
 \paragraph{Equivariant normalising flows.}

@@ -27,7 +27,7 @@ configs = [
     {'label': '$m{=}2, p{=}2$\n$d{=}4, s{=}2$',   'gamma_U': 0.366, 'gamma_F': 0.820},
     {'label': '$m{=}3, p{=}2$\n$d{=}6, s{=}6$',   'gamma_U': 0.066, 'gamma_F': 0.685},
     {'label': '$m{=}3, p{=}4$\n$d{=}12, s{=}6$',  'gamma_U': 0.036, 'gamma_F': 0.683},
-    {'label': '$m{=}4, p{=}2$\n$d{=}8, s{=}24$',  'gamma_U': 0.004, 'gamma_F': 0.624},
+    {'label': '$m{=}4, p{=}2$\n$d{=}8, s{=}24$',  'gamma_U': 0.0043, 'gamma_F': 0.624},
 ]
 
 labels = [c['label'] for c in configs]

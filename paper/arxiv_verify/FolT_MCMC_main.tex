@@ -1,0 +1,123 @@
+% ══════════════════════════════════════════════════════════════
+%  FolT-MCMC — Main paper
+%  Folded Transport MCMC: Certified Sampling of Symmetric
+%  Multi-Modal Posteriors via Quotient-Space Reduction
+% ══════════════════════════════════════════════════════════════
+\documentclass[a4paper,12pt]{article}
+
+% ─── Page layout (generic, will switch to JRSS-B style later) ──
+\usepackage[a4paper,margin=2.5cm]{geometry}
+
+% ─── Packages ───────────────────────────────────────────────
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{natbib}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref}
+\usepackage{url}
+\usepackage{setspace}
+\doublespacing
+
+% ─── Theorem environments ──────────────────────────────────
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% ─── Macros ─────────────────────────────────────────────────
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Lip}{\mathrm{Lip}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\supp}{\mathrm{supp}}
+\newcommand{\diam}{\mathrm{diam}}
+\newcommand{\Vol}{\mathrm{Vol}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cL}{\mathcal{L}}
+
+% ─── Float spacing ──────────────────────────────────────────
+\setlength{\floatsep}{12pt plus 4pt minus 4pt}
+\setlength{\textfloatsep}{14pt plus 4pt minus 4pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{2pt}
+
+% ─── Bibliography style ────────────────────────────────────
+\bibliographystyle{abbrvnat}
+
+% ─── Title ──────────────────────────────────────────────────
+\title{Folded Transport MCMC: Certifiable Quotient Posterior
+  Computation for Symmetric Bayesian Models}
+
+\author{Jun Hu \\
+  {\small Wuhan University of Technology} \\
+  {\small \texttt{junhu22@whut.edu.cn}}}
+
+\date{}
+
+% ════════════════════════════════════════════════════════════
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Bayesian models with finite symmetry---mixture models with
+exchangeable components, structural identification with
+closely-spaced modes---define posteriors that are invariant under
+a group of label permutations, creating redundant multimodality
+that degrades MCMC convergence diagnostics.
+We introduce \emph{Folded Transport MCMC} (FolT-MCMC), which
+performs inference directly on the quotient posterior by
+constructing an independence sampler on the fundamental domain
+of the symmetry group.  The quotient proposal is formed by
+symmetrising a learned normalising flow over the group orbits.
+We prove that the LCNF oscillation-based certification framework
+transfers to the quotient metric with a stabiliser-corrected
+ball-mass bound and improved covering radius, and that the
+quantile-core certified lower bound improves whenever the
+unfolded flow exhibits cross-mode proposal deficiency.
+On Gaussian mixtures ($d = 2$--$20$), label-switching targets
+(up to $24$ equivalent modes), and a standard Bayesian
+three-component mixture posterior, the quantile-core certified
+improvement ratio ranges from $2\times$ to $145\times$, with the
+folded certificate empirically nearly dimension-free.
+On real accelerometer data from a supertall building during
+Typhoon Mangkhut, FolT-MCMC yields a non-vacuous quantile-core
+certificate where the unfolded certificate is vacuous.
+\end{abstract}
+
+\noindent
+\textbf{Keywords:}
+Transport MCMC; normalising flows; convergence certificate;
+label switching; symmetry; Bayesian structural identification.
+
+\bigskip
+
+% ── Sections ────────────────────────────────────────────────
+\input{section1_introduction}
+\input{section2_background}
+\input{section3_framework}
+\input{section4_theory}
+\input{section5_experiments}
+\input{section6_application}
+\input{section7_discussion}
+
+% ── Bibliography ────────────────────────────────────────────
+\bibliography{references}
+
+% ── Supplement ──────────────────────────────────────────────
+\newpage
+\input{supplement}
+
+\end{document}

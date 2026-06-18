@@ -1,0 +1,26 @@
+# Hyperparameters for FolT-MCMC experiments (see paper Appendix A)
+
+flow:
+  n_layers: 6
+  hidden: [64, 64]
+  clip: 0.5
+  spectral_norm: true
+
+training:
+  lr: 1.0e-3
+  batch_size: 256
+  max_epochs: 2000
+  patience: 80
+  n_train: 50000
+
+mcmc:
+  n_steps: 10000
+  n_chains: 4
+  thin: 2
+
+diagnostic:
+  rho: 0.05
+  alpha: 0.01
+  delta: 0.05
+
+seed: 42

@@ -1,0 +1,143 @@
+\begin{thebibliography}{21}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Au(2011)]{Au2011}
+S.-K. Au.
+\newblock Fast {Bayesian} {FFT} method for ambient modal identification with
+  separated modes.
+\newblock \emph{Journal of Engineering Mechanics}, 137\penalty0 (3):\penalty0
+  214--226, 2011.
+
+\bibitem[Celeux et~al.(2000)Celeux, Hurn, and Robert]{Celeux2000}
+G.~Celeux, M.~Hurn, and C.~P. Robert.
+\newblock Computational and inferential difficulties with mixture posterior
+  distributions.
+\newblock \emph{Journal of the American Statistical Association}, 95\penalty0
+  (451):\penalty0 957--970, 2000.
+
+\bibitem[Dehmamy et~al.(2021)Dehmamy, Walters, Liu, Wang, and Yu]{Dehmamy2021}
+N.~Dehmamy, R.~Walters, Y.~Liu, D.~Wang, and R.~Yu.
+\newblock Automatic symmetry discovery with {Lie} algebra convolutional
+  network.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2021.
+
+\bibitem[Dinh et~al.(2017)Dinh, Sohl-Dickstein, and
+  Bengio]{DinhSohlDickstein2017}
+L.~Dinh, J.~Sohl-Dickstein, and S.~Bengio.
+\newblock Density estimation using {Real-NVP}.
+\newblock In \emph{International Conference on Learning Representations}, 2017.
+
+\bibitem[Earl and Deem(2005)]{Earl2005}
+D.~J. Earl and M.~W. Deem.
+\newblock Parallel tempering: theory, applications, and new perspectives.
+\newblock \emph{Physical Chemistry Chemical Physics}, 7\penalty0 (23):\penalty0
+  3910--3916, 2005.
+
+\bibitem[Fr\"{u}hwirth-Schnatter(2001)]{FruhwirthSchnatter2001}
+S.~Fr\"{u}hwirth-Schnatter.
+\newblock Markov chain {Monte Carlo} estimation of classical and dynamic
+  switching and mixture models.
+\newblock \emph{Journal of the American Statistical Association}, 96\penalty0
+  (453):\penalty0 194--209, 2001.
+
+\bibitem[Gabri\'{e} et~al.(2022)Gabri\'{e}, Rotskoff, and
+  Vanden-Eijnden]{Gabrie2022}
+M.~Gabri\'{e}, G.~M. Rotskoff, and E.~Vanden-Eijnden.
+\newblock Adaptive {Monte Carlo} augmented with normalizing flows.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 119\penalty0
+  (10):\penalty0 e2109420119, 2022.
+
+\bibitem[Geyer(1991)]{Geyer1991}
+C.~J. Geyer.
+\newblock Markov chain {Monte Carlo} maximum likelihood.
+\newblock \emph{Computing Science and Statistics: Proceedings of the 23rd
+  Symposium on the Interface}, pages 156--163, 1991.
+
+\bibitem[Hoffman et~al.(2019)Hoffman, Sountsov, Dillon, Langmore, Tran, and
+  Vasudevan]{Hoffman2019}
+M.~Hoffman, P.~Sountsov, J.~V. Dillon, I.~Langmore, D.~Tran, and S.~Vasudevan.
+\newblock {NeuTra-lizing} bad geometry in {Hamiltonian Monte Carlo} using
+  neural transport.
+\newblock \emph{arXiv preprint arXiv:1903.03704}, 2019.
+
+\bibitem[Hu(2026{\natexlab{a}})]{CerTMCMC}
+J.~Hu.
+\newblock Self-certifying transport {MCMC} via dual spectral-gap certificates.
+\newblock \emph{Submitted to Journal of the American Statistical Association},
+  2026{\natexlab{a}}.
+\newblock arXiv preprint arXiv:2605.30722.
+
+\bibitem[Hu(2026{\natexlab{b}})]{LCNF}
+J.~Hu.
+\newblock Non-vacuous certification of transport {MCMC} via
+  oscillation-controlled normalizing flows.
+\newblock \emph{Submitted to Journal of Machine Learning Research},
+  2026{\natexlab{b}}.
+\newblock arXiv preprint arXiv:2606.01078.
+
+\bibitem[Hu and Lam(2026)]{SATMCMCpaper}
+J.~Hu and H.-F. Lam.
+\newblock Amplitude-dependent {Bayesian} {OMA} for tall buildings under typhoon
+  excitation: field validation and identifiability limits.
+\newblock \emph{Submitted to Mechanical Systems and Signal Processing}, 2026.
+
+\bibitem[Jasra et~al.(2005)Jasra, Holmes, and Stephens]{Jasra2005}
+A.~Jasra, C.~C. Holmes, and D.~A. Stephens.
+\newblock Markov chain {Monte Carlo} methods and the label switching problem in
+  {Bayesian} mixture modeling.
+\newblock \emph{Statistical Science}, 20\penalty0 (1):\penalty0 50--67, 2005.
+
+\bibitem[K\"{o}hler et~al.(2020)K\"{o}hler, Klein, and No\'{e}]{Kohler2020}
+J.~K\"{o}hler, L.~Klein, and F.~No\'{e}.
+\newblock Equivariant flows: exact likelihood generative learning for symmetric
+  densities.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  5361--5370, 2020.
+
+\bibitem[Mengersen and Tweedie(1996)]{MengersenTweedie1996}
+K.~L. Mengersen and R.~L. Tweedie.
+\newblock Rates of convergence of the {Hastings} and {Metropolis} algorithms.
+\newblock \emph{The Annals of Statistics}, 24\penalty0 (1):\penalty0 101--121,
+  1996.
+
+\bibitem[Miyato et~al.(2018)Miyato, Kataoka, Koyama, and Yoshida]{Miyato2018}
+T.~Miyato, T.~Kataoka, M.~Koyama, and Y.~Yoshida.
+\newblock Spectral normalization for generative adversarial networks.
+\newblock In \emph{International Conference on Learning Representations}, 2018.
+
+\bibitem[Papastamoulis and Iliopoulos(2010)]{Papastamoulis2010}
+P.~Papastamoulis and G.~Iliopoulos.
+\newblock An artificial allocations based solution to the label switching
+  problem in {Bayesian} analysis of mixtures of distributions.
+\newblock \emph{Journal of Computational and Graphical Statistics}, 19\penalty0
+  (2):\penalty0 313--331, 2010.
+
+\bibitem[Parno and Marzouk(2018)]{Parno2018}
+M.~D. Parno and Y.~M. Marzouk.
+\newblock Transport map accelerated {Markov} chain {Monte Carlo}.
+\newblock \emph{SIAM/ASA Journal on Uncertainty Quantification}, 6\penalty0
+  (2):\penalty0 645--682, 2018.
+
+\bibitem[Rezende et~al.(2019)Rezende, Racani\`{e}re, Higgins, and
+  Toth]{Rezende2019}
+D.~J. Rezende, S.~Racani\`{e}re, I.~Higgins, and P.~Toth.
+\newblock Equivariant {Hamiltonian} flows.
+\newblock \emph{arXiv preprint arXiv:1909.13739}, 2019.
+
+\bibitem[Stephens(2000)]{Stephens2000}
+M.~Stephens.
+\newblock Dealing with label switching in mixture models.
+\newblock \emph{Journal of the Royal Statistical Society: Series B},
+  62\penalty0 (4):\penalty0 795--809, 2000.
+
+\bibitem[Yang et~al.(2019)Yang, Lam, and Beck]{YangLamBeck2019}
+J.-H. Yang, H.-F. Lam, and J.~L. Beck.
+\newblock {Bayes-Mode-ID}: a {Bayesian} modal-component-sampling method for
+  operational modal analysis.
+\newblock \emph{Engineering Structures}, 189:\penalty0 222--240, 2019.
+
+\end{thebibliography}

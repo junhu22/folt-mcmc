@@ -3,10 +3,10 @@
 %  Folded Transport MCMC: Certified Sampling of Symmetric
 %  Multi-Modal Posteriors via Quotient-Space Reduction
 % ══════════════════════════════════════════════════════════════
-\documentclass[twoside,11pt]{article}
+\documentclass[a4paper,12pt]{article}
 
 % ─── Page layout (generic, will switch to JRSS-B style later) ──
-\usepackage[margin=2.5cm]{geometry}
+\usepackage[a4paper,margin=2.5cm]{geometry}
 
 % ─── Packages ───────────────────────────────────────────────
 \usepackage{amsmath,amssymb,amsthm}
@@ -16,8 +16,12 @@
 \usepackage{booktabs}
 \usepackage{natbib}
 \usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{placeins}
 \usepackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref}
 \usepackage{url}
+\usepackage{setspace}
+\doublespacing
 
 % ─── Theorem environments ──────────────────────────────────
 \newtheorem{theorem}{Theorem}[section]
@@ -46,8 +50,8 @@
 \newcommand{\cL}{\mathcal{L}}
 
 % ─── Float spacing ──────────────────────────────────────────
-\setlength{\floatsep}{8pt plus 2pt minus 2pt}
-\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\floatsep}{12pt plus 4pt minus 4pt}
+\setlength{\textfloatsep}{14pt plus 4pt minus 4pt}
 \setlength{\abovecaptionskip}{4pt}
 \setlength{\belowcaptionskip}{2pt}
 
@@ -55,14 +59,11 @@
 \bibliographystyle{abbrvnat}
 
 % ─── Title ──────────────────────────────────────────────────
-\title{Folded Transport MCMC: Certified Sampling of Symmetric
-  Multi-Modal Posteriors via Quotient-Space Reduction}
+\title{Folded Transport MCMC: Eliminating Label Switching
+  by Sampling on a Fundamental Domain}
 
 \author{Jun Hu \\
-  {\small China Sanya Science and Education Innovation Park,
-    Wuhan University of Technology, Sanya 572025, China} \\
-  {\small School of Civil Engineering and Architecture,
-    Wuhan University of Technology, Wuhan 430070, China} \\
+  {\small Wuhan University of Technology} \\
   {\small \texttt{junhu22@whut.edu.cn}}}
 
 \date{}
@@ -72,37 +73,39 @@
 \maketitle
 
 \begin{abstract}
-Transport maps trained as normalising flows provide powerful
-independence proposals for Markov chain Monte Carlo, and recent
-work has established certified spectral-gap lower bounds for such
-chains.  However, when the target posterior possesses a finite
-symmetry group---label switching in mixture models, reflection
-symmetry, or permutation invariance in structural
-identification---the flow must represent multiple separated modes
-simultaneously, inflating the oscillation bound and rendering the
-certificate vacuous.
-We introduce \emph{Folded Transport MCMC} (FolT-MCMC), which
-eliminates symmetric multimodality by constructing a
-quotient-space independence sampler on the fundamental domain of
-the symmetry group.  We prove that the LCNF certification framework
-transfers to the quotient metric with improved covering radius and
-density floor, and that the certified spectral-gap lower bound
-improves whenever the unfolded flow exhibits cross-mode proposal
-deficiency.
-On Gaussian mixtures ($d = 2$--$20$) and label-switching targets
-(up to $24$ equivalent modes), the certified improvement ratio
-ranges from $2\times$ to $145\times$, with the folded certificate
-empirically nearly dimension-free.  On real accelerometer data
-from a supertall building during Typhoon Mangkhut, FolT-MCMC
-yields a non-vacuous quantile-core certificate for a simplified
-closely-spaced three-mode identification problem, where the
-unfolded certificate is vacuous.
+In Bayesian mixture models and other exchangeable-component
+models, the posterior is invariant under permutation of
+component labels, creating $m!$ equivalent modes---a
+phenomenon known as label switching.  Standard MCMC methods
+either mix poorly across these modes or rely on post-hoc
+relabelling that cannot guarantee the sampler has converged.
+We propose \emph{Folded Transport MCMC} (FolT-MCMC), which
+eliminates label switching before sampling by restricting the
+Markov chain to a \emph{fundamental domain}---a sorted or
+reflected subspace containing exactly one representative from
+each symmetric mode.  The proposal distribution is a learned
+normalising flow whose density is symmetrised over the group
+orbits, ensuring correct targeting on the reduced space.
+We show that this construction preserves a computable
+convergence diagnostic based on the oscillation of the
+log-density ratio, and that this diagnostic becomes sharper on the fundamental
+domain whenever the original-space flow under-covers one or
+more symmetric modes.
+Experiments on Gaussian mixtures ($d = 2$--$20$),
+label-switching targets (up to $24$ equivalent modes), a
+standard Bayesian three-component mixture posterior, and real
+accelerometer data from a supertall building demonstrate
+improvement ratios of $2\times$ to $145\times$ in the
+convergence diagnostic, with the folded diagnostic remaining
+stable across dimensions while the unfolded diagnostic
+collapses.
 \end{abstract}
 
 \noindent
 \textbf{Keywords:}
-Transport MCMC; normalising flows; spectral gap;
-label switching; symmetry; Bayesian structural identification.
+Markov chain Monte Carlo; label switching; mixture models;
+normalising flows; convergence diagnostic;
+Bayesian structural identification.
 
 \bigskip
 

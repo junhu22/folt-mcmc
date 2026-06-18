@@ -1,85 +1,176 @@
 % ══════════════════════════════════════════════════════════════
-%  FolT-MCMC Paper — Section 1: Introduction
+%  FolT-MCMC Paper — Section 1: Introduction (JCGS version)
+%  De-jargoned front matter: problem first, terminology last.
 % ══════════════════════════════════════════════════════════════
 %  \input{section1_introduction}
 
 \section{Introduction}
 \label{sec:introduction}
 
-Transport maps trained as normalising flows have become a
-powerful tool for accelerating Markov chain Monte Carlo
-\citep{Parno2018,Hoffman2019,Gabrie2022}.  By learning a
-diffeomorphism that approximately Gaussianises the target
-density, a transport map provides a high-quality independence
-proposal whose mismatch with the target can be corrected exactly
-through Metropolis--Hastings acceptance.  Recent work has
-established \emph{certified} spectral-gap lower bounds for
-such chains via computable oscillation bounds on the log-density
-ratio \citep{LCNF,CerTMCMC}, giving practitioners a provable
-convergence guarantee rather than a heuristic diagnostic.
+\subsection{The label-switching problem}
 
-A fundamental limitation of existing transport MCMC and its
-certification framework is \emph{symmetric multimodality}.
-When the posterior possesses a finite symmetry
-group---label switching in mixture models ($m!$~equivalent
-modes), reflection symmetry in latent-variable models, or
-approximate permutation invariance in structural modal
-identification---the flow must represent multiple separated modes
-simultaneously.  Finite-capacity architectures such as
-coupling-based RealNVP struggle with this task, especially in
-higher dimensions.  The resulting cross-mode oscillation in the
-log-density ratio inflates the certified bound and can render
-the spectral-gap certificate vacuous, even when the flow fits
-each individual mode well.
+Bayesian mixture models with $m$ exchangeable components define
+posterior distributions with $m!$ equivalent modes: for every
+posterior sample $(\mu_1, \sigma_1, \ldots, \mu_m, \sigma_m)$,
+every permutation of the component indices
+$(\mu_{\tau(1)}, \sigma_{\tau(1)}, \ldots)$ has exactly the
+same posterior density.  This phenomenon, known as
+\emph{label switching} \citep{Stephens2000,Jasra2005,Celeux2000},
+is a central challenge in Bayesian computation for mixture models,
+hidden Markov models, factor models, and structural identification
+problems with closely-spaced modes
+\citep{Au2011,YangLamBeck2019}.
 
-This paper introduces \emph{Folded Transport MCMC} (FolT-MCMC),
-which eliminates symmetric multimodality before sampling by
-passing to a quotient target on a fundamental domain of the
-symmetry group.  The method constructs a quotient-space
-independence sampler whose symmetrised proposal density removes
-the cross-mode oscillation, while the LCNF covering certificate
-transfers to the quotient metric with full ball-volume
-preservation.  The three main contributions are:
+The standard response is \emph{post-hoc relabelling}: run MCMC
+on the full $m!$-modal posterior, then reorder the samples after
+the fact using a loss function \citep{Stephens2000}, an
+equivalence-class algorithm \citep{Papastamoulis2010}, or random
+permutations at each step \citep{FruhwirthSchnatter2001}.
+These methods improve the interpretability of the output
+but do not address the fundamental difficulty: the Markov chain
+must still traverse $m!$ symmetric modes, and there is no
+guarantee that it has done so adequately.
+
+\subsection{Our approach: sampling on a fundamental domain}
+
+A cleaner alternative is to sample directly on a
+\emph{fundamental domain}---a subspace that contains exactly
+one representative from each group of equivalent modes.
+For a three-component mixture, sorting the components by their
+first parameter ($\mu_1 \leq \mu_2 \leq \mu_3$) maps the
+$3! = 6$ equivalent modes to a single sorted mode on the
+``sorted chamber.''  The posterior restricted to this domain,
+which we call the \emph{folded target}, integrates to one
+and retains all the inferential content of the original posterior
+without the redundant copies.
+
+This idea has appeared informally in the mixture literature
+\citep{Celeux2000,FruhwirthSchnatter2001}, but has not previously
+been combined with learned proposal distributions that can
+efficiently explore the folded target.  We introduce
+\emph{Folded Transport MCMC} (FolT-MCMC), which pairs the
+fundamental-domain construction with a \emph{normalising flow}---a
+learnable, invertible transformation that maps a simple
+distribution (e.g., a standard normal) to an approximation of
+the target.  Normalising flows have been used as proposal
+distributions for Metropolis--Hastings samplers
+\citep{Parno2018,Hoffman2019,Gabrie2022}; FolT-MCMC trains the
+flow on the folded target and symmetrises its density over the
+group orbits to form a \emph{quotient proposal} that covers
+the fundamental domain.
+
+\subsection{A computable convergence diagnostic}
+
+A distinctive feature of FolT-MCMC is that the folded sampler
+comes with a computable \emph{convergence diagnostic} based
+on the oscillation of the log-density ratio between target and
+proposal.
+
+For an independence Metropolis--Hastings sampler with target
+density $\pi$ and proposal density $q$, the spectral gap
+$\gamma$ (which controls the geometric convergence rate) is
+bounded below by
+\[
+  \gamma \;\geq\; \frac{2}{1 + \exp(\mathrm{osc}(h))},
+  \qquad
+  h = \log\pi - \log q,
+\]
+where $\mathrm{osc}(h) = \sup h - \inf h$ is the oscillation
+of the log-density ratio \citep{MengersenTweedie1996}.
+When the flow perfectly matches the target, the ratio is
+constant and $\gamma = 1$; as the approximation degrades,
+the oscillation grows and $\gamma$ shrinks exponentially.
+
+Computing this bound from finite samples requires controlling
+the oscillation over a high-probability region of the posterior
+(a credible set).  Recent work by the author has developed a
+framework for doing so: a coverage-based empirical oscillation
+bound combined with Lipschitz interpolation yields a computable
+upper bound on $\mathrm{osc}(h)$ from posterior samples alone
+\citep{LCNF,CerTMCMC}.  We call the resulting quantity a
+\emph{convergence diagnostic} rather than a spectral-gap
+certificate, because it controls the oscillation on the
+high-probability core of the posterior but not on the tails
+(see Section~\ref{sec:theory} for a precise statement).
+
+The key observation motivating this paper is that
+\emph{label switching destroys this diagnostic}.  When the
+posterior has $m!$ symmetric modes and the flow can only
+approximate one of them, the log-density ratio is large on the
+off-modes, inflating the oscillation and rendering the
+diagnostic vacuous (i.e., the bound gives $\gamma \approx 0$
+even when the sampler is working well empirically).  By folding
+onto the fundamental domain, FolT-MCMC removes the cross-mode
+oscillation, restoring a meaningful diagnostic.
+
+\subsection{Contributions}
+
+The three main contributions are:
 \begin{enumerate}[nosep]
-  \item \textbf{Quotient-space framework.}
-  We define the folded target $\pi_F = |G|\cdot\pi$ on the
-  fundamental domain, the quotient proposal
-  $q_F(z) = \sum_{g \in G} q_{T_F}(gz)$, and the associated
-  quotient metric $d_G$.  The HPD set satisfies an exact identity
-  $\cK_\alpha^F = \cK_\alpha \cap D$, and the density floor
-  improves by a factor of~$|G|$
+  \item \textbf{Fundamental-domain sampler.}
+  For a posterior $\pi$ invariant under a finite group $G$
+  (e.g., $G = S_m$ for $m$-component mixtures), we define
+  the folded target on the fundamental domain, prove that its
+  credible sets are simply the intersection of the original
+  credible sets with the domain, and construct a symmetrised
+  proposal from a learned normalising flow
   (Section~\ref{sec:framework}).
 
-  \item \textbf{Certified improvement.}
-  We prove that the LCNF empirical oscillation theorem carries over
-  to the quotient setting, that the covering radius does not increase
-  ($\varepsilon_F^* \leq \varepsilon_U^*$), and that the certified
-  spectral-gap lower bound improves whenever the unfolded flow
-  exhibits cross-mode proposal deficiency---a condition satisfied
-  empirically in all our experiments
+  \item \textbf{Sharper convergence diagnostic.}
+  We show that the oscillation-based diagnostic transfers
+  to the fundamental domain with improved inputs: the
+  credible-set diameter does not increase, the density floor
+  improves by a factor of $|G|$, and the covering radius
+  decreases.  When the flow trained on the original space
+  under-covers one or more symmetric modes (as observed in our
+  experiments), the folded diagnostic is sharper
   (Section~\ref{sec:theory}).
 
   \item \textbf{Empirical validation.}
-  On Gaussian mixtures ($d = 2$--$20$) and label-switching targets
-  ($m! = 2$--$24$ modes), the quantile-core certified lower bound
-  ratio $\underline{\gamma}_F / \underline{\gamma}_U$ ranges from
-  $2\times$ to $145\times$.  The folded certificate is empirically
-  nearly dimension-free, while the unfolded certificate collapses
-  with both dimension and mode count.
-  On real accelerometer data from a supertall building during
-  Typhoon Mangkhut, FolT-MCMC yields a non-vacuous
-  quantile-core certificate for a simplified closely-spaced
-  three-mode identification problem, where the unfolded
-  certificate is vacuous
+  On Gaussian mixtures ($d = 2$--$20$), label-switching
+  targets (up to $24$ equivalent modes), a standard Bayesian
+  three-component mixture posterior, and real accelerometer
+  data from a supertall building during Typhoon Mangkhut,
+  the diagnostic improvement ratio ranges from $2\times$ to
+  $145\times$.  The folded diagnostic is empirically stable
+  across dimensions, while the unfolded diagnostic collapses.
+  On the Bayesian mixture benchmark, post-hoc relabelling
+  recovers correct point estimates but provides no convergence
+  guarantee, demonstrating that quotient-space sampling is
+  needed for diagnosing posterior convergence
   (Sections~\ref{sec:experiments}--\ref{sec:application}).
 \end{enumerate}
 
-The remainder of the paper is organised as follows.
-Section~\ref{sec:background} reviews transport MCMC, the LCNF
-certification framework, and symmetry in Bayesian inference.
+\subsection{Outline}
+
+Section~\ref{sec:background} provides background on normalising
+flows as MCMC proposals, the oscillation-based convergence
+diagnostic, and symmetry in Bayesian models.
 Section~\ref{sec:framework} develops the FolT-MCMC framework.
 Section~\ref{sec:theory} establishes the theoretical guarantees.
-Section~\ref{sec:experiments} presents the synthetic experiments.
+Section~\ref{sec:experiments} presents the experiments.
 Section~\ref{sec:application} applies FolT-MCMC to structural
 modal identification with real typhoon data.
 Section~\ref{sec:discussion} discusses limitations and extensions.
+
+\paragraph{Terminology and notation.}
+Throughout, we use the following terms:
+\emph{normalising flow}---a learnable invertible map
+  $T\colon \mathbb{R}^d \to \mathbb{R}^d$ that transforms a
+  simple base distribution to an approximation of the target;
+\emph{independence Metropolis--Hastings (IMH)}---a
+  Metropolis--Hastings sampler whose proposals are drawn
+  independently of the current state;
+\emph{spectral gap} ($\gamma$)---a number in $[0,1]$ measuring
+  the geometric convergence rate of a Markov chain;
+\emph{oscillation} ($\mathrm{osc}(h)$)---the range
+  $\sup h - \inf h$ of the log-density ratio
+  $h = \log\pi - \log q$;
+\emph{fundamental domain} ($D$)---a subspace containing one
+  representative per symmetric mode (e.g., the sorted chamber);
+\emph{folded target} ($\pi_F$)---the posterior restricted and
+  renormalised to the fundamental domain;
+\emph{convergence diagnostic}---the computable lower bound on
+  $\gamma$ obtained from finite samples via the oscillation
+  framework.
+All acronyms are defined at first use.

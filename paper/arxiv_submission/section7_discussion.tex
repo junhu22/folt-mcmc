@@ -1,0 +1,133 @@
+% ══════════════════════════════════════════════════════════════
+%  FolT-MCMC Paper — Section 7: Discussion
+% ══════════════════════════════════════════════════════════════
+%  \input{section7_discussion}
+
+\section{Discussion}
+\label{sec:discussion}
+
+
+\subsection{Design principles}
+\label{sec:disc_design}
+
+The experiments point to a simple but consequential design rule:
+\emph{the fold boundary should lie in a low-density valley between
+the symmetric modes}.  When this condition holds (Gaussian mixture,
+label-switching targets), folding yields large certified gains
+across all metrics.  When it is violated (banana diagnostic with
+fold boundary through the density ridge), the full oscillation
+bound can increase, though the quantile-core certificate still
+improves modestly.
+
+For well-separated label-switching mixtures, the sorted-chamber
+boundary $\{\theta_1^{(j)} = \theta_1^{(j+1)}\}$ lies in a
+low-density valley between adjacent mode centres.
+For closely-spaced structural modes, however, the boundary may
+carry non-negligible posterior mass; this explains why the
+structural example in Section~\ref{sec:application} yields a
+non-vacuous but modest certificate
+(QC~$\underline{\gamma} = 0.0018$).
+
+
+\subsection{Relation to existing work}
+\label{sec:disc_related}
+
+\paragraph{Equivariant normalising flows.}
+\citet{Kohler2020} and \citet{Rezende2019} construct flows
+satisfying $T(g \cdot z) = g \cdot T(z)$, encoding the symmetry
+into the architecture.  This reduces the number of learnable
+parameters and ensures that the flow respects the group structure,
+but does not reduce the number of modes: the equivariant flow must
+still represent all $|G|$ copies.  FolT-MCMC takes the dual
+approach of collapsing the $|G|$ copies into one via the quotient
+map.  The two strategies are complementary: one could train an
+equivariant flow and then fold, combining parameter efficiency
+with mode reduction.
+
+\paragraph{Post-hoc relabelling.}
+Methods such as pivotal reordering \citep{Stephens2000},
+equivalence-class representatives \citep{Papastamoulis2010}, and
+random permutation samplers \citep{FruhwirthSchnatter2001}
+operate after MCMC has been run.  They improve the
+interpretability of the samples but do not address the mixing
+difficulty of the underlying chain.  In particular, standard post-hoc relabelling methods do not
+provide the oscillation-based certificate considered here.  FolT-MCMC
+resolves the mixing problem at source by eliminating the
+symmetric modes before sampling, and inherits certification from
+the LCNF framework.
+
+\paragraph{Tempering and replica exchange.}
+Parallel tempering \citep{Geyer1991,Earl2005} overcomes
+multimodality by introducing heated replicas that can cross
+energy barriers.  This is a general-purpose strategy that does
+not exploit symmetry.  FolT-MCMC exploits the \emph{structure} of
+the multimodality (it arises from a known group action) to remove
+it geometrically, without the overhead of maintaining multiple
+temperature levels.
+
+
+\subsection{Limitations and future work}
+\label{sec:disc_limitations}
+
+\paragraph{Exact symmetry.}
+The current framework requires the target to be exactly
+$G$-invariant.  The simplified exchangeable model in
+Section~\ref{sec:application} preserves exact label symmetry by
+construction (identical Lorentzian parameterisation and profiled
+amplitude).  In more realistic Bayesian operational modal analysis
+models, however, mode-specific priors, spatial mode-shape
+information, or physical ordering constraints may break this
+symmetry approximately.  Extending FolT-MCMC to
+$\varepsilon$-approximate group invariance, where
+$\|\pi(g\theta) - \pi(\theta)\|$ is small but nonzero, is a
+natural direction.  We expect the quotient certificate to degrade
+gracefully with the symmetry-breaking magnitude, but a formal
+perturbation bound remains to be established.
+
+\paragraph{Unknown symmetry groups.}
+FolT-MCMC presupposes knowledge of~$G$ and of a fundamental
+domain~$D$.  For the applications considered here (mixture models,
+structural identification), the symmetry is known by construction.
+When the symmetry is latent or only partially known, a
+\emph{learned folding map} could be trained jointly with the
+transport flow, analogous to recent work on learning group
+structure from data \citep{Dehmamy2021}.
+
+\paragraph{Continuous symmetries.}
+Finite groups cover label switching and discrete reflections, but
+some inference problems have continuous symmetries (rotation
+invariance, gauge symmetry in physics).  Extending the quotient
+construction to compact Lie groups would require replacing the
+finite orbit sum in the quotient proposal with a
+Haar-measure integral, and the covering theory with manifold
+covering bounds.
+
+\paragraph{Scalability.}
+The orbit sum in the quotient proposal has $|G|$~terms.
+For $S_m$ with moderate~$m$ ($m \leq 5$, $|G| \leq 120$),
+this is inexpensive.  For larger groups, truncation or importance
+sampling over the orbit may be needed.
+
+\paragraph{Core certificate vs.\ full-support guarantee.}
+The quantile-core certificate reported throughout this paper is a
+density-ratio diagnostic on the high-probability posterior core,
+not a full-support spectral-gap guarantee.  This limitation is
+shared with the LCNF \citep{LCNF} and CerT-MCMC
+\citep{CerTMCMC} frameworks.  A full-support certificate for
+transport MCMC with unbounded state spaces remains an open problem;
+a practical intermediate step is the tail-safe mixture proposal
+$q_\lambda = (1{-}\lambda)q_F + \lambda r$ with a heavy-tailed
+safety component~$r$, which would provide a full-chain
+minorisation bound at the cost of slightly reduced acceptance.
+On bounded parameter spaces (such as the structural identification
+example with uniform priors), a uniform safety component~$r$
+yields a trivial full-chain bound, suggesting that the
+core-to-full-support gap is bridgeable in practice.
+
+
+\section*{Acknowledgements}
+
+The author thanks Heung-Fai Lam (City University of Hong Kong) for
+providing access to the Typhoon Mangkhut accelerometer dataset and
+for discussions on structural modal identification.
+Computations were performed on an NVIDIA RTX 4090 GPU.

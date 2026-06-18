@@ -1,0 +1,80 @@
+% ══════════════════════════════════════════════════════════════
+%  FolT-MCMC — Supplementary Material (JRSS-B, standalone)
+% ══════════════════════════════════════════════════════════════
+\documentclass[a4paper,12pt]{article}
+
+% ─── Packages (matching main paper) ────────────────────────
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{natbib}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref}
+\usepackage{xr-hyper}
+\externaldocument{FolT_MCMC_mainonly}
+\usepackage{url}
+\usepackage{setspace}
+\doublespacing
+
+% ─── Theorem environments (matching main paper) ───────────
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% ─── Macros (matching main paper) ──────────────────────────
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Lip}{\mathrm{Lip}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\supp}{\mathrm{supp}}
+\newcommand{\diam}{\mathrm{diam}}
+\newcommand{\Vol}{\mathrm{Vol}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cL}{\mathcal{L}}
+
+% ─── Bibliography style ────────────────────────────────────
+\bibliographystyle{abbrvnat}
+
+% ─── Title ──────────────────────────────────────────────────
+\title{Supplementary Material for:\\
+  Folded Transport MCMC: Eliminating Label Switching
+  by Sampling on a Fundamental Domain}
+
+\author{Jun Hu \\
+  {\small Wuhan University of Technology} \\
+  {\small \texttt{junhu22@whut.edu.cn}}}
+
+\date{}
+
+% ════════════════════════════════════════════════════════════
+\begin{document}
+\maketitle
+
+\noindent
+This supplement accompanies the main paper ``Folded Transport
+MCMC: Eliminating Label Switching by Sampling on a Fundamental
+Domain.''  It provides a self-contained certification
+toolkit, complete proofs, boundary analysis, and experimental
+details.
+
+\bigskip
+
+\input{supplement}
+
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,151 @@
+% ══════════════════════════════════════════════════════════════
+%  FolT-MCMC Paper — Section 2: Background
+% ══════════════════════════════════════════════════════════════
+%  \input{section2_background}
+
+\section{Background and notation}
+\label{sec:background}
+
+
+\subsection{Transport MCMC and independence Metropolis--Hastings}
+\label{sec:bg_transport}
+
+A normalising flow $T\colon \R^d \to \R^d$ is a learnable
+diffeomorphism that pushes a simple base density~$q_0$
+(typically $\cN(0, I_d)$) to an approximation
+$q = T_{\#}q_0$ of a target density~$\pi$.
+In transport MCMC, the flow serves as the proposal mechanism
+for a Markov chain whose stationary distribution is
+exactly~$\pi$, correcting any approximation error in~$q$
+through the Metropolis--Hastings acceptance step
+\citep{Parno2018,Hoffman2019,Gabrie2022}.
+
+The simplest such chain is \emph{independence
+Metropolis--Hastings} (IMH): given the current state~$\theta$,
+propose $\theta' \sim q$ and accept with probability
+$\min(1,\, e^{h(\theta) - h(\theta')})$, where
+$h = \log\pi - \log q$ is the log-density ratio.
+IMH is particularly well suited to transport proposals because
+the proposal is cheap to evaluate (a single forward pass through
+the flow) and the acceptance probability depends only on the
+quality of the density-ratio fit.
+
+The spectral gap~$\gamma$ of the IMH chain---measuring the
+rate of geometric convergence---is bounded below by the
+Mengersen--Tweedie inequality \citep{MengersenTweedie1996}:
+\begin{equation}\label{eq:mt_bound}
+  \gamma
+  \;\geq\;
+  \frac{2}{1 + \exp\!\bigl(\osc(h)\bigr)},
+  \qquad
+  \osc(h)
+  := \sup_\theta h(\theta) - \inf_\theta h(\theta).
+\end{equation}
+When the flow approximation is perfect ($q = \pi$),
+$\osc(h) = 0$ and $\gamma = 1$; as the approximation degrades,
+$\osc(h)$ grows and $\gamma$ shrinks exponentially.
+
+
+\subsection{A computable convergence diagnostic}
+\label{sec:bg_lcnf}
+
+The oscillation $\osc(h)$ is not directly computable from
+finite samples, because both the supremum and infimum range
+over the entire support of~$\pi$.  Recent work
+\citep{LCNF} provides a computable upper bound on the
+oscillation over a highest posterior density (HPD) credible
+set~$\cK_\alpha$---the smallest region containing
+$(1{-}\alpha)$ of the posterior mass---yielding a
+computable core lower-bound diagnostic, using three ingredients.
+
+\paragraph{Spectrally normalised RealNVP.}
+The flow~$T$ is a RealNVP---a coupling-based normalising flow
+architecture \citep{DinhSohlDickstein2017} in which each layer transforms
+half of the coordinates conditionally on the other half---built
+from $L$~coupling layers.  Each conditioner network is
+\emph{spectrally normalised}: a weight-matrix constraint that
+bounds the Lipschitz constant of the network
+\citep{Miyato2018}, here combined with a scale clip~$c$.
+This gives a per-layer bi-Lipschitz bound, ensuring that the
+Jacobian and its log-determinant are well controlled.
+
+\paragraph{Empirical oscillation theorem.}
+Given $n$~i.i.d.\ samples $\{Z_i\}$ from~$\pi$ and the
+$(1{-}\alpha)$-HPD set $\cK_\alpha$, the empirical oscillation
+theorem of \citet{LCNF} states
+that with probability $\geq 1 - \delta$:
+\begin{equation}\label{eq:lcnf_thm}
+  \osc_{\cK_\alpha}(h)
+  \;\leq\;
+  \underbrace{\max_i h(Z_i) - \min_i h(Z_i)}_{\widehat{\osc}_n}
+  \;+\;
+  \underbrace{2\,M\,\varepsilon^*}_{\text{interpolation error}},
+\end{equation}
+where $M = \sup_{\cK_\alpha}\|\nabla h\|$ is the local gradient
+constant and $\varepsilon^*$ is the minimal covering radius
+satisfying a covering condition that depends on
+$\diam(\cK_\alpha)$, $\pi_{\min}$, and~$n$.
+The right-hand side is fully computable from samples and
+network parameters.
+
+\paragraph{Quantile-core diagnostic.}
+The HPD-core oscillation bound~\eqref{eq:lcnf_thm}
+can still be dominated by extreme density-ratio values
+among the retained core samples.  The quantile-core extension
+of \citet{CerTMCMC} replaces the full HPD set with a
+$\rho$-trimmed core that excludes the highest-oscillation
+fraction, yielding a tighter \emph{quantile-core} (QC) diagnostic.
+In all experiments of the present paper, we report the
+quantile-core diagnostic at $\rho = 0.05$.
+
+\paragraph{Limitation: multimodality.}
+When $\pi$ has $k$~well-separated modes and the flow can
+only Gaussianise one of them, the log-density ratio~$h$
+is large on the off-modes (where $q \ll \pi$), inflating
+$\widehat{\osc}_n$ by a cross-mode gap that grows with
+mode separation and dimension.
+This is the fundamental barrier that FolT-MCMC is designed
+to overcome.
+
+
+\subsection{Symmetry in Bayesian inference}
+\label{sec:bg_symmetry}
+
+Many Bayesian posteriors possess a finite symmetry group~$G$
+under which the likelihood and prior are jointly invariant.
+The resulting symmetric multimodality is a well-known
+obstacle to MCMC mixing and inference.
+
+\paragraph{Label switching.}
+In $m$-component mixture models, the likelihood is invariant
+under permutation of component labels ($G = S_m$,
+$|G| = m!$).  This creates $m!$~equivalent posterior
+modes, between which standard MCMC chains mix poorly
+\citep{Celeux2000,Jasra2005}.  Existing solutions are
+predominantly \emph{post-hoc}: after running MCMC in
+the full $m!$-modal space, the samples are relabelled
+using a loss function \citep{Stephens2000}, an
+equivalence-class representative algorithm
+\citep{Papastamoulis2010}, or random permutation at each
+step \citep{FruhwirthSchnatter2001}.  These methods do not
+address the poor mixing of the underlying chain, nor do they
+provide a convergence diagnostic.
+
+\paragraph{Structural modal identification.}
+In Bayesian operational modal analysis of buildings and bridges,
+closely-spaced structural modes create approximate label-switching
+symmetry: the posterior over $m$~sets of modal parameters
+(frequency, damping ratio) is nearly $S_m$-invariant when the
+modes have similar frequencies \citep{Au2011,YangLamBeck2019}.
+This is a key motivation for the present work.
+
+\paragraph{Equivariant normalising flows.}
+An alternative approach constructs flows that respect the
+symmetry by design: $T(g \cdot z) = g \cdot T(z)$
+\citep{Kohler2020,Rezende2019}.  Such equivariant flows reduce
+parameter redundancy but must still represent all $|G|$~modes.
+FolT-MCMC takes the complementary approach of
+\emph{eliminating} the symmetric modes before sampling,
+reducing the target to a single representative per orbit.
+The two strategies are orthogonal and could in principle be
+combined.

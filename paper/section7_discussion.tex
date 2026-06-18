@@ -13,19 +13,20 @@
 The experiments point to a simple but consequential design rule:
 \emph{the fold boundary should lie in a low-density valley between
 the symmetric modes}.  When this condition holds (Gaussian mixture,
-label-switching targets), folding yields large certified gains
+label-switching targets), folding yields large diagnostic gains
 across all metrics.  When it is violated (banana diagnostic with
 fold boundary through the density ridge), the full oscillation
-bound can increase, though the quantile-core certificate still
+bound can increase, though the quantile-core diagnostic still
 improves modestly.
 
-For the most common use cases---label-switching in mixture models
-and closely-spaced structural modes---this condition is satisfied
-automatically.  The sorted-chamber boundary
-$\{\theta_1^{(j)} = \theta_1^{(j+1)}\}$ lies at the midpoint
-between adjacent mode centres, which is the lowest-density region
-when components are separated by more than a few standard
-deviations.
+For well-separated label-switching mixtures, the sorted-chamber
+boundary $\{\theta_1^{(j)} = \theta_1^{(j+1)}\}$ lies in a
+low-density valley between adjacent mode centres.
+For closely-spaced structural modes, however, the boundary may
+carry non-negligible posterior mass; this explains why the
+structural example in Section~\ref{sec:application} yields a
+non-vacuous but modest diagnostic
+(QC~$\underline{\gamma} = 0.0018$).
 
 
 \subsection{Relation to existing work}
@@ -49,11 +50,11 @@ equivalence-class representatives \citep{Papastamoulis2010}, and
 random permutation samplers \citep{FruhwirthSchnatter2001}
 operate after MCMC has been run.  They improve the
 interpretability of the samples but do not address the mixing
-difficulty of the underlying chain.  In particular, no post-hoc
-method provides a certified spectral-gap bound.  FolT-MCMC
+difficulty of the underlying chain.  In particular, standard post-hoc relabelling methods do not
+provide the oscillation-based convergence diagnostic considered here.  FolT-MCMC
 resolves the mixing problem at source by eliminating the
-symmetric modes before sampling, and inherits certification from
-the LCNF framework.
+symmetric modes before sampling, and inherits its convergence
+diagnostic from the framework of \citet{LCNF}.
 
 \paragraph{Tempering and replica exchange.}
 Parallel tempering \citep{Geyer1991,Earl2005} overcomes
@@ -79,7 +80,7 @@ information, or physical ordering constraints may break this
 symmetry approximately.  Extending FolT-MCMC to
 $\varepsilon$-approximate group invariance, where
 $\|\pi(g\theta) - \pi(\theta)\|$ is small but nonzero, is a
-natural direction.  We expect the quotient certificate to degrade
+natural direction.  We expect the quotient diagnostic to degrade
 gracefully with the symmetry-breaking magnitude, but a formal
 perturbation bound remains to be established.
 
@@ -106,3 +107,33 @@ The orbit sum in the quotient proposal has $|G|$~terms.
 For $S_m$ with moderate~$m$ ($m \leq 5$, $|G| \leq 120$),
 this is inexpensive.  For larger groups, truncation or importance
 sampling over the orbit may be needed.
+
+\paragraph{Core diagnostic vs.\ full-support guarantee.}
+The quantile-core diagnostic reported throughout this paper is a
+density-ratio bound on the high-probability posterior core,
+not a full-support spectral-gap guarantee.  This limitation is
+shared with the frameworks of \citet{LCNF} and
+\citet{CerTMCMC}.  A full-support certificate for
+transport MCMC with unbounded state spaces remains an open problem;
+a practical intermediate step is the tail-safe mixture proposal
+$q_\lambda = (1{-}\lambda)q_F + \lambda r$ with a heavy-tailed
+safety component~$r$, which would provide a full-chain
+minorisation bound at the cost of slightly reduced acceptance.
+On bounded parameter spaces (such as the structural identification
+example with uniform priors), a uniform safety component~$r$
+yields a trivial full-chain bound, suggesting that the
+core-to-full-support gap is bridgeable in practice.
+
+
+\section*{Data availability}
+The synthetic target distributions used in this study are fully
+specified in Appendix~A and can be regenerated deterministically
+from the equations provided. Code to reproduce all synthetic
+experiments is available at
+\url{https://github.com/junhu22/folt-mcmc}. The real
+accelerometer data used in Section~\ref{sec:application} are
+subject to confidentiality restrictions imposed by the building
+owner and are not publicly available.
+
+\section*{Disclosure of AI use}
+The author used Claude (Anthropic) for language polishing.
